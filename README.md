@@ -1,0 +1,2 @@
+# karnety_silownia_sprawozdanie
+karnety_silownia_sprawozdanie
