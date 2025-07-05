@@ -4,3 +4,6 @@
 [submodule "source/rozdzial2/Kontrola_i_konserwacja"]
 	path = source/rozdzial2/Kontrola_i_konserwacja
 	url = https://github.com/Pi0trM/Kontrola_i_konserwacja.git
+[submodule "source/rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych"]
+	path = source/rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych
+	url = https://github.com/m-smieja/Kopie_zapasowe_i_odzyskiwanie_danych.git
