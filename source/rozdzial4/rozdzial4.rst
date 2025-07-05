@@ -74,10 +74,9 @@ Bezpieczeństwo danych osobowych i operacyjnych jest priorytetem. Zastosowano mo
 
 Skrypty wspomagające
 --------------------
-Poniższy skrypt w Pythonie został rozszerzony o dodatkową funkcjonalność - wyszukiwanie klientów, którym wkrótce wygasa karnet, co może być użyteczne dla działu marketingu.
 
 .. code-block:: python
-   :caption: Zaawansowany skrypt do generowania raportów
+   :caption: Skrypty w PostgreSQL
 
    import psycopg2
    from datetime import date, timedelta
@@ -101,3 +100,101 @@ Poniższy skrypt w Pythonie został rozszerzony o dodatkową funkcjonalność - 
        data_koncowa = dzis + timedelta(days=dni_do_konca)
        cur.execute(query, (dzis, data_koncowa))
        # ... (logika wyświetlania raportu) ...
+
+   def znajdz_najaktywniejszych_klientow(data_od, data_do, limit=5):
+    """Wyświetla listę najczęściej wchodzących klientów w danym okresie."""
+    print(f"\n--- TOP {limit} najaktywniejszych klientów od {data_od} do {data_do} ---")
+    conn = get_connection()
+    query = """
+    SELECT k.imie, k.nazwisko, COUNT(w.wejscie_id) AS liczba_wejsc
+    FROM Wejscia w
+    JOIN Klienci k ON w.klient_id = k.klient_id
+    WHERE w.data_wejscia::date BETWEEN %s AND %s
+    GROUP BY k.klient_id, k.imie, k.nazwisko
+    ORDER BY liczba_wejsc DESC
+    LIMIT %s;
+    """
+    with conn.cursor() as cur:
+        cur.execute(query, (data_od, data_do, limit))
+        for row in cur.fetchall():
+            print(f"Klient: {row[0]} {row[1]}, Liczba wejść: {row[2]}")
+    conn.close()
+
+    def generuj_raport_sprzedazy(data_od, data_do):
+    """Oblicza sumę sprzedaży i liczbę sprzedanych karnetów w danym okresie."""
+    print(f"\n--- Raport sprzedaży od {data_od} do {data_do} ---")
+    conn = get_connection()
+    query = "SELECT COUNT(karnet_id), SUM(cena) FROM Karnety WHERE data_zakupu BETWEEN %s AND %s;"
+    with conn.cursor() as cur:
+        cur.execute(query, (data_od, data_do))
+        result = cur.fetchone()
+        print(f"Liczba sprzedanych karnetów: {result[0] or 0}")
+        print(f"Łączna kwota sprzedaży: {result[1] or 0.00} PLN")
+    conn.close()
+
+.. code-block:: python
+   :caption: Skrypty w SQLite
+
+   import psycopg2
+   from datetime import date, timedelta
+
+   # --- KONFIGURACJA ---
+   DB_FILE = "silownia.db" # Nazwa pliku bazy danych
+
+   def get_connection():
+    """Nawiązuje połączenie z bazą danych SQLite."""
+    return sqlite3.connect(DB_FILE)
+
+    def znajdz_klientow_z_wygaslym_karnetem_sqlite(dni_od_wyga_do_wyga):
+    """Znajduje klientów, których ostatni karnet wygasł w zadanym przedziale dni temu."""
+    print(f"\n--- [SQLite] Klienci, których karnet wygasł od {dni_od_wyga_do_wyga[0]} do {dni_od_wyga_do_wyga[1]} dni temu ---")
+    conn = get_connection()
+    # W SQLite do znalezienia ostatniego karnetu używamy podzapytania z GROUP BY i MAX()
+    query = """
+    SELECT k.imie, k.nazwisko, k.email, sub.max_data
+    FROM Klienci k
+    JOIN (
+        SELECT klient_id, MAX(data_waznosci) as max_data FROM Karnety GROUP BY klient_id
+    ) AS sub ON k.klient_id = sub.klient_id
+    WHERE sub.max_data BETWEEN ? AND ?;
+    """
+    date_to = (date.today() - timedelta(days=dni_od_wyga_do_wyga[0])).isoformat()
+    date_from = (date.today() - timedelta(days=dni_od_wyga_do_wyga[1])).isoformat()
+
+    with conn: # Użycie `with conn` automatycznie zarządza transakcjami
+        cur = conn.cursor()
+        cur.execute(query, (date_from, date_to))
+        for row in cur.fetchall():
+            print(f"Klient: {row[0]} {row[1]}, Email: {row[2]}, Karnet wygasł: {row[3]}")
+
+   def generuj_raport_sprzedazy_sqlite(data_od, data_do):
+    """Oblicza sumę sprzedaży i liczbę sprzedanych karnetów w danym okresie."""
+    print(f"\n--- [SQLite] Raport sprzedaży od {data_od} do {data_do} ---")
+    conn = get_connection()
+    query = "SELECT COUNT(karnet_id), SUM(cena) FROM Karnety WHERE data_zakupu BETWEEN ? AND ?;"
+    with conn:
+        cur = conn.cursor()
+        cur.execute(query, (data_od, data_do))
+        result = cur.fetchone()
+        print(f"Liczba sprzedanych karnetów: {result[0] or 0}")
+        print(f"Łączna kwota sprzedaży: {result[1] or 0.00} PLN")
+
+   def znajdz_najaktywniejszych_klientow_sqlite(data_od, data_do, limit=5):
+    """Wyświetla listę najczęściej wchodzących klientów w danym okresie."""
+    print(f"\n--- [SQLite] TOP {limit} najaktywniejszych klientów od {data_od} do {data_do} ---")
+    conn = get_connection()
+    # Używamy funkcji DATE() do wyciągnięcia daty z pełnego timestampa
+    query = """
+    SELECT k.imie, k.nazwisko, COUNT(w.wejscie_id) AS liczba_wejsc
+    FROM Wejscia w
+    JOIN Klienci k ON w.klient_id = k.klient_id
+    WHERE DATE(w.data_wejscia) BETWEEN ? AND ?
+    GROUP BY k.klient_id
+    ORDER BY liczba_wejsc DESC
+    LIMIT ?;
+    """
+    with conn:
+        cur = conn.cursor()
+        cur.execute(query, (data_od, data_do, limit))
+        for row in cur.fetchall():
+            print(f"Klient: {row[0]} {row[1]}, Liczba wejść: {row[2]}")
