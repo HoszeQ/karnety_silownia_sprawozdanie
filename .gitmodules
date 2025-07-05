@@ -1,0 +1,3 @@
+[submodule "source/rozdzial2/Konfiguracja_baz_danych"]
+	path = source/rozdzial2/Konfiguracja_baz_danych
+	url = https://github.com/Chaiolites/Konfiguracja_baz_danych.git
