@@ -30,3 +30,17 @@ Spis repozytoriów
     * `https://github.com/HoszeQ/karnety_silownia_sprawozdanie`
 2.  **Repozytorium projektu grupowego:**
     * `https://github.com/m-smieja/Kopie_zapasowe_i_odzyskiwanie_danych`
+3.  **Repozytorium pracy pt. Konfiguracja_baz_danych:"**
+    * `https://github.com/Chaiolites/Konfiguracja_baz_danych.git`
+4. **Repozytorium pracy pt. Kontrola_i_konserwacja:**
+    * `https://github.com/Pi0trM/Kontrola_i_konserwacja.git`
+5. **Repozytorium pracy pt. Partycjonowanie-danych:**
+    * `https://github.com/BartekHen/Partycjonowanie-danych.git`
+6. **Repozytorium pracy pt. Sprzet-dla-bazy-danych:**
+    * `https://github.com/oszczeda/Sprzet-dla-bazy-danych.git`
+7. **Repozytorium pracy pt. Wydajnosc-Skalowanie-i-Replikacja:**
+    * `https://github.com/Broksonn/Wydajnosc_Skalowanie_i_Replikacja.git`
+8. **Repozytorium pracy pt. Bezpieczenstwo:**
+    * `https://github.com/BlazejUl/bezpieczenstwo.git`
+9. **Repozytorium pracy pt. Monitorowanie-i-diagnostyka:**
+    * `https://github.com/GrzegorzSzczepanek/repo-wspolne.git`
