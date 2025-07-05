@@ -7,3 +7,6 @@
 [submodule "source/rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych"]
 	path = source/rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych
 	url = https://github.com/m-smieja/Kopie_zapasowe_i_odzyskiwanie_danych.git
+[submodule "source/rozdzial2/Partycjonowanie-danych"]
+	path = source/rozdzial2/Partycjonowanie-danych
+	url = https://github.com/BartekHen/Partycjonowanie-danych.git
