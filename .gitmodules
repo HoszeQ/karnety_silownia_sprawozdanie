@@ -16,3 +16,6 @@
 [submodule "source/rozdzial2/Wydajnosc_Skalowanie_i_Replikacja"]
 	path = source/rozdzial2/Wydajnosc_Skalowanie_i_Replikacja
 	url = https://github.com/Broksonn/Wydajnosc_Skalowanie_i_Replikacja.git
+[submodule "source/rozdzial2/bezpieczenstwo"]
+	path = source/rozdzial2/bezpieczenstwo
+	url = https://github.com/BlazejUl/bezpieczenstwo.git
