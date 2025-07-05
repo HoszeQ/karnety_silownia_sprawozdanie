@@ -166,8 +166,6 @@ Zaczęliśmy od nieuporządkowanej tabeli, a skończyliśmy na trzech powiązany
 
 Dzięki temu dane nie powtarzają się, łatwo je edytować i są bezpieczne przed przypadkowymi błędami.
 
-**Wnioski:** Osiągnięty poziom normalizacji zapewnia wysoką integralność danych i elastyczność schematu, jednocześnie zachowując prostotę i zrozumiałość modelu.
-
 Analiza wydajności i indeksowanie
 ---------------------------------
 Wydajność zapytań jest kluczowa dla responsywności systemu. Podstawową techniką optymalizacji jest strategiczne stosowanie indeksów.
