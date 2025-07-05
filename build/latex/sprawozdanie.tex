@@ -66,7 +66,7 @@
 
 
 \title{Sprawozdanie}
-\date{03 lip 2025}
+\date{05 lip 2025}
 \release{1.0.0}
 \author{Szymon Piskorz}
 \newcommand{\sphinxlogo}{\vbox{}}
@@ -94,6 +94,8 @@
 \label{\detokenize{rozdzial1/rozdzial1:wprowadzenie}}\label{\detokenize{rozdzial1/rozdzial1::doc}}
 \sphinxAtStartPar
 Autor: Szymon Piskorz
+
+\sphinxAtStartPar
 Prowadzący: Piotr Czaja
 
 \sphinxAtStartPar
@@ -137,28 +139,12 @@ Nadrzędnym celem było pogłębienie wiedzy i zdobycie praktycznych umiejętno�
 \sphinxAtStartPar
 Drugim celem była realizacja kompletnego projektu bazy danych o nazwie „Karnety na siłowni”. Projekt ten ilustruje pełen cykl życia produktu bazodanowego, od analizy wymagań, przez modelowanie, aż po wdrożenie i analizę.
 
-\sphinxAtStartPar
-\sphinxstylestrong{Problem biznesowy:} Współczesne siłownie i kluby fitness obsługują setki, a nawet tysiące klientów. Ręczne zarządzanie karnetami, datami ich ważności oraz rejestracja wejść są nieefektywne, podatne na błędy i uniemożliwiają prowadzenie analiz biznesowych. Projektowana baza danych ma na celu rozwiązanie tych problemów poprzez automatyzację kluczowych procesów.
-
-\sphinxAtStartPar
-\sphinxstylestrong{Zakres projektu obejmuje:}
-* Zarządzanie kartoteką klientów.
-* Obsługę sprzedaży i cyklu życia karnetów o różnym okresie ważności.
-* Rejestrację i monitorowanie wejść klientów.
-* Podstawową analitykę i raportowanie.
-
-\sphinxAtStartPar
-\sphinxstylestrong{Poza zakresem projektu pozostają:}
-* Zarządzanie grafikami zajęć i rezerwacjami.
-* Systemy księgowe i fakturowanie.
-* Zarządzanie personelem.
-
 
 \section{Wykorzystane technologie}
 \label{\detokenize{rozdzial1/rozdzial1:wykorzystane-technologie}}\begin{itemize}
 \item {} 
 \sphinxAtStartPar
-\sphinxstylestrong{System Bazy Danych:} PostgreSQL 16
+\sphinxstylestrong{System Bazy Danych:} PostgreSQL, SQLite
 
 \item {} 
 \sphinxAtStartPar
@@ -166,7 +152,7 @@ Drugim celem była realizacja kompletnego projektu bazy danych o nazwie „Karne
 
 \item {} 
 \sphinxAtStartPar
-\sphinxstylestrong{System dokumentacji:} Sphinx
+\sphinxstylestrong{System dokumentacji:} Sphinx/Latex
 
 \item {} 
 \sphinxAtStartPar
@@ -186,46 +172,3070 @@ Dokument został podzielony na pięć rozdziałów. Po niniejszym wprowadzeniu, 
 \chapter{2. Projekt grupowy}
 \label{\detokenize{rozdzial2/rozdzial2:projekt-grupowy}}\label{\detokenize{rozdzial2/rozdzial2::doc}}
 \sphinxAtStartPar
-Równolegle do prac nad projektem indywidualnym, zrealizowano projekt grupowy, którego celem było praktyczne zbadanie i wdrożenie strategii tworzenia kopii zapasowych oraz odzyskiwania danych w systemie PostgreSQL.
+Poniżej zamieszczono dokumentacje poszczególnych przeglądów literatury:
+
+\sphinxstepscope
 
 
-\section{Podsumowanie projektu grupowego}
-\label{\detokenize{rozdzial2/rozdzial2:podsumowanie-projektu-grupowego}}
+\section{Sprzęt dla baz danych}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:sprzet-dla-baz-danych}}\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych::doc}}
+
+\subsection{Wstęp}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:wstep}}
 \sphinxAtStartPar
-Projekt koncentrował się na zapewnieniu ciągłości działania hipotetycznego systemu bazodanowego. Główne zadania obejmowały:
+Systemy zarządzania bazami danych (DBMS) są fundamentem współczesnych aplikacji i usług \textendash{} od rozbudowanych systemów transakcyjnych, przez aplikacje internetowe, aż po urządzenia mobilne czy systemy wbudowane. W zależności od zastosowania i skali projektu, wybór odpowiedniego silnika bazodanowego oraz towarzyszącej mu infrastruktury sprzętowej ma kluczowe znaczenie dla zapewnienia wydajności, stabilności i niezawodności systemu
+
+
+\subsection{Sprzęt dla bazy danych PostgreSQL}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:sprzet-dla-bazy-danych-postgresql}}
+\sphinxAtStartPar
+PostgreSQL to potężny system RDBMS, ceniony za swoją skalowalność, wsparcie dla zaawansowanych zapytań i dużą elastyczność. Jego efektywne działanie zależy w dużej mierze od odpowiednio dobranej infrastruktury sprzętowej.
+
+
+\subsubsection{Procesor}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:procesor}}
+\sphinxAtStartPar
+PostgreSQL obsługuje wiele wątków, jednak pojedyncze zapytania zazwyczaj są wykonywane jednordzeniowo. Z tego względu optymalny procesor powinien cechować się zarówno wysokim taktowaniem jak i odpowiednią liczbą rdzeni do równoczesnej obsługi wielu zapytań. W środowiskach produkcyjnych najczęściej wykorzystuje się procesory serwerowe takie jak Intel Xeon czy AMD EPYC, które oferują zarówno wydajność, jak i niezawodność.
+
+
+\subsubsection{Pamięć operacyjna}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:pamiec-operacyjna}}
+\sphinxAtStartPar
+RAM odgrywa istotną rolę w przetwarzaniu danych, co znacząco wpływa na wydajność operacji. PostgreSQL efektywnie wykorzystuje dostępne zasoby pamięci do cache’owania, dlatego im więcej pamięci RAM tym lepiej. W praktyce, minimalne pojemności dla mniejszych baz to około 16\textendash{}32 GB, natomiast w środowiskach produkcyjnych i analitycznych często stosuje się od 64 GB do nawet kilkuset.
+
+
+\subsubsection{Przestrzeń dyskowa}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:przestrzen-dyskowa}}
+\sphinxAtStartPar
+Dyski twarde to krytyczny element wpływający na szybkość działania bazy. Zdecydowanie zaleca się korzystanie z dysków SSD (najlepiej NVMe), które zapewniają wysoką przepustowość i niskie opóźnienia. Warto zastosować konfigurację RAID 10, która łączy szybkość z redundancją.
+
+
+\subsubsection{Sieć internetowa}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:siec-internetowa}}
+\sphinxAtStartPar
+W przypadku PostgreSQL działającego w klastrach, środowiskach chmurowych lub przy replikacji danych, wydajne połączenie sieciowe ma kluczowe znaczenie. Standardem są interfejsy 1 Gb/s, lecz w dużych bazach danych stosuje się nawet 10 Gb/s i więcej. Liczy się nie tylko przepustowość, ale też niskie opóźnienia i niezawodność.
+
+
+\subsubsection{Zasilanie}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:zasilanie}}
+\sphinxAtStartPar
+Niezawodność zasilania to jeden z filarów bezpieczeństwa danych. Zaleca się stosowanie zasilaczy redundantnych oraz zasilania awaryjnego UPS, które umożliwia bezpieczne wyłączenie systemu w przypadku awarii. Można użyć własnych generatorów prądu.
+
+
+\subsubsection{Chłodzenie}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:chlodzenie}}
+\sphinxAtStartPar
+Intensywna praca serwera PostgreSQL generuje duże ilości ciepła. Wydajne chłodzenie powietrzne, a często nawet cieczowe jest potrzebne by utrzymać stabilność systemu i przedłużyć żywotność komponentów. W profesjonalnych serwerowniach stosuje się zaawansowane systemy klimatyzacji i kontroli termicznej.
+
+
+\subsection{Sprzęt dla bazy danych SQLite}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:sprzet-dla-bazy-danych-sqlite}}
+\sphinxAtStartPar
+SQLite to lekki, samodzielny silnik bazodanowy, nie wymagający uruchamiania oddzielnego serwera. Znajduje zastosowanie m.in. w aplikacjach mobilnych, przeglądarkach internetowych, systemach IoT czy oprogramowaniu wbudowanym.
+
+
+\subsubsection{Procesor}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id1}}
+\sphinxAtStartPar
+SQLite działa lokalnie na urządzeniu użytkownika. Dla prostych operacji wystarczy procesor z jednym, albo dwoma rdzeniami. W bardziej wymagających zastosowaniach (np. filtrowanie dużych zbiorów danych) przyda się szybszy CPU. Wielowątkowość nie daje istotnych korzyści.
+
+
+\subsubsection{Pamięć operacyjna}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id2}}
+\sphinxAtStartPar
+SQLite potrzebuje niewielkiej ilości pamięci RAM w wielu przypadkach wystarcza 256MB do 1GB. Jednak dla komfortowej pracy z większymi zbiorami danych warto zapewnić nieco więcej pamięci, czyli 2 GB lub więcej, szczególnie w aplikacjach desktopowych lub mobilnych.
+
+
+\subsubsection{Przestrzeń dyskowa}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id3}}
+\sphinxAtStartPar
+Dane w SQLite zapisywane są w jednym pliku. Wydajność operacji zapisu/odczytu zależy od nośnika. Dyski SSD lub szybkie karty pamięci są preferowane. W przypadku urządzeń wbudowanych, kluczowe znaczenie ma trwałość nośnika, zwłaszcza przy częstym zapisie danych.
+
+
+\subsubsection{Sieć internetowa}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id4}}
+\sphinxAtStartPar
+SQLite nie wymaga połączeń sieciowych \textendash{} działa lokalnie. W sytuacjach, gdzie dane są synchronizowane z serwerem lub przenoszone przez sieć (np. w aplikacjach mobilnych), znaczenie ma jakość połączenia (Wi\sphinxhyphen{}Fi, LTE), choć wpływa to bardziej na komfort użytkowania aplikacji niż na samą bazę.
+
+
+\subsubsection{Zasilanie}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id5}}
+\sphinxAtStartPar
+W systemach mobilnych i IoT efektywne zarządzanie energią jest kluczowe. Aplikacje powinny ograniczać zbędne operacje odczytu i zapisu, by niepotrzebnie nie obciążać procesora i nie zużywać baterii. W zastosowaniach stacjonarnych problem ten zazwyczaj nie występuje.
+
+
+\subsubsection{Chłodzenie}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:id6}}
+\sphinxAtStartPar
+SQLite nie generuje dużego obciążenia cieplnego. W większości przypadków wystarczy pasywne chłodzenie w zamkniętych obudowach, lecz warto zadbać o minimalny przepływ powietrza.
+
+
+\subsection{Podsumowanie}
+\label{\detokenize{rozdzial2/Sprzet-dla-bazy-danych/source/SprzetDlaBazyDanych:podsumowanie}}
+\sphinxAtStartPar
+Zarówno PostgreSQL, jak i SQLite pełnią istotne role w ekosystemie baz danych, lecz ich wymagania sprzętowe są diametralnie różne. PostgreSQL, jako system serwerowy, wymaga zaawansowanego i wydajnego sprzętu: mocnych procesorów, dużej ilości RAM, szybkich dysków, niezawodnej sieci, zasilania i chłodzenia.
+Z kolei SQLite działa doskonale na skromniejszych zasobach, stawiając na lekkość i prostotę implementacyjną.
+Dostosowanie sprzętu do konkretnego silnika DBMS i charakterystyki aplikacji pozwala nie tylko na osiągnięcie optymalnej wydajności, ale też gwarantuje stabilność i bezpieczeństwo działania całego systemu.
+
+\sphinxstepscope
+
+
+\section{Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:sprawozdanie-konfiguracja-i-zarzadzanie-baza-danych}}\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych::doc}}\begin{quote}\begin{description}
+\sphinxlineitem{Authors}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Piotr Domagała
+
+\item {} 
+\sphinxAtStartPar
+Piotr Kotuła
+
+\item {} 
+\sphinxAtStartPar
+Dawid Pasikowski
+
+\end{itemize}
+
+\end{description}\end{quote}
+
+
+\subsection{1. Konfiguracja bazy danych}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:konfiguracja-bazy-danych}}
+\sphinxAtStartPar
+Wprowadzenie do tematu konfiguracji bazy danych obejmuje podstawowe informacje na temat zarządzania i dostosowywania ustawień baz danych w systemach informatycznych. Konfiguracja ta jest kluczowa dla zapewnienia bezpieczeństwa, wydajności oraz stabilności działania aplikacji korzystających z bazy danych. Obejmuje m.in. określenie parametrów połączenia, zarządzanie użytkownikami, uprawnieniami oraz optymalizację działania systemu bazodanowego.
+
+
+\subsection{2. Lokalizacja i struktura katalogów}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:lokalizacja-i-struktura-katalogow}}
+\sphinxAtStartPar
+Każda baza danych przechowuje swoje pliki w określonych lokalizacjach systemowych, zależnie od używanego silnika. Przykładowe lokalizacje:
 \begin{itemize}
 \item {} 
 \sphinxAtStartPar
-\sphinxstylestrong{Analizę wymagań biznesowych:} Zdefiniowano kluczowe parametry, takie jak RPO (Recovery Point Objective) i RTO (Recovery Time Objective), które determinowały częstotliwość i rodzaj wykonywanych kopii zapasowych.
+\sphinxstylestrong{PostgreSQL}: \sphinxcode{\sphinxupquote{/var/lib/pgsql/data}}
 
 \item {} 
 \sphinxAtStartPar
-\sphinxstylestrong{Implementację skryptów:} Stworzono zautomatyzowane skrypty powłoki (bash) wykorzystujące natywne narzędzia PostgreSQL (\sphinxtitleref{pg\_dump}, \sphinxtitleref{pg\_restore}) do wykonywania pełnych i różnicowych kopii zapasowych.
+\sphinxstylestrong{MySQL}: \sphinxcode{\sphinxupquote{/var/lib/mysql}}
 
 \item {} 
 \sphinxAtStartPar
-\sphinxstylestrong{Automatyzację:} Skrypty zostały zintegrowane z systemowym harmonogramem zadań (\sphinxtitleref{cron}) w celu zapewnienia regularnego i bezobsługowego działania.
-
-\item {} 
-\sphinxAtStartPar
-\sphinxstylestrong{Testowanie procedur odtwarzania:} Przeprowadzono symulacje różnych scenariuszy awarii (usunięcie danych, uszkodzenie bazy), aby zweryfikować poprawność i skuteczność procedur odtwarzania danych z backupu.
+\sphinxstylestrong{SQL Server}: \sphinxcode{\sphinxupquote{C:\textbackslash{}Program Files\textbackslash{}Microsoft SQL Server}}
 
 \end{itemize}
 
 \sphinxAtStartPar
-W ramach projektu autor niniejszego sprawozdania był odpowiedzialny za przygotowanie skryptów automatyzujących proces tworzenia kopii zapasowych oraz za przeprowadzenie testów odtwarzania danych w scenariuszu „point\sphinxhyphen{}in\sphinxhyphen{}time recovery”.
+Struktura katalogów obejmuje katalog główny bazy danych oraz podkatalogi na pliki danych, logi, kopie zapasowe i pliki konfiguracyjne.
 
-
-\section{Repozytorium projektu}
-\label{\detokenize{rozdzial2/rozdzial2:repozytorium-projektu}}
 \sphinxAtStartPar
-Pełna dokumentacja, kod źródłowy skryptów oraz wyniki testów projektu grupowego dostępne są w publicznym repozytorium na platformie GitHub:
+\sphinxstylestrong{Przykład}: W dużych środowiskach produkcyjnych często stosuje się osobne dyski do przechowywania plików danych i logów transakcyjnych. Takie rozwiązanie pozwala na zwiększenie wydajności operacji zapisu oraz minimalizowanie ryzyka utraty danych.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Dobra praktyka}: Zaleca się, aby katalogi z danymi i logami były regularnie monitorowane pod kątem dostępnego miejsca na dysku. Przepełnienie któregoś z nich może doprowadzić do zatrzymania pracy bazy danych.
+
+
+\subsection{3. Katalog danych}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:katalog-danych}}
+\sphinxAtStartPar
+Jest to miejsce, gdzie fizycznie przechowywane są wszystkie pliki związane z bazą danych, takie jak:
 \begin{itemize}
 \item {} 
 \sphinxAtStartPar
-\sphinxhref{https://github.com/m-smieja/Kopie\_zapasowe\_i\_odzyskiwanie\_danych}{Repozytorium: Kopie zapasowe i odzyskiwanie danych}
+Pliki tabel i indeksów
+
+\item {} 
+\sphinxAtStartPar
+Dzienniki transakcji
+
+\item {} 
+\sphinxAtStartPar
+Pliki tymczasowe
 
 \end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykładowo}: W PostgreSQL katalog danych to \sphinxcode{\sphinxupquote{/var/lib/pgsql/data}}, gdzie znajdują się zarówno pliki z danymi, jak i główny plik konfiguracyjny \sphinxcode{\sphinxupquote{postgresql.conf}}.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Wskazówka}: Dostęp do katalogu danych powinien być ograniczony tylko do uprawnionych użytkowników systemu, co zwiększa bezpieczeństwo i zapobiega przypadkowym lub celowym modyfikacjom plików bazy.
+
+
+\subsection{4. Podział konfiguracji na podpliki}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:podzial-konfiguracji-na-podpliki}}
+\sphinxAtStartPar
+Konfiguracja systemu bazodanowego może być rozbita na kilka mniejszych, wyspecjalizowanych plików, np.:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{postgresql.conf}} \textendash{} główne ustawienia serwera
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_hba.conf}} \textendash{} reguły autoryzacji i dostępu
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_ident.conf}} \textendash{} mapowanie użytkowników systemowych na użytkowników PostgreSQL
+
+\end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład}: Jeśli administrator chce zmienić jedynie sposób autoryzacji użytkowników, edytuje tylko plik \sphinxcode{\sphinxupquote{pg\_hba.conf}}, bez ryzyka wprowadzenia niezamierzonych zmian w innych częściach konfiguracji.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Dobra praktyka}: Rozdzielenie konfiguracji na podpliki ułatwia zarządzanie, pozwala szybciej lokalizować błędy i minimalizuje ryzyko konfliktów podczas aktualizacji lub wdrażania zmian.
+
+
+\subsection{5. Katalog Konfiguracyjny}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:katalog-konfiguracyjny}}
+\sphinxAtStartPar
+To miejsce przechowywania wszystkich plików konfiguracyjnych bazy danych, takich jak główny plik konfiguracyjny, pliki z ustawieniami użytkowników, uprawnień czy harmonogramów zadań.
+
+\sphinxAtStartPar
+Typowe lokalizacje to:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{/etc}} (np. \sphinxcode{\sphinxupquote{my.cnf}} dla MySQL)
+
+\item {} 
+\sphinxAtStartPar
+Katalog danych bazy (np. \sphinxcode{\sphinxupquote{/var/lib/pgsql/data}} dla PostgreSQL)
+
+\end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład}: W przypadku awarii systemu administrator może szybko przywrócić działanie bazy, kopiując wcześniej zapisane pliki konfiguracyjne z katalogu konfiguracyjnego.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Wskazówka}: Regularne wykonywanie kopii zapasowych katalogu konfiguracyjnego jest kluczowe \textendash{} utrata tych plików może uniemożliwić uruchomienie bazy danych lub spowodować utratę ważnych ustawień systemowych.
+
+
+\subsection{6. Katalog logów i struktura katalogów w PostgreSQL}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:katalog-logow-i-struktura-katalogow-w-postgresql}}
+\sphinxAtStartPar
+\sphinxstylestrong{Katalog logów}
+PostgreSQL zapisuje logi w różnych lokalizacjach, zależnie od systemu operacyjnego:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Na Debianie/Ubuntu: \sphinxcode{\sphinxupquote{/var/log/postgresql}}
+
+\item {} 
+\sphinxAtStartPar
+Na Red Hat/CentOS: \sphinxcode{\sphinxupquote{/var/lib/pgsql/\textless{}wersja\textgreater{}/data/pg\_log}}
+
+\end{itemize}
+
+\sphinxAtStartPar
+\textgreater{} Uwaga: Aby zapisywać logi do pliku, należy upewnić się, że opcja \sphinxcode{\sphinxupquote{logging\_collector}} jest włączona w pliku \sphinxcode{\sphinxupquote{postgresql.conf}}.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Struktura katalogów PostgreSQL}:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{base}\PYG{o}{/}         \PYG{c+c1}{\PYGZsh{} dane użytkownika \textendash{} jedna podkatalog dla każdej bazy danych}
+\PYG{k}{global}\PYG{o}{/}       \PYG{c+c1}{\PYGZsh{} dane wspólne dla wszystkich baz (np. użytkownicy)}
+\PYG{n}{pg\PYGZus{}wal}\PYG{o}{/}       \PYG{c+c1}{\PYGZsh{} pliki WAL (Write\PYGZhy{}Ahead Logging)}
+\PYG{n}{pg\PYGZus{}stat}\PYG{o}{/}      \PYG{c+c1}{\PYGZsh{} statystyki działania serwera}
+\PYG{n}{pg\PYGZus{}log}\PYG{o}{/}       \PYG{c+c1}{\PYGZsh{} logi (jeśli skonfigurowane)}
+\PYG{n}{pg\PYGZus{}tblspc}\PYG{o}{/}    \PYG{c+c1}{\PYGZsh{} dowiązania do tablespace’ów}
+\PYG{n}{pg\PYGZus{}twophase}\PYG{o}{/}  \PYG{c+c1}{\PYGZsh{} dane dla transakcji dwufazowych}
+\PYG{n}{postgresql}\PYG{o}{.}\PYG{n}{conf}  \PYG{c+c1}{\PYGZsh{} główny plik konfiguracyjny}
+\PYG{n}{pg\PYGZus{}hba}\PYG{o}{.}\PYG{n}{conf}      \PYG{c+c1}{\PYGZsh{} kontrola dostępu}
+\PYG{n}{pg\PYGZus{}ident}\PYG{o}{.}\PYG{n}{conf}    \PYG{c+c1}{\PYGZsh{} mapowanie użytkowników systemowych na bazodanowych}
+\end{sphinxVerbatim}
+
+
+\subsection{7. Przechowywanie i lokalizacja plików konfiguracyjnych}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:przechowywanie-i-lokalizacja-plikow-konfiguracyjnych}}
+\sphinxAtStartPar
+Główne pliki konfiguracyjne:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{postgresql.conf}} \textendash{} konfiguracja instancji PostgreSQL (parametry wydajności, logowania, lokalizacji itd.)
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_hba.conf}} \textendash{} kontrola dostępu (adresy IP, użytkownicy, metody autoryzacji)
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_ident.conf}} \textendash{} mapowanie użytkowników systemowych na użytkowników bazodanowych
+
+\end{itemize}
+
+
+\subsection{8. Podstawowe parametry konfiguracyjne}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:podstawowe-parametry-konfiguracyjne}}
+\sphinxAtStartPar
+\sphinxstylestrong{Słuchanie połączeń:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{listen\PYGZus{}addresses} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{localhost}\PYG{l+s+s1}{\PYGZsq{}}
+\PYG{n}{port} \PYG{o}{=} \PYG{l+m+mi}{5432}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Pamięć i wydajność:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{shared\PYGZus{}buffers} \PYG{o}{=} \PYG{l+m+mi}{512}\PYG{n}{MB}         \PYG{c+c1}{\PYGZsh{} pamięć współdzielona}
+\PYG{n}{work\PYGZus{}mem} \PYG{o}{=} \PYG{l+m+mi}{4}\PYG{n}{MB}                 \PYG{c+c1}{\PYGZsh{} pamięć na operacje sortowania/złączeń}
+\PYG{n}{maintenance\PYGZus{}work\PYGZus{}mem} \PYG{o}{=} \PYG{l+m+mi}{64}\PYG{n}{MB}    \PYG{c+c1}{\PYGZsh{} dla operacji VACUUM, CREATE INDEX}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Autovacuum:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{autovacuum} \PYG{o}{=} \PYG{n}{on}
+\PYG{n}{autovacuum\PYGZus{}naptime} \PYG{o}{=} \PYG{l+m+mi}{1}\PYG{n+nb}{min}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Konfiguracja pliku} \sphinxcode{\sphinxupquote{pg\_hba.conf}}:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} TYPE  DATABASE  USER  ADDRESS         METHOD}
+\PYG{n}{local}   \PYG{n+nb}{all}       \PYG{n+nb}{all}   \PYG{n}{md5}
+\PYG{n}{host}    \PYG{n+nb}{all}       \PYG{n+nb}{all}   \PYG{l+m+mf}{192.168}\PYG{l+m+mf}{.0}\PYG{l+m+mf}{.0}\PYG{o}{/}\PYG{l+m+mi}{24}  \PYG{n}{md5}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Konfiguracja pliku} \sphinxcode{\sphinxupquote{pg\_ident.conf}}:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{\PYGZsh{} MAPNAME      SYSTEM\PYGZhy{}USERNAME   PG\PYGZhy{}USERNAME}
+\PYG{n}{local\PYGZus{}users}  \PYG{n}{ubuntu}            \PYG{n}{postgres}
+\PYG{n}{local\PYGZus{}users}  \PYG{n}{jan\PYGZus{}kowalski}      \PYG{n}{janek\PYGZus{}db}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Można użyć tej mapy w pliku \sphinxcode{\sphinxupquote{pg\_hba.conf}}:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{local}   \PYG{n+nb}{all}     \PYG{n+nb}{all}     \PYG{n}{peer} \PYG{n+nb}{map}\PYG{o}{=}\PYG{n}{local\PYGZus{}users}
+\end{sphinxVerbatim}
+
+
+\subsection{9. Wstęp teoretyczny}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:wstep-teoretyczny}}
+\sphinxAtStartPar
+Systemy zarządzania bazą danych (DBMS \textendash{} \sphinxstyleemphasis{Database Management System}) umożliwiają tworzenie, modyfikowanie i zarządzanie danymi. Ułatwiają organizację danych, zapewniają integralność, bezpieczeństwo oraz możliwość jednoczesnego dostępu wielu użytkowników.
+
+
+\subsubsection{9.1 Klasyfikacja systemów zarządzania bazą danych}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:klasyfikacja-systemow-zarzadzania-baza-danych}}
+\sphinxAtStartPar
+Systemy DBMS można klasyfikować według:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Architektura działania:}
+\sphinxhyphen{} \sphinxstyleemphasis{Klient\sphinxhyphen{}serwer} \textendash{} system działa jako niezależna usługa (np. PostgreSQL).
+\sphinxhyphen{} \sphinxstyleemphasis{Osadzony (embedded)} \textendash{} baza danych jest integralną częścią aplikacji (np. SQLite).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Rodzaj danych i funkcjonalność:}
+\sphinxhyphen{} \sphinxstyleemphasis{Relacyjne (RDBMS)} \textendash{} oparte na tabelach, kluczach i SQL.
+\sphinxhyphen{} \sphinxstyleemphasis{Nierelacyjne (NoSQL)} \textendash{} oparte na dokumentach, modelu klucz\sphinxhyphen{}wartość lub grafach.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Oba systemy \textendash{} \sphinxstylestrong{SQLite} oraz \sphinxstylestrong{PostgreSQL} \textendash{} należą do relacyjnych baz danych, lecz różnią się architekturą, wydajnością, konfiguracją i przeznaczeniem.
+
+
+\subsubsection{9.2 SQLite}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:sqlite}}
+\sphinxAtStartPar
+SQLite to lekka, bezserwerowa baza danych typu embedded, gdzie cała baza znajduje się w jednym pliku. Dzięki temu jest bardzo wygodna przy tworzeniu aplikacji lokalnych, mobilnych oraz projektów prototypowych.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Cechy SQLite:}
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Brak osobnego procesu serwera \textendash{} baza działa w kontekście aplikacji.
+
+\item {} 
+\sphinxAtStartPar
+Niskie wymagania systemowe \textendash{} brak potrzeby instalacji i konfiguracji.
+
+\item {} 
+\sphinxAtStartPar
+Baza przechowywana jako pojedynczy plik (\sphinxstyleemphasis{.sqlite} lub \sphinxstyleemphasis{.db}).
+
+\item {} 
+\sphinxAtStartPar
+Pełna obsługa SQL (z pewnymi ograniczeniami) \textendash{} wspiera standard SQL\sphinxhyphen{}92.
+
+\item {} 
+\sphinxAtStartPar
+Ograniczona skalowalność przy wielu użytkownikach.
+
+\end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Zastosowanie:}
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Aplikacje desktopowe (np. Firefox, VS Code).
+
+\item {} 
+\sphinxAtStartPar
+Aplikacje mobilne (Android, iOS).
+
+\item {} 
+\sphinxAtStartPar
+Małe i średnie systemy bazodanowe.
+
+\end{itemize}
+
+
+\subsubsection{9.3 PostgreSQL}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:postgresql}}
+\sphinxAtStartPar
+PostgreSQL to zaawansowany system relacyjnej bazy danych typu klient\sphinxhyphen{}serwer, rozwijany jako projekt open\sphinxhyphen{}source. Zapewnia pełne wsparcie dla SQL oraz liczne rozszerzenia (np. typy przestrzenne, JSON).
+
+\sphinxAtStartPar
+\sphinxstylestrong{Cechy PostgreSQL:}
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Architektura klient\sphinxhyphen{}serwer \textendash{} działa jako oddzielny proces.
+
+\item {} 
+\sphinxAtStartPar
+Wysoka skalowalność i niezawodność \textendash{} obsługuje wielu użytkowników, złożone zapytania, replikację.
+
+\item {} 
+\sphinxAtStartPar
+Obsługa transakcji, MVCC, indeksowania oraz zarządzania uprawnieniami.
+
+\item {} 
+\sphinxAtStartPar
+Rozszerzalność \textendash{} możliwość definiowania własnych typów danych, funkcji i procedur.
+
+\end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Konfiguracja:}
+Plikami konfiguracyjnymi są:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{postgresql.conf}} \textendash{} ustawienia ogólne (port, ścieżki, pamięć, logi).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_hba.conf}} \textendash{} reguły autoryzacji.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_ident.conf}} \textendash{} mapowanie użytkowników systemowych na bazodanowych.
+
+\end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Zastosowanie:}
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Systemy biznesowe, bankowe, analityczne.
+
+\item {} 
+\sphinxAtStartPar
+Aplikacje webowe i serwery aplikacyjne.
+
+\item {} 
+\sphinxAtStartPar
+Środowiska o wysokich wymaganiach bezpieczeństwa i kontroli dostępu.
+
+\end{itemize}
+
+
+\subsubsection{9.4 Cel użycia obu systemów}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:cel-uzycia-obu-systemow}}
+\sphinxAtStartPar
+W ramach zajęć wykorzystano zarówno \sphinxstylestrong{SQLite} (dla szybkiego startu i analizy zapytań bez instalacji serwera), jak i \sphinxstylestrong{PostgreSQL} (dla nauki konfiguracji, zarządzania użytkownikami, uprawnieniami oraz obsługi złożonych operacji).
+
+
+\subsection{10. Zarządzanie konfiguracją w PostgreSQL}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:zarzadzanie-konfiguracja-w-postgresql}}
+\sphinxAtStartPar
+PostgreSQL oferuje rozbudowany i elastyczny mechanizm konfiguracji, umożliwiający precyzyjne dostosowanie działania bazy danych do potrzeb użytkownika oraz środowiska (lokalnego, deweloperskiego, testowego czy produkcyjnego).
+
+
+\subsubsection{10.1 Pliki konfiguracyjne}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:pliki-konfiguracyjne}}
+\sphinxAtStartPar
+Główne pliki konfiguracyjne PostgreSQL:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{postgresql.conf} \textendash{} ustawienia dotyczące pamięci, sieci, logowania, autovacuum, planowania zapytań.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{pg\_hba.conf} \textendash{} definiuje metody uwierzytelniania i dostęp z określonych adresów.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{pg\_ident.conf} \textendash{} mapowanie nazw użytkowników systemowych na użytkowników PostgreSQL.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Pliki te zazwyczaj znajdują się w katalogu danych (np. \sphinxcode{\sphinxupquote{/var/lib/postgresql/15/main/}} lub \sphinxcode{\sphinxupquote{/etc/postgresql/15/main/}}).
+
+
+\subsubsection{10.2 Przykładowe kluczowe parametry \sphinxstyleliteralintitle{\sphinxupquote{postgresql.conf}}}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:przykladowe-kluczowe-parametry-postgresql-conf}}
+
+\begin{savenotes}\sphinxattablestart
+\sphinxthistablewithglobalstyle
+\centering
+\begin{tabulary}{\linewidth}[t]{TT}
+\sphinxtoprule
+\sphinxstyletheadfamily 
+\sphinxAtStartPar
+\sphinxstylestrong{Parametr}
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+\sphinxstylestrong{Opis}
+\\
+\sphinxmidrule
+\sphinxtableatstartofbodyhook
+\sphinxAtStartPar
+shared\_buffers
+&
+\sphinxAtStartPar
+Ilość pamięci RAM przeznaczona na bufor danych (rekomendacja: 25\textendash{}40\% RAM).
+\\
+\sphinxhline
+\sphinxAtStartPar
+work\_mem
+&
+\sphinxAtStartPar
+Pamięć dla pojedynczej operacji zapytania (np. sortowania).
+\\
+\sphinxhline
+\sphinxAtStartPar
+maintenance\_work\_mem
+&
+\sphinxAtStartPar
+Pamięć dla operacji administracyjnych (np. VACUUM, CREATE INDEX).
+\\
+\sphinxhline
+\sphinxAtStartPar
+effective\_cache\_size
+&
+\sphinxAtStartPar
+Szacunkowa ilość pamięci dostępnej na cache systemu operacyjnego.
+\\
+\sphinxhline
+\sphinxAtStartPar
+max\_connections
+&
+\sphinxAtStartPar
+Maksymalna liczba jednoczesnych połączeń z bazą danych.
+\\
+\sphinxhline
+\sphinxAtStartPar
+log\_directory
+&
+\sphinxAtStartPar
+Katalog, w którym zapisywane są logi PostgreSQL.
+\\
+\sphinxhline
+\sphinxAtStartPar
+autovacuum
+&
+\sphinxAtStartPar
+Włącza lub wyłącza automatyczne odświeżanie nieużywanych wierszy.
+\\
+\sphinxbottomrule
+\end{tabulary}
+\sphinxtableafterendhook\par
+\sphinxattableend\end{savenotes}
+
+
+\subsubsection{10.3 Sposoby zmiany konfiguracji}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:sposoby-zmiany-konfiguracji}}\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Edycja pliku} \sphinxcode{\sphinxupquote{postgresql.conf}}
+
+\sphinxAtStartPar
+Zmiany są trwałe, ale wymagają restartu serwera (w niektórych przypadkach wystarczy reload).
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{shared\PYGZus{}buffers} \PYG{o}{=} \PYG{l+m+mi}{512}\PYG{n}{MB}
+\PYG{n}{work\PYGZus{}mem} \PYG{o}{=} \PYG{l+m+mi}{64}\PYG{n}{MB}
+\end{sphinxVerbatim}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Dynamiczna zmiana poprzez SQL}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{ALTER} \PYG{n}{SYSTEM} \PYG{n}{SET} \PYG{n}{work\PYGZus{}mem} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{64MB}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{;}
+\PYG{n}{SELECT} \PYG{n}{pg\PYGZus{}reload\PYGZus{}conf}\PYG{p}{(}\PYG{p}{)}\PYG{p}{;}  \PYG{c+c1}{\PYGZsh{} ładowanie zmian bez restartu}
+\end{sphinxVerbatim}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Tymczasowa zmiana dla jednej sesji}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{SET} \PYG{n}{work\PYGZus{}mem} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{128MB}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\end{enumerate}
+
+
+\subsubsection{10.4 Sprawdzanie konfiguracji}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:sprawdzanie-konfiguracji}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Aby sprawdzić aktualną wartość parametru:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{SHOW} \PYG{n}{work\PYGZus{}mem}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\item {} 
+\sphinxAtStartPar
+Pobranie szczegółowych informacji:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{SELECT} \PYG{n}{name}\PYG{p}{,} \PYG{n}{setting}\PYG{p}{,} \PYG{n}{unit}\PYG{p}{,} \PYG{n}{context}\PYG{p}{,} \PYG{n}{source}
+\PYG{n}{FROM} \PYG{n}{pg\PYGZus{}settings}
+\PYG{n}{WHERE} \PYG{n}{name} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{work\PYGZus{}mem}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\item {} 
+\sphinxAtStartPar
+Wylistowanie parametrów wymagających restartu serwera:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{SELECT} \PYG{n}{name} \PYG{n}{FROM} \PYG{n}{pg\PYGZus{}settings} \PYG{n}{WHERE} \PYG{n}{context} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{postmaster}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\end{itemize}
+
+
+\subsubsection{10.5 Narzędzia pomocnicze}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:narzedzia-pomocnicze}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{pg\_ctl} \textendash{} narzędzie do zarządzania serwerem (start/stop/reload).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{psql} \textendash{} klient terminalowy PostgreSQL do wykonywania zapytań oraz operacji administracyjnych.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{pgAdmin} \textendash{} graficzne narzędzie do zarządzania bazą PostgreSQL (umożliwia edycję konfiguracji przez GUI).
+
+\end{itemize}
+
+
+\subsubsection{10.6 Kontrola dostępu i mechanizmy uwierzytelniania}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:kontrola-dostepu-i-mechanizmy-uwierzytelniania}}
+\sphinxAtStartPar
+Konfiguracja umożliwia określenie, z jakich adresów i w jaki sposób można łączyć się z bazą:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Dostęp lokalny (localhost)} \textendash{} połączenia z tej samej maszyny.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Dostęp z podsieci} \textendash{} administrator może wskazać konkretne podsieci IP (np. \sphinxcode{\sphinxupquote{192.168.0.0/24}}).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Mechanizmy uwierzytelniania} \textendash{} np. \sphinxcode{\sphinxupquote{md5}}, \sphinxcode{\sphinxupquote{scram\sphinxhyphen{}sha\sphinxhyphen{}256}}, \sphinxcode{\sphinxupquote{peer}} (weryfikacja użytkownika systemowego) czy \sphinxcode{\sphinxupquote{trust}}.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Ważne, aby mechanizm \sphinxcode{\sphinxupquote{peer}} był odpowiednio skonfigurowany, gdyż umożliwia automatyczną autoryzację, jeśli nazwa użytkownika systemowego i bazy zgadza się.
+
+
+\subsection{11. Planowanie}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:planowanie}}
+\sphinxAtStartPar
+Planowanie w kontekście PostgreSQL oznacza optymalizację wykonania zapytań oraz efektywne zarządzanie zasobami.
+
+
+\subsubsection{11.1 Co to jest planowanie zapytań?}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:co-to-jest-planowanie-zapytan}}
+\sphinxAtStartPar
+Proces planowania zapytań obejmuje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Analizę składni i struktury zapytania SQL.
+
+\item {} 
+\sphinxAtStartPar
+Przegląd dostępnych statystyk dotyczących tabel, indeksów i danych.
+
+\item {} 
+\sphinxAtStartPar
+Dobór sposobu dostępu do danych (pełny skan, indeks, join, sortowanie).
+
+\item {} 
+\sphinxAtStartPar
+Tworzenie planu wykonania, czyli sekwencji operacji potrzebnych do uzyskania wyniku.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Administrator może również kontrolować częstotliwość aktualizacji statystyk (np. \sphinxcode{\sphinxupquote{default\_statistics\_target}}, \sphinxcode{\sphinxupquote{autovacuum}}).
+
+
+\subsubsection{11.2 Mechanizm planowania w PostgreSQL}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:mechanizm-planowania-w-postgresql}}
+\sphinxAtStartPar
+PostgreSQL wykorzystuje kosztowy optymalizator; przy użyciu statystyk (liczby wierszy, rozkładu danych) szacuje „koszt” różnych metod wykonania zapytania, wybierając tę, która jest najtańsza pod względem czasu i zasobów.
+
+
+\subsubsection{11.3 Statystyki i ich aktualizacja}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:statystyki-i-ich-aktualizacja}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Statystyki są tworzone przy pomocy polecenia \sphinxcode{\sphinxupquote{ANALYZE}} \textendash{} zbiera dane o rozkładzie wartości kolumn.
+
+\item {} 
+\sphinxAtStartPar
+Mechanizm autovacuum odświeża statystyki automatycznie.
+
+\end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{ANALYZE} \PYG{p}{[}\PYG{n}{nazwa\PYGZus{}tabeli}\PYG{p}{]}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+W systemach o dużym obciążeniu planowanie uwzględnia również równoległość (parallel query).
+
+
+\subsubsection{11.4 Typy planów wykonania}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:typy-planow-wykonania}}
+\sphinxAtStartPar
+Przykładowe typy planów wykonania:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Seq Scan} \textendash{} pełny skan tabeli (gdy indeksy są niedostępne lub nieefektywne).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Index Scan} \textendash{} wykorzystanie indeksu.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Bitmap Index Scan} \textendash{} łączenie efektywności indeksów ze skanem sekwencyjnym.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Nested Loop Join} \textendash{} efektywny join dla małych zbiorów.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Hash Join} \textendash{} buduje tablicę hash dla dużych zbiorów.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Merge Join} \textendash{} stosowany, gdy dane są posortowane.
+
+\end{itemize}
+
+
+\subsubsection{11.5 Jak sprawdzić plan zapytania?}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:jak-sprawdzic-plan-zapytania}}
+\sphinxAtStartPar
+Aby zobaczyć plan wybrany przez PostgreSQL, można użyć:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{EXPLAIN} \PYG{n}{ANALYZE} \PYG{n}{SELECT} \PYG{o}{*} \PYG{n}{FROM} \PYG{n}{tabela} \PYG{n}{WHERE} \PYG{n}{kolumna} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{wartość}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{;}
+\end{sphinxVerbatim}
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{EXPLAIN}} \textendash{} wyświetla plan bez wykonania zapytania.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{ANALYZE}} \textendash{} wykonuje zapytanie i podaje rzeczywiste czasy wykonania.
+
+\end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykładowy wynik:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{Index} \PYG{n}{Scan} \PYG{n}{using} \PYG{n}{idx\PYGZus{}kolumna} \PYG{n}{on} \PYG{n}{tabela} \PYG{p}{(}\PYG{n}{cost}\PYG{o}{=}\PYG{l+m+mf}{0.29}\PYG{o}{.}\PYG{l+m+mf}{.8}\PYG{l+m+mf}{.56} \PYG{n}{rows}\PYG{o}{=}\PYG{l+m+mi}{3} \PYG{n}{width}\PYG{o}{=}\PYG{l+m+mi}{244}\PYG{p}{)}
+\PYG{n}{Index} \PYG{n}{Cond}\PYG{p}{:} \PYG{p}{(}\PYG{n}{kolumna} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{wartość}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{:}\PYG{p}{:}\PYG{n}{text}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+
+\subsubsection{11.6 Parametry planowania i optymalizacji}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:parametry-planowania-i-optymalizacji}}
+\sphinxAtStartPar
+W pliku \sphinxcode{\sphinxupquote{postgresql.conf}} można konfigurować m.in.:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{random\_page\_cost}} \textendash{} koszt odczytu strony z dysku SSD/HDD.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{cpu\_tuple\_cost}} \textendash{} koszt przetwarzania pojedynczego wiersza.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{enable\_seqscan}}, \sphinxcode{\sphinxupquote{enable\_indexscan}}, \sphinxcode{\sphinxupquote{enable\_bitmapscan}} \textendash{} włączanie/wyłączanie konkretnych typów skanów.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Dostosowanie tych parametrów pozwala zoptymalizować planowanie zgodnie ze specyfiką sprzętu i obciążenia.
+
+
+\subsection{12. Tabele \textendash{} rozmiar, planowanie i monitorowanie}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:tabele-rozmiar-planowanie-i-monitorowanie}}
+
+\subsubsection{12.1 Rozmiar tabeli}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-tabeli}}
+\sphinxAtStartPar
+Rozmiar tabeli w PostgreSQL obejmuje dane (wiersze), strukturę, indeksy, dane TOAST oraz pliki statystyk. Do monitorowania rozmiaru stosuje się funkcje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_relation\_size()}} \textendash{} rozmiar tabeli lub pojedynczego indeksu.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_total\_relation\_size()}} \textendash{} całkowity rozmiar tabeli wraz z indeksami i TOAST.
+
+\end{itemize}
+
+
+\subsubsection{12.2 Planowanie rozmiaru i jego kontrola}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:planowanie-rozmiaru-i-jego-kontrola}}
+\sphinxAtStartPar
+Podczas projektowania bazy danych należy oszacować potencjalny rozmiar tabel, biorąc pod uwagę liczbę wierszy i rozmiar pojedynczego rekordu. PostgreSQL nie posiada sztywnego limitu (poza ograniczeniami systemu plików i 32\sphinxhyphen{}bitowym limitem liczby stron). Parametr \sphinxcode{\sphinxupquote{fillfactor}} może być stosowany do optymalizacji częstotliwości operacji UPDATE i VACUUM.
+
+
+\subsubsection{12.3 Monitorowanie rozmiaru tabel}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:monitorowanie-rozmiaru-tabel}}
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład zapytania:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{SELECT} \PYG{n}{pg\PYGZus{}size\PYGZus{}pretty}\PYG{p}{(}\PYG{n}{pg\PYGZus{}total\PYGZus{}relation\PYGZus{}size}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{nazwa\PYGZus{}tabeli}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{)}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Inne funkcje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_relation\_size}} \textendash{} rozmiar samej tabeli.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_indexes\_size}} \textendash{} rozmiar indeksów.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_table\_size}} \textendash{} zwraca łączny rozmiar tabeli wraz z TOAST.
+
+\end{itemize}
+
+
+\subsubsection{12.4 Planowanie na poziomie tabel}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:planowanie-na-poziomie-tabel}}
+\sphinxAtStartPar
+Administrator może wpływać na fizyczne rozmieszczenie danych poprzez:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Tablespaces} \textendash{} przenoszenie tabel lub indeksów na inne dyski/partycje.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Podział tabel (partitioning)} \textendash{} rozbijanie dużych tabel na mniejsze części.
+
+\end{itemize}
+
+
+\subsubsection{12.5 Monitorowanie stanu tabel}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:monitorowanie-stanu-tabel}}
+\sphinxAtStartPar
+Monitorowanie obejmuje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Śledzenie fragmentacji danych.
+
+\item {} 
+\sphinxAtStartPar
+Kontrolę wzrostu tabel i indeksów.
+
+\item {} 
+\sphinxAtStartPar
+Statystyki dotyczące operacji odczytów i zapisów.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Narzędzia i widoki systemowe:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_stat\_all\_tables}}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_stat\_user\_tables}}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_stat\_activity}}
+
+\end{itemize}
+
+
+\subsubsection{12.6 Konserwacja i optymalizacja tabel}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:konserwacja-i-optymalizacja-tabel}}
+\sphinxAtStartPar
+Regularne uruchamianie poleceń:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{VACUUM} \textendash{} usuwa martwe wiersze, zapobiegając nadmiernej fragmentacji.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{ANALYZE} \textendash{} aktualizuje statystyki, ułatwiając optymalizację zapytań.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Dla bardzo dużych tabel można stosować \sphinxcode{\sphinxupquote{VACUUM FULL}} lub reorganizację danych, aby odzyskać przestrzeń.
+
+
+\subsection{13. Rozmiar pojedynczych tabel, rozmiar wszystkich tabel, indeksów tabeli}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-pojedynczych-tabel-rozmiar-wszystkich-tabel-indeksow-tabeli}}
+\sphinxAtStartPar
+Efektywne zarządzanie rozmiarem tabel oraz ich indeksów ma kluczowe znaczenie dla wydajności systemu.
+
+
+\subsubsection{13.1 Rozmiar pojedynczej tabeli}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-pojedynczej-tabeli}}
+\sphinxAtStartPar
+Do pozyskania informacji o rozmiarze konkretnej tabeli służą funkcje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_relation\_size(\textquotesingle{}nazwa\_tabeli\textquotesingle{})}} \textendash{} rozmiar danych tabeli (w bajtach).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_table\_size(\textquotesingle{}nazwa\_tabeli\textquotesingle{})}} \textendash{} rozmiar danych tabeli wraz z danymi TOAST.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxcode{\sphinxupquote{pg\_total\_relation\_size(\textquotesingle{}nazwa\_tabeli\textquotesingle{})}} \textendash{} całkowity rozmiar tabeli wraz z indeksami i TOAST.
+
+\end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład zapytania:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{SELECT}
+  \PYG{n}{pg\PYGZus{}size\PYGZus{}pretty}\PYG{p}{(}\PYG{n}{pg\PYGZus{}relation\PYGZus{}size}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{nazwa\PYGZus{}tabeli}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{)} \PYG{n}{AS} \PYG{n}{data\PYGZus{}size}\PYG{p}{,}
+  \PYG{n}{pg\PYGZus{}size\PYGZus{}pretty}\PYG{p}{(}\PYG{n}{pg\PYGZus{}indexes\PYGZus{}size}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{nazwa\PYGZus{}tabeli}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{)} \PYG{n}{AS} \PYG{n}{indexes\PYGZus{}size}\PYG{p}{,}
+  \PYG{n}{pg\PYGZus{}size\PYGZus{}pretty}\PYG{p}{(}\PYG{n}{pg\PYGZus{}total\PYGZus{}relation\PYGZus{}size}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{nazwa\PYGZus{}tabeli}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}\PYG{p}{)} \PYG{n}{AS} \PYG{n}{total\PYGZus{}size}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+
+\subsubsection{13.2 Rozmiar wszystkich tabel w bazie}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-wszystkich-tabel-w-bazie}}
+\sphinxAtStartPar
+Zapytanie pozwalające wylistować wszystkie tabele i ich rozmiary:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{SELECT}
+  \PYG{n}{schemaname}\PYG{p}{,}
+  \PYG{n}{relname} \PYG{n}{AS} \PYG{n}{table\PYGZus{}name}\PYG{p}{,}
+  \PYG{n}{pg\PYGZus{}size\PYGZus{}pretty}\PYG{p}{(}\PYG{n}{pg\PYGZus{}total\PYGZus{}relation\PYGZus{}size}\PYG{p}{(}\PYG{n}{relid}\PYG{p}{)}\PYG{p}{)} \PYG{n}{AS} \PYG{n}{total\PYGZus{}size}
+\PYG{n}{FROM}
+  \PYG{n}{pg\PYGZus{}catalog}\PYG{o}{.}\PYG{n}{pg\PYGZus{}statio\PYGZus{}user\PYGZus{}tables}
+\PYG{n}{ORDER} \PYG{n}{BY}
+  \PYG{n}{pg\PYGZus{}total\PYGZus{}relation\PYGZus{}size}\PYG{p}{(}\PYG{n}{relid}\PYG{p}{)} \PYG{n}{DESC}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+
+\subsubsection{13.3 Rozmiar indeksów tabeli}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar-indeksow-tabeli}}
+\sphinxAtStartPar
+Funkcja:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n}{pg\PYGZus{}indexes\PYGZus{}size}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+s1}{nazwa\PYGZus{}tabeli}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Pozwala sprawdzić rozmiar wszystkich indeksów przypisanych do danej tabeli. Monitorowanie indeksów pomaga w podejmowaniu decyzji o ich przebudowie lub usunięciu.
+
+
+\subsubsection{13.4 Znaczenie rozmiarów}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:znaczenie-rozmiarow}}
+\sphinxAtStartPar
+Duże tabele i indeksy mogą powodować:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Wolniejsze operacje zapisu i odczytu.
+
+\item {} 
+\sphinxAtStartPar
+Wydłużony czas tworzenia kopii zapasowych.
+
+\item {} 
+\sphinxAtStartPar
+Większe wymagania przestrzeni dyskowej.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Regularne monitorowanie rozmiaru umożliwia planowanie działań optymalizacyjnych i konserwacyjnych.
+
+
+\subsection{14. Rozmiar}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:rozmiar}}
+\sphinxAtStartPar
+Pojęcie „rozmiar” odnosi się do przestrzeni dyskowej zajmowanej przez elementy bazy danych \textendash{} tabele, indeksy, pliki TOAST, a także całe bazy danych lub schematy.
+
+
+\subsubsection{14.1 Rodzaje rozmiarów w PostgreSQL}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:rodzaje-rozmiarow-w-postgresql}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Rozmiar pojedynczego obiektu} (tabeli, indeksu):
+Funkcje takie jak \sphinxcode{\sphinxupquote{pg\_relation\_size()}}, \sphinxcode{\sphinxupquote{pg\_table\_size()}}, \sphinxcode{\sphinxupquote{pg\_indexes\_size()}} oraz \sphinxcode{\sphinxupquote{pg\_total\_relation\_size()}}.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Rozmiar schematu lub bazy danych}:
+Funkcje \sphinxcode{\sphinxupquote{pg\_namespace\_size(\textquotesingle{}nazwa\_schematu\textquotesingle{})}} oraz \sphinxcode{\sphinxupquote{pg\_database\_size(\textquotesingle{}nazwa\_bazy\textquotesingle{})}}.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Rozmiar plików TOAST}:
+Duże wartości (np. teksty, obrazy) są przenoszone do struktur TOAST, których rozmiar wliczany jest do rozmiaru tabeli, choć można go analizować osobno.
+
+\end{itemize}
+
+
+\subsubsection{14.2 Monitorowanie i kontrola rozmiaru}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:monitorowanie-i-kontrola-rozmiaru}}
+\sphinxAtStartPar
+Administratorzy baz danych powinni regularnie monitorować rozmiar baz danych i jej obiektów, aby:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Zapobiegać przekroczeniu limitów przestrzeni dyskowej.
+
+\item {} 
+\sphinxAtStartPar
+Wcześniej wykrywać problemy z fragmentacją.
+
+\item {} 
+\sphinxAtStartPar
+Planować archiwizację lub czyszczenie danych.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Do monitoringu można wykorzystać zapytania SQL lub narzędzia zewnętrzne (np. pgAdmin, pgBadger).
+
+
+\subsubsection{14.3 Optymalizacja rozmiaru}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:optymalizacja-rozmiaru}}
+\sphinxAtStartPar
+Działania optymalizacyjne obejmują:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Reorganizację i VACUUM}: odzyskiwanie przestrzeni po usuniętych lub zaktualizowanych rekordach oraz poprawa statystyk.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Partycjonowanie tabel}: dzielenie dużych tabel na mniejsze, co ułatwia zarządzanie.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Ograniczenia i typy danych}: odpowiedni dobór typów danych (np. \sphinxcode{\sphinxupquote{varchar(n)}} zamiast \sphinxcode{\sphinxupquote{text}}) oraz stosowanie ograniczeń (np. CHECK) zmniejsza rozmiar danych.
+
+\end{itemize}
+
+
+\subsubsection{14.4 Znaczenie zarządzania rozmiarem}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:znaczenie-zarzadzania-rozmiarem}}
+\sphinxAtStartPar
+Niewłaściwe zarządzanie przestrzenią dyskową może prowadzić do:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Spowolnienia działania bazy.
+
+\item {} 
+\sphinxAtStartPar
+Problemów z backupem i odtwarzaniem.
+
+\item {} 
+\sphinxAtStartPar
+Wzrostu kosztów utrzymania infrastruktury.
+
+\end{itemize}
+
+
+\subsection{Podsumowanie}
+\label{\detokenize{rozdzial2/Konfiguracja_baz_danych/Konfiguracja_baz_danych:podsumowanie}}
+\sphinxAtStartPar
+Zarządzanie konfiguracją bazy danych PostgreSQL, optymalizacja zapytań oraz monitorowanie i konserwacja tabel stanowią fundament skutecznego zarządzania systemem bazodanowym. Prawidłowe podejście do tych elementów zapewnia wysoką wydajność, niezawodność i skalowalność systemu.
+
+\sphinxAtStartPar
+—
+
+\sphinxstepscope
+
+
+\section{Kopie zapasowe i odzyskiwanie danych w PostgreSQL}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:kopie-zapasowe-i-odzyskiwanie-danych-w-postgresql}}\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych::doc}}\begin{quote}\begin{description}
+\sphinxlineitem{Autorzy}
+\sphinxAtStartPar
+Miłosz Śmieja Szymon Piskorz Mateusz Wasilewicz
+
+\end{description}\end{quote}
+
+
+\subsection{Wprowadzenie}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:wprowadzenie}}
+\sphinxAtStartPar
+System zarządzania bazą danych PostgreSQL oferuje kompleksowy zestaw narzędzi i mechanizmów służących do tworzenia kopii zapasowych oraz odzyskiwania danych. Skuteczne zarządzanie kopiami zapasowymi stanowi fundament bezpieczeństwa danych i ciągłości działania systemów bazodanowych.
+
+\sphinxAtStartPar
+PostgreSQL dostarcza zarówno mechanizmy wbudowane, jak i możliwość integracji z zewnętrznymi narzędziami automatyzacji.
+
+
+\subsection{Mechanizmy wbudowane do tworzenia kopii zapasowych całego systemu PostgreSQL}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-calego-systemu-postgresql}}
+\sphinxAtStartPar
+PostgreSQL oferuje kilka mechanizmów tworzenia kopii zapasowych na poziomie całego systemu, które zapewniają kompleksową ochronę wszystkich baz danych w klastrze.
+
+
+\subsubsection{pg\_basebackup}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pg-basebackup}}
+\sphinxAtStartPar
+\sphinxstylestrong{pg\_basebackup} stanowi podstawowe narzędzie do tworzenia fizycznych kopii zapasowych całego klastra PostgreSQL.
+
+\sphinxAtStartPar
+Kluczowe cechy:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Działa w trybie online \sphinxhyphen{} możliwość wykonywania kopii zapasowych bez zatrzymywania działania serwera
+
+\item {} 
+\sphinxAtStartPar
+Tworzy dokładną kopię wszystkich plików danych
+
+\item {} 
+\sphinxAtStartPar
+Zawiera pliki konfiguracyjne, dzienniki transakcji oraz wszystkie bazy danych w klastrze
+
+\end{itemize}
+
+
+\subsubsection{Continuous Archiving (Point\sphinxhyphen{}in\sphinxhyphen{}Time Recovery)}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:continuous-archiving-point-in-time-recovery}}
+\sphinxAtStartPar
+\sphinxstylestrong{Continuous Archiving} reprezentuje zaawansowany mechanizm tworzenia ciągłych kopii zapasowych poprzez archiwizację dzienników WAL (Write\sphinxhyphen{}Ahead Logging).
+
+\sphinxAtStartPar
+Zalety:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Umożliwia odtworzenie stanu bazy danych w dowolnym momencie czasowym
+
+\item {} 
+\sphinxAtStartPar
+Szczególnie wartościowe w środowiskach produkcyjnych wymagających minimalnej utraty danych
+
+\item {} 
+\sphinxAtStartPar
+Zapewnia wysoką granularność odzyskiwania danych
+
+\end{itemize}
+
+
+\subsubsection{Streaming Replication}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:streaming-replication}}
+\sphinxAtStartPar
+\sphinxstylestrong{Streaming Replication} może służyć jako mechanizm kopii zapasowych poprzez utrzymywanie synchronicznych lub asynchronicznych replik głównej bazy danych.
+
+\sphinxAtStartPar
+Funkcjonalności:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Repliki funkcjonują jako kopie zapasowe w czasie rzeczywistym
+
+\item {} 
+\sphinxAtStartPar
+Oferuje możliwość szybkiego przełączenia w przypadku awarii systemu głównego
+
+\item {} 
+\sphinxAtStartPar
+Wspiera zarówno tryb synchroniczny, jak i asynchroniczny
+
+\end{itemize}
+
+
+\subsubsection{File System Level Backup}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:file-system-level-backup}}
+\sphinxAtStartPar
+\sphinxstylestrong{File System Level Backup} polega na tworzeniu kopii zapasowych na poziomie systemu plików.
+
+\sphinxAtStartPar
+Wymagania:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Zatrzymanie serwera PostgreSQL lub zapewnienie spójności
+
+\item {} 
+\sphinxAtStartPar
+Wykorzystanie mechanizmów snapshot systemu plików:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+LVM snapshots
+
+\item {} 
+\sphinxAtStartPar
+ZFS snapshots
+
+\end{itemize}
+
+\end{itemize}
+
+
+\subsection{Mechanizmy wbudowane do tworzenia kopii zapasowych poszczególnych baz danych}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:mechanizmy-wbudowane-do-tworzenia-kopii-zapasowych-poszczegolnych-baz-danych}}
+\sphinxAtStartPar
+PostgreSQL dostarcza precyzyjne narzędzia umożliwiające tworzenie kopii zapasowych pojedynczych baz danych lub ich wybranych elementów.
+
+
+\subsubsection{pg\_dump}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pg-dump}}
+\sphinxAtStartPar
+\sphinxstylestrong{pg\_dump} stanowi najczęściej wykorzystywane narzędzie do tworzenia logicznych kopii zapasowych pojedynczych baz danych.
+
+\sphinxAtStartPar
+Charakterystyka:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Tworzy skrypt SQL zawierający wszystkie polecenia niezbędne do odtworzenia struktury bazy danych oraz jej danych
+
+\item {} 
+\sphinxAtStartPar
+Oferuje liczne opcje konfiguracji:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Możliwość wyboru formatu wyjściowego
+
+\item {} 
+\sphinxAtStartPar
+Filtrowanie obiektów
+
+\item {} 
+\sphinxAtStartPar
+Kontrola nad poziomem szczegółowości kopii zapasowej
+
+\end{itemize}
+
+\end{itemize}
+
+
+\subsubsection{pg\_dumpall}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pg-dumpall}}
+\sphinxAtStartPar
+\sphinxstylestrong{pg\_dumpall} rozszerza funkcjonalność \sphinxcode{\sphinxupquote{pg\_dump}} o możliwość tworzenia kopii zapasowych wszystkich baz danych w klastrze.
+
+\sphinxAtStartPar
+Dodatkowe funkcje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Backup obiektów globalnych:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Role użytkowników
+
+\item {} 
+\sphinxAtStartPar
+Tablespaces
+
+\item {} 
+\sphinxAtStartPar
+Ustawienia konfiguracyjne na poziomie klastra
+
+\end{itemize}
+
+\end{itemize}
+
+
+\subsubsection{COPY command}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:copy-command}}
+\sphinxAtStartPar
+\sphinxstylestrong{COPY command} umożliwia eksport danych z poszczególnych tabel do plików w różnych formatach.
+
+\sphinxAtStartPar
+Obsługiwane formaty:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+CSV
+
+\item {} 
+\sphinxAtStartPar
+Text
+
+\item {} 
+\sphinxAtStartPar
+Binary
+
+\end{itemize}
+
+\sphinxAtStartPar
+Zastosowania:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Tworzenie selektywnych kopii zapasowych dużych tabel
+
+\item {} 
+\sphinxAtStartPar
+Migracje danych
+
+\end{itemize}
+
+
+\subsubsection{pg\_dump z opcjami selektywnymi}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pg-dump-z-opcjami-selektywnymi}}
+\sphinxAtStartPar
+\sphinxstylestrong{pg\_dump z opcjami selektywnymi} pozwala na tworzenie kopii zapasowych wybranych obiektów bazy danych.
+
+\sphinxAtStartPar
+Możliwości filtrowania:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Konkretne tabele
+
+\item {} 
+\sphinxAtStartPar
+Schematy
+
+\item {} 
+\sphinxAtStartPar
+Sekwencje
+
+\end{itemize}
+
+\sphinxAtStartPar
+Funkcjonalność ta jest nieoceniona w scenariuszach wymagających granularnej kontroli nad procesem tworzenia kopii zapasowych.
+
+
+\subsection{Odzyskiwanie usuniętych lub uszkodzonych danych}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:odzyskiwanie-usunietych-lub-uszkodzonych-danych}}
+\sphinxAtStartPar
+PostgreSQL oferuje różnorodne mechanizmy odzyskiwania danych w zależności od rodzaju i zakresu uszkodzeń.
+
+
+\subsubsection{Odzyskiwanie z kopii logicznych}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:odzyskiwanie-z-kopii-logicznych}}
+\sphinxAtStartPar
+\sphinxstylestrong{Odzyskiwanie z kopii logicznych} wykonanych przy użyciu \sphinxcode{\sphinxupquote{pg\_dump}} realizowane jest poprzez \sphinxcode{\sphinxupquote{psql}} lub \sphinxcode{\sphinxupquote{pg\_restore}}.
+
+\sphinxAtStartPar
+Proces odzyskiwania:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Wykonanie skryptów SQL
+
+\item {} 
+\sphinxAtStartPar
+Przywrócenie plików dump w odpowiednim formacie
+
+\end{itemize}
+
+\sphinxAtStartPar
+Zaawansowane opcje pg\_restore:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Selektywne przywracanie obiektów
+
+\item {} 
+\sphinxAtStartPar
+Równoległe przetwarzanie
+
+\item {} 
+\sphinxAtStartPar
+Kontrola nad kolejnością przywracania
+
+\end{itemize}
+
+
+\subsubsection{Point\sphinxhyphen{}in\sphinxhyphen{}Time Recovery (PITR)}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:point-in-time-recovery-pitr}}
+\sphinxAtStartPar
+\sphinxstylestrong{Point\sphinxhyphen{}in\sphinxhyphen{}Time Recovery (PITR)} umożliwia przywrócenie bazy danych do konkretnego momentu w czasie.
+
+\sphinxAtStartPar
+Wykorzystywane komponenty:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Kombinacja kopii bazowej
+
+\item {} 
+\sphinxAtStartPar
+Archiwalne dzienniki WAL
+
+\end{itemize}
+
+\sphinxAtStartPar
+Zastosowania:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Cofnięcie zmian do momentu poprzedzającego wystąpienie błędu
+
+\item {} 
+\sphinxAtStartPar
+Odzyskiwanie po uszkodzeniu danych
+
+\end{itemize}
+
+\begin{sphinxadmonition}{note}{Informacja:}
+\sphinxAtStartPar
+PITR jest szczególnie wartościowy w przypadkach, gdy konieczne jest cofnięcie zmian do momentu poprzedzającego wystąpienie błędu lub uszkodzenia.
+\end{sphinxadmonition}
+
+
+\subsubsection{Odzyskiwanie tabel z tablespaces}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:odzyskiwanie-tabel-z-tablespaces}}
+\sphinxAtStartPar
+\sphinxstylestrong{Odzyskiwanie tabel z tablespaces} może wymagać specjalnych procedur w przypadku uszkodzenia przestrzeni tabel.
+
+\sphinxAtStartPar
+Możliwości PostgreSQL:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Odtworzenie tablespaces
+
+\item {} 
+\sphinxAtStartPar
+Przeniesienie tabel między różnymi lokalizacjami
+
+\item {} 
+\sphinxAtStartPar
+Odzyskiwanie danych nawet w przypadku częściowego uszkodzenia systemu plików
+
+\end{itemize}
+
+
+\subsubsection{Transaction log replay}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:transaction-log-replay}}
+\sphinxAtStartPar
+\sphinxstylestrong{Transaction log replay} wykorzystuje dzienniki WAL do odtworzenia zmian wprowadzonych po utworzeniu kopii zapasowej.
+
+\sphinxAtStartPar
+Charakterystyka:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Automatycznie wykorzystywany podczas standardowych procedur odzyskiwania
+
+\item {} 
+\sphinxAtStartPar
+Możliwość ręcznej kontroli w szczególnych sytuacjach
+
+\end{itemize}
+
+
+\subsubsection{Odzyskiwanie na poziomie klastra}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:odzyskiwanie-na-poziomie-klastra}}
+\sphinxAtStartPar
+\sphinxstylestrong{Odzyskiwanie na poziomie klastra} przy wykorzystaniu \sphinxcode{\sphinxupquote{pg\_basebackup}} wymaga przywrócenia wszystkich plików klastra oraz odpowiedniej konfiguracji parametrów recovery.
+
+\sphinxAtStartPar
+Zakres procesu:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Odtworzenie całego środowiska PostgreSQL
+
+\item {} 
+\sphinxAtStartPar
+Konfiguracja ról i uprawnień
+
+\item {} 
+\sphinxAtStartPar
+Przywrócenie ustawień systemowych
+
+\end{itemize}
+
+
+\subsection{Dedykowane oprogramowanie i skrypty zewnętrzne do automatyzacji}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:dedykowane-oprogramowanie-i-skrypty-zewnetrzne-do-automatyzacji}}
+\sphinxAtStartPar
+Automatyzacja procesów tworzenia kopii zapasowych stanowi kluczowy element profesjonalnego zarządzania bazami danych PostgreSQL.
+
+
+\subsubsection{pgBackRest}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:pgbackrest}}
+\sphinxAtStartPar
+\sphinxstylestrong{pgBackRest} reprezentuje kompleksowe rozwiązanie do zarządzania kopiami zapasowymi PostgreSQL.
+
+\sphinxAtStartPar
+Zaawansowane funkcje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Incremental i differential backups
+
+\item {} 
+\sphinxAtStartPar
+Kompresja danych
+
+\item {} 
+\sphinxAtStartPar
+Szyfrowanie
+
+\item {} 
+\sphinxAtStartPar
+Weryfikacja integralności kopii
+
+\item {} 
+\sphinxAtStartPar
+Możliwość przechowywania kopii w chmurze
+
+\item {} 
+\sphinxAtStartPar
+Automatyzacja procesów zarządzania kopiami zapasowymi
+
+\item {} 
+\sphinxAtStartPar
+Uproszczone procedury odzyskiwania
+
+\end{itemize}
+
+\begin{sphinxadmonition}{important}{Ważne:}
+\sphinxAtStartPar
+pgBackRest automatyzuje wiele procesów związanych z zarządzaniem kopiami zapasowymi i znacznie upraszcza procedury odzyskiwania.
+\end{sphinxadmonition}
+
+
+\subsubsection{Barman (Backup and Recovery Manager)}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:barman-backup-and-recovery-manager}}
+\sphinxAtStartPar
+\sphinxstylestrong{Barman} stanowi dedykowane narzędzie stworzone przez 2ndQuadrant do zarządzania kopiami zapasowymi PostgreSQL w środowiskach enterprise.
+
+\sphinxAtStartPar
+Kluczowe funkcjonalności:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Centralne zarządzanie kopiami zapasowymi wielu serwerów PostgreSQL
+
+\item {} 
+\sphinxAtStartPar
+Monitoring procesów backup
+
+\item {} 
+\sphinxAtStartPar
+Automatyczne testowanie procedur recovery
+
+\item {} 
+\sphinxAtStartPar
+Integracja z narzędziami monitorowania
+
+\end{itemize}
+
+
+\subsubsection{WAL\sphinxhyphen{}E i WAL\sphinxhyphen{}G}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:wal-e-i-wal-g}}
+\sphinxAtStartPar
+\sphinxstylestrong{WAL\sphinxhyphen{}E i WAL\sphinxhyphen{}G} specjalizują się w archiwizacji dzienników WAL w środowiskach chmurowych.
+
+\sphinxAtStartPar
+Oferowane funkcje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Efektywna kompresja
+
+\item {} 
+\sphinxAtStartPar
+Szyfrowanie danych
+
+\item {} 
+\sphinxAtStartPar
+Przechowywanie kopii zapasowych w serwisach chmurowych:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Amazon S3
+
+\item {} 
+\sphinxAtStartPar
+Google Cloud Storage
+
+\item {} 
+\sphinxAtStartPar
+Azure Blob Storage
+
+\end{itemize}
+
+\end{itemize}
+
+
+\subsubsection{Skrypty shell i cron jobs}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:skrypty-shell-i-cron-jobs}}
+\sphinxAtStartPar
+\sphinxstylestrong{Skrypty shell i cron jobs} stanowią tradycyjne podejście do automatyzacji kopii zapasowych.
+
+\sphinxAtStartPar
+Możliwości automatyzacji:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Wykonywanie \sphinxcode{\sphinxupquote{pg\_dump}} i \sphinxcode{\sphinxupquote{pg\_basebackup}}
+
+\item {} 
+\sphinxAtStartPar
+Zarządzanie cyklem życia kopii zapasowych
+
+\item {} 
+\sphinxAtStartPar
+Rotacja i czyszczenie starych kopii
+
+\end{itemize}
+
+\begin{sphinxadmonition}{tip}{Wskazówka:}
+\sphinxAtStartPar
+Właściwie napisane skrypty mogą automatyzować wykonywanie pg\_dump, pg\_basebackup oraz zarządzanie cyklem życia kopii zapasowych, w tym rotację i czyszczenie starych kopii.
+\end{sphinxadmonition}
+
+
+\subsubsection{Narzędzia automatyzacji infrastruktury}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:narzedzia-automatyzacji-infrastruktury}}
+\sphinxAtStartPar
+\sphinxstylestrong{Ansible, Puppet, Chef} jako narzędzia automatyzacji infrastruktury mogą być wykorzystywane do zarządzania konfiguracją procesów backup na większą skalę.
+
+\sphinxAtStartPar
+Korzyści:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Standaryzacja procedur backup w środowiskach wieloserwerowych
+
+\item {} 
+\sphinxAtStartPar
+Zapewnienie konsystentności konfiguracji
+
+\item {} 
+\sphinxAtStartPar
+Skalowalne zarządzanie infrastrukturą
+
+\end{itemize}
+
+
+\subsubsection{Monitoring i alertowanie}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:monitoring-i-alertowanie}}
+\sphinxAtStartPar
+\sphinxstylestrong{Prometheus i Grafana} w połączeniu z \sphinxcode{\sphinxupquote{postgres\_exporter}} umożliwiają monitoring procesów backup oraz alertowanie w przypadku niepowodzeń.
+
+\sphinxAtStartPar
+Zakres monitorowania:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Śledzenie czasu wykonywania kopii
+
+\item {} 
+\sphinxAtStartPar
+Monitorowanie rozmiaru kopii zapasowych
+
+\item {} 
+\sphinxAtStartPar
+Wskaźnik sukcesu procesów backup
+
+\item {} 
+\sphinxAtStartPar
+Alertowanie w czasie rzeczywistym
+
+\end{itemize}
+
+
+\subsection{Podsumowanie}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:podsumowanie}}
+\sphinxAtStartPar
+Skuteczne zarządzanie kopiami zapasowymi w PostgreSQL wymaga kombinacji mechanizmów wbudowanych oraz zewnętrznych narzędzi automatyzacji. Wybór odpowiedniej strategii backup zależy od specyficznych wymagań organizacji, w tym:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{RTO (Recovery Time Objective)} \sphinxhyphen{} maksymalny akceptowalny czas odzyskiwania
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{RPO (Recovery Point Objective)} \sphinxhyphen{} maksymalna akceptowalna utrata danych
+
+\item {} 
+\sphinxAtStartPar
+Dostępne zasoby
+
+\item {} 
+\sphinxAtStartPar
+Złożoność środowiska
+
+\end{itemize}
+
+
+\subsubsection{Kluczowe wnioski}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:kluczowe-wnioski}}
+\sphinxAtStartPar
+\sphinxstylestrong{Mechanizmy wbudowane} PostgreSQL, takie jak \sphinxcode{\sphinxupquote{pg\_dump}}, \sphinxcode{\sphinxupquote{pg\_basebackup}} czy PITR, oferują solidne podstawy dla większości scenariuszy backup i recovery.
+
+\sphinxAtStartPar
+\sphinxstylestrong{W środowiskach produkcyjnych} o wysokich wymaganiach dotyczących dostępności i niezawodności, integracja z dedykowanymi narzędziami takimi jak pgBackRest czy Barman staje się niezbędna.
+
+
+\subsubsection{Najważniejsze zalecenia}
+\label{\detokenize{rozdzial2/Kopie_zapasowe_i_odzyskiwanie_danych/kopie_zapasowe_i_odzyskiwanie_danych:najwazniejsze-zalecenia}}
+\begin{sphinxadmonition}{warning}{Ostrzeżenie:}
+\sphinxAtStartPar
+Kluczowym elementem każdej strategii backup jest regularne testowanie procedur odzyskiwania danych. Kopie zapasowe mają wartość tylko wtedy, gdy można z nich skutecznie odzyskać dane w sytuacji kryzysowej.
+\end{sphinxadmonition}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Kompleksowa strategia backup} powinna obejmować:
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+Tworzenie kopii zapasowych
+
+\item {} 
+\sphinxAtStartPar
+Regularne testy restore
+
+\item {} 
+\sphinxAtStartPar
+Dokumentację procedur
+
+\item {} 
+\sphinxAtStartPar
+Szkolenie personelu odpowiedzialnego za zarządzanie bazami danych
+
+\end{enumerate}
+
+\sphinxstepscope
+
+
+\section{Kontrola i konserwacja baz danych}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:kontrola-i-konserwacja-baz-danych}}\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja::doc}}
+
+\subsection{Wprowadzenie}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:wprowadzenie}}
+\sphinxAtStartPar
+Autor: Bartłomiej Czyż
+
+\sphinxAtStartPar
+Systemy baz danych są niezwykle ważnym elementem infrastruktury informatycznej współczesnych organizacji. Umożliwiają przechowywanie, zarządzanie i analizę danych w sposób bezpieczny oraz wydajny. Aby zapewnić ich niezawodność, integralność i wysoką dostępność, konieczne jest prowadzenie regularnych działań z zakresu kontroli i konserwacji. Działania te można podzielić na część fizyczną oraz część programową, a sposób ich przeprowadzania różni się w zależności od rodzaju i architektury używanej bazy danych.
+
+
+\subsection{Podział konserwacji baz danych}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:podzial-konserwacji-baz-danych}}
+\sphinxAtStartPar
+Autor: Bartłomiej Czyż
+
+
+\subsubsection{Konserwacja fizyczna}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:konserwacja-fizyczna}}
+\sphinxAtStartPar
+Konserwacja fizyczna obejmuje wszystkie działania związane z infrastrukturą sprzętową i zasobami systemowymi, na których działa baza danych. Do najważniejszych elementów tej konserwacji należą:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Monitorowanie stanu dysków twardych \textendash{} pozostała przestrzeń na dyskach, zużycie dysków oraz fragmentacja danych,
+
+\item {} 
+\sphinxAtStartPar
+Zabezpieczenie fizyczne serwerów \textendash{} kontrola dostępu, ochrona przeciwpożarowa, klimatyzacja,
+
+\item {} 
+\sphinxAtStartPar
+Zasilanie awaryjne (UPS) \sphinxhyphen{} zabezpieczenie bazy przed skutkami nagłego zaniku zasilania,
+
+\item {} 
+\sphinxAtStartPar
+Monitoring stanu sieci \textendash{} wydajność i stabilność połączenia między bazą a klientami,
+
+\item {} 
+\sphinxAtStartPar
+Tworzenie kopii zapasowych na nośnikach fizycznych \textendash{} np. dyskach zewnętrznych czy taśmach LTO.
+
+\end{itemize}
+
+
+\subsubsection{Konserwacja programowa}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:konserwacja-programowa}}
+\sphinxAtStartPar
+Konserwacja programowa odnosi się do czynności wykonywanych na poziomie oprogramowania i logiki działania systemu bazy danych. Obejmuje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Zarządzanie użytkownikami i ich uprawnieniami,
+
+\item {} 
+\sphinxAtStartPar
+Optymalizację zapytań SQL,
+
+\item {} 
+\sphinxAtStartPar
+Aktualizację oprogramowania bazodanowego (np. MySQL, PostgreSQL),
+
+\item {} 
+\sphinxAtStartPar
+Defragmentację indeksów,
+
+\item {} 
+\sphinxAtStartPar
+Weryfikację integralności danych i naprawę uszkodzonych rekordów,
+
+\item {} 
+\sphinxAtStartPar
+Automatyczne zadania konserwacyjne (cron, schedulery),
+
+\item {} 
+\sphinxAtStartPar
+Reduplikację i redundancję \sphinxhyphen{} konfiguracja serwerów zapasowych.
+
+\end{itemize}
+
+
+\subsection{Różnice konserwacyjne w zależności od rodzaju bazy danych}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:roznice-konserwacyjne-w-zaleznosci-od-rodzaju-bazy-danych}}
+\sphinxAtStartPar
+Autor: Bartłomiej Czyż
+
+
+\subsubsection{PostgreSQL}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:postgresql}}
+\sphinxAtStartPar
+PostgreSQL to zaawansowany system RDBMS, znany z silnego wsparcia dla różnych typów danych i transakcyjności.
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+Fizyczna konserwacja:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Złożona struktura katalogów danych (base, pg\_wal, pg\_tblspc) \textendash{} wymaga regularnego monitoringu,
+
+\item {} 
+\sphinxAtStartPar
+Możliwość wykorzystania narzędzia pg\_basebackup do tworzenia pełnych kopii fizycznych.
+
+\end{itemize}
+
+\item {} 
+\sphinxAtStartPar
+Programowa konserwacja:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Automatyczne zadania VACUUM, ANALYZE \textendash{} zapewniają odzyskiwanie przestrzeni po usunięciu rekordów,
+
+\item {} 
+\sphinxAtStartPar
+Możliwość używania pg\_repack do defragmentacji bez przestojów,
+
+\item {} 
+\sphinxAtStartPar
+Silne wsparcie dla replikacji strumieniowej i klastrów wysokiej dostępności (HA).
+
+\end{itemize}
+
+\end{enumerate}
+
+
+\subsubsection{MySQL}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:mysql}}
+\sphinxAtStartPar
+MySQL jest obecnie jedną z najpopularniejszych relacyjnych baz danych, szeroko stosowana w aplikacjach webowych.
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+Fizyczna konserwacja:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Wymaga monitorowania plików .ibd (w przypadku silknika InnoDB), które mogą znacznie rosnąć,
+
+\item {} 
+\sphinxAtStartPar
+Backup danych realizowany poprzez mysqldump lub system replikacji binlogów.
+
+\end{itemize}
+
+\item {} 
+\sphinxAtStartPar
+Programowa konserwacja:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Regularne sprawdzanie indeksów (ANALYZE TABLE, OPTIMIZE TABLE),
+
+\item {} 
+\sphinxAtStartPar
+Używanie narzędzi typu mysqlcheck do weryfikacji i naprawy tabel,
+
+\item {} 
+\sphinxAtStartPar
+Konfiguracja pliku my.cnf w celu dostosowania do wymagań aplikacji.
+
+\end{itemize}
+
+\end{enumerate}
+
+
+\subsubsection{SQLite (np. LightSQL)}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:sqlite-np-lightsql}}
+\sphinxAtStartPar
+SQLite, używana w aplikacjach mobilnych i desktopowych, różni się znacznie od serwerowych baz danych.
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+Fizyczna konserwacja:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Brak klasycznego serwera \textendash{} baza to pojedynczy plik .db,
+
+\item {} 
+\sphinxAtStartPar
+Konieczność regularnego kopiowania pliku bazy danych jako backup.
+
+\end{itemize}
+
+\item {} 
+\sphinxAtStartPar
+Programowa konserwacja:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Użycie polecenia VACUUM do defragmentacji i zmniejszenia rozmiaru pliku,
+
+\item {} 
+\sphinxAtStartPar
+Ograniczone możliwości równoczesnego dostępu \textendash{} wymaga uwagi w aplikacjach wielowątkowych,
+
+\item {} 
+\sphinxAtStartPar
+Nie wymaga osobnych usług do zarządzania \textendash{} działa bezpośrednio w aplikacji.
+
+\end{itemize}
+
+\end{enumerate}
+
+
+\subsubsection{Microsoft SQL Server}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:microsoft-sql-server}}
+\sphinxAtStartPar
+System korporacyjny, szeroko wykorzystywany w dużych organizacjach.
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+Fizyczna konserwacja:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Obsługuje macierze RAID i pamięci masowe SAN,
+
+\item {} 
+\sphinxAtStartPar
+Regularne kopie pełne, różnicowe i dzienniki transakcyjne.
+
+\end{itemize}
+
+\item {} 
+\sphinxAtStartPar
+Programowa konserwacja:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Zaawansowany SQL Server Agent \textendash{} możliwość harmonogramowania zadań,
+
+\item {} 
+\sphinxAtStartPar
+Narzędzia do monitorowania stanu instancji (SQL Profiler, Database Tuning Advisor),
+
+\item {} 
+\sphinxAtStartPar
+Wsparcie dla Always On Availability Groups dla wysokiej dostępności.
+
+\end{itemize}
+
+\end{enumerate}
+
+
+\subsection{Planowanie konserwacji bazy danych}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:planowanie-konserwacji-bazy-danych}}
+\sphinxAtStartPar
+Autor: Piotr Mikołajczyk
+
+\sphinxAtStartPar
+Konserwację bazy danych należy przeprowadzać regularnie, np. co tydzień lub co miesiąc. Nie powinna mieć miejsca w godzinach szczytu. Przeprowadzenie konserwacji może również okazać się koniecznie po wykryciu błędu lub wystąpieniu awarii.
+
+\sphinxAtStartPar
+Konserwacja może obejmować m.in. zmianę parametrów konfiguracji bazy, przeprowadzenie procesu VACUUM, zmianę uprawnien użytkowników, aktualizacje systemowe i wykonanie backupów lub przywrócenie danych.
+
+\sphinxAtStartPar
+Działanie te muszą zostać przeprowadzone w czasie, gdy mamy pewność, że żaden klient nie będzie podłączony, nie będą przeprowadzane żadne transakcje. Użytkownicy powinni być uprzednio poinformowani o czasie przeprowadzenia konserwacji. Mimo to, należy wcześniej sprawdzić, czy nie ma aktywnych sesji.
+
+
+\subsection{Uruchamianie, zatrzymywanie i restartowanie serwera bazy danych}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:uruchamianie-zatrzymywanie-i-restartowanie-serwera-bazy-danych}}
+\sphinxAtStartPar
+Autor: Piotr Mikołajczyk
+
+\sphinxAtStartPar
+Działania, takie jak aktualizacja oprogramowania, instalacja rozszerzeń, wprowadzenie pewnych zmian w plikach konfiguracyjnych, migracja danych, wykonanie backupów bazy, wymagają zrestartowania, zatrzymania bądź ponownego uruchomienia serwera bazy danych.
+
+
+\subsubsection{Uruchamianie}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:uruchamianie}}
+\sphinxAtStartPar
+Linux:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+sudo\PYG{+w}{ }systemctl\PYG{+w}{ }start\PYG{+w}{ }postgresql
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Windows CMD:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+net start postgresql\PYGZhy{}x64\PYGZhy{}15
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Windows PowerShell
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{Start\PYGZhy{}Service} \PYG{n}{\PYGZhy{}Name} \PYG{n}{postgresql}\PYG{n}{\PYGZhy{}x64}\PYG{p}{\PYGZhy{}}\PYG{n}{15}
+\end{sphinxVerbatim}
+
+
+\subsubsection{Zatrzymywanie}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:zatrzymywanie}}
+\sphinxAtStartPar
+Linux:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+sudo\PYG{+w}{ }systemctl\PYG{+w}{ }stop\PYG{+w}{ }postgresql
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Windows CMD:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+net stop postgresql\PYGZhy{}x64\PYGZhy{}15
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Windows PowerShell
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{Stop\PYGZhy{}Service} \PYG{n}{\PYGZhy{}Name} \PYG{n}{postgresql}\PYG{n}{\PYGZhy{}x64}\PYG{p}{\PYGZhy{}}\PYG{n}{15}
+\end{sphinxVerbatim}
+
+
+\subsubsection{Restartowanie}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:restartowanie}}
+\sphinxAtStartPar
+Linux:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+sudo\PYG{+w}{ }systemctl\PYG{+w}{ }restart\PYG{+w}{ }postgresql
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+W CMD nie istnieje osobne polecenie restartowania. Należy zatrzymać serwer, a następnie uruchomić go ponownie.
+
+\sphinxAtStartPar
+Windows PowerShell
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{Restart\PYGZhy{}Service} \PYG{n}{\PYGZhy{}Name} \PYG{n}{postgresql}\PYG{n}{\PYGZhy{}x64}\PYG{p}{\PYGZhy{}}\PYG{n}{15}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Polecenia CMD mogą zostać również użyte w PowerShell.
+
+
+\subsection{Zarządzanie połączeniami użytkowników}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:zarzadzanie-polaczeniami-uzytkownikow}}
+\sphinxAtStartPar
+Autor: Piotr Mikołajczyk
+
+\sphinxAtStartPar
+Oprócz sytuacji, gdy trzeba zamknąć dostęp do bazy danych na czas konserwacji, połączenia użytkowników należy ograniczyć także wtedy, gdy sesja użytkownika została zawieszona lub zbyt wiele połączeń skutkuje nadmiernym zużyciem pamięci i mocy obliczeniowej, uniemożliwiając nawiązywanie nowych połączeń i spowolniając działanie serwera.
+
+
+\subsubsection{Ograniczanie użytkowników}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:ograniczanie-uzytkownikow}}
+\sphinxAtStartPar
+Istnieje kilka sposobów ograniczenia dostępu użytkownika:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Odebranie użytkownikowi prawa dostępu do bazy:
+\begin{quote}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{REVOKE}\PYG{+w}{ }\PYG{k}{CONNECT}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{k}{DATABASE}\PYG{+w}{ }\PYG{n}{baza}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{k}{user}\PYG{p}{;}
+\end{sphinxVerbatim}
+\end{quote}
+
+\item {} 
+\sphinxAtStartPar
+Limit liczby jednoczesnych połączeń:
+\begin{quote}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{ROLE}\PYG{+w}{ }\PYG{k}{user}\PYG{+w}{ }\PYG{k}{CONNECTION}\PYG{+w}{ }\PYG{k}{LIMIT}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{;}
+\end{sphinxVerbatim}
+\end{quote}
+
+\end{itemize}
+
+
+\subsubsection{Ręczne rozłączanie użytkowników}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:reczne-rozlaczanie-uzytkownikow}}
+\sphinxAtStartPar
+Według nazwy danego użytkownika:
+\begin{quote}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{pg\PYGZus{}terminate\PYGZus{}backend}\PYG{p}{(}\PYG{n}{pid}\PYG{p}{)}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{pg\PYGZus{}stat\PYGZus{}activity}
+\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{usename}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}user\PYGZsq{}}\PYG{p}{;}
+\end{sphinxVerbatim}
+\end{quote}
+
+\sphinxAtStartPar
+Według PID (np. 12340):
+\begin{quote}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{pg\PYGZus{}terminate\PYGZus{}backend}\PYG{p}{(}\PYG{l+m+mi}{12340}\PYG{p}{)}\PYG{p}{;}
+\end{sphinxVerbatim}
+\end{quote}
+
+
+\subsubsection{Automatyczne rozłączanie użytkowników}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:automatyczne-rozlaczanie-uzytkownikow}}
+\sphinxAtStartPar
+Sesja użytkownika lub jego zapytania mogą zostać rozłączone automatycznie, jeśli wprowadzimy pewne ograniczenia czasowe:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Rozłączenie sesji po przekroczeniu limitu czasu bezczynności podczas zapytania:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+dla bieżącej sesji:
+\begin{quote}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{SET}\PYG{+w}{ }\PYG{n}{idle\PYGZus{}in\PYGZus{}transaction\PYGZus{}session\PYGZus{}timeout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}5min\PYGZsq{}}\PYG{p}{;}
+\end{sphinxVerbatim}
+\end{quote}
+
+\item {} 
+\sphinxAtStartPar
+dla danego użytkownika:
+\begin{quote}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{ROLE}\PYG{+w}{ }\PYG{k}{user}\PYG{+w}{ }\PYG{k}{SET}\PYG{+w}{ }\PYG{n}{idle\PYGZus{}in\PYGZus{}transaction\PYGZus{}session\PYGZus{}timeout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}5min\PYGZsq{}}\PYG{p}{;}
+\end{sphinxVerbatim}
+\end{quote}
+
+\end{itemize}
+
+\item {} 
+\sphinxAtStartPar
+Limit czasu zapytania:
+\begin{quote}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{ROLE}\PYG{+w}{ }\PYG{k}{user}\PYG{+w}{ }\PYG{k}{SET}\PYG{+w}{ }\PYG{n}{statement\PYGZus{}timeout}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}30s\PYGZsq{}}\PYG{p}{;}
+\end{sphinxVerbatim}
+\end{quote}
+
+\end{itemize}
+
+
+\subsubsection{Zapobieganie nowym połączeniom}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:zapobieganie-nowym-polaczeniom}}
+\sphinxAtStartPar
+Zablokowanie logowania konkretnego użytkownika:
+\begin{quote}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{ROLE}\PYG{+w}{ }\PYG{k}{user}\PYG{+w}{ }\PYG{n}{NOLOGIN}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Odblokowanie:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{ROLE}\PYG{+w}{ }\PYG{k}{user}\PYG{+w}{ }\PYG{n}{LOGIN}\PYG{p}{;}
+\end{sphinxVerbatim}
+\end{quote}
+
+\sphinxAtStartPar
+Blokowanie nowych połączeń do bazy danych:
+\begin{quote}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{REVOKE}\PYG{+w}{ }\PYG{k}{CONNECT}\PYG{+w}{ }\PYG{k}{ON}\PYG{+w}{ }\PYG{k}{DATABASE}\PYG{+w}{ }\PYG{n}{baza}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{k}{PUBLIC}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+PUBLIC oznacza wszystkich użytkowników. Nadal połączeni użytkownicy nie są rozłączani.
+\end{quote}
+
+
+\subsection{Proces VACUUM}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:proces-vacuum}}
+\sphinxAtStartPar
+Autor: Piotr Mikołajczyk
+
+\sphinxAtStartPar
+DELETE nie usuwa rekordów z tabeli, jedynie oznacza je jako martwe. Podobnie UPDATE pozostawia stare wersje zaktualizowanych krotek.
+
+\sphinxAtStartPar
+Proces VACUUM przeszukuje tabele i indeksy, szukając martwych wierszy, które można fizycznie usunąć lub oznaczyć do nadpisania.
+
+\sphinxAtStartPar
+Może zostać przeprowadzony na kilka sposobów:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{VACUUM}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Usuwa martwe krotki, ale nie odzyskuje miejsca z dysku, a jedynie udostępnia je dla przyszłych danych,
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{VACUUM}\PYG{+w}{ }\PYG{k}{FULL}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Kompaktuje tabelę do nowego pliku, zwalnia miejsce w pamięci,
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{VACUUM}\PYG{+w}{ }\PYG{k}{ANALYZE}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+Usuwa martwe krotki i przeprowadza aktualizację statystyk, nie odzyskuje miejsca.
+
+
+\subsubsection{Autovacuum}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:autovacuum}}
+\sphinxAtStartPar
+Autovacuum działa w tle, automatycznie wykonując VACUUM na odpowiednich tabelach. Dzięki niemu nie trzeba ręcznie uruchamiać VACUUM po każdej modyfikacji tabeli. Autovacuum posiada wiele parametrów, od których zależy kiedy wykonany zostanie proces, między innymi:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+autovacuum \sphinxhyphen{} parametr logiczny, decyduje, czy serwer będzie uruchamiał launcher procesu autovacuum,
+
+\item {} 
+\sphinxAtStartPar
+autovacuum\_max\_workers \sphinxhyphen{} liczba całkowita, określa maksymalną ilość procesów autovacuum mogących działać w tym samym czasie, domyślnie 3,
+
+\item {} 
+\sphinxAtStartPar
+autovacuum\_vacuum\_threshold \sphinxhyphen{} liczba całkowita, określa ile wierszy w jednej tabeli musi zostać usunięte lub zmienione, aby wywołano VACUUM, domyślnie 50,
+
+\item {} 
+\sphinxAtStartPar
+autovacuum\_vacuum\_scale\_factor \sphinxhyphen{} liczba zmiennoprzecinkowa, jaki procent tabeli musi zostać zmieniony aby wywołano VACUUM, domyślna wartość to 0.2 (20\%).
+
+\end{itemize}
+
+\sphinxAtStartPar
+Analogiczne parametry warunkują również wywołanie ANALYZE, na przykład autovacuum\_analyze\_threshold.
+
+\sphinxAtStartPar
+Próg uruchamiania VACUUM ustala się wzorem:
+\begin{quote}
+
+\sphinxAtStartPar
+autovacuum\_vacuum\_threshold + autovacuum\_vacuum\_scale\_factor * liczba\_wierszy
+\end{quote}
+
+\sphinxAtStartPar
+Podobnie dla ANALYZE:
+\begin{quote}
+
+\sphinxAtStartPar
+autovacuum\_analyze\_threshold + autovacuum\_analyze\_scale\_factor * liczba\_wierszy
+\end{quote}
+
+
+\subsection{Schemat bazy danych}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:schemat-bazy-danych}}
+\sphinxAtStartPar
+Autor: Bartłomiej Czyż
+
+
+\subsubsection{Czym jest schemat bazy danych?}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:czym-jest-schemat-bazy-danych}}
+\sphinxAtStartPar
+Schemat bazy danych to logiczna struktura opisująca organizację danych, typy danych, relacje między tabelami, ograniczenia integralności, procedury składowane, widoki i inne obiekty. Innymi słowy, schemat jest „szkieletem” bazy danych.
+
+\sphinxAtStartPar
+Przykładowe elementy schematu:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Tabele (np. users, orders),
+
+\item {} 
+\sphinxAtStartPar
+Typy danych (np. INT, VARCHAR, DATE),
+
+\item {} 
+\sphinxAtStartPar
+Klucze główne i obce,
+
+\item {} 
+\sphinxAtStartPar
+Indeksy,
+
+\item {} 
+\sphinxAtStartPar
+Widoki (VIEW),
+
+\item {} 
+\sphinxAtStartPar
+Procedury i funkcje (STORED PROCEDURES),
+
+\item {} 
+\sphinxAtStartPar
+Ograniczenia (CHECK, NOT NULL, UNIQUE).
+
+\end{itemize}
+
+
+\subsubsection{Rola schematu w konserwacji bazy danych}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:rola-schematu-w-konserwacji-bazy-danych}}
+\sphinxAtStartPar
+Schemat ma kluczowe znaczenie dla utrzymania spójności i integralności danych, dlatego jego kontrola i konserwacja obejmuje m.in.:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Dokumentację schematu \sphinxhyphen{} niezbędna przy aktualizacjach i migracjach,
+
+\item {} 
+\sphinxAtStartPar
+Weryfikację integralności relacji \sphinxhyphen{} sprawdzenie czy klucze obce i reguły są respektowane,
+
+\item {} 
+\sphinxAtStartPar
+Normalizację \sphinxhyphen{} kontrola nad nadmiarem danych i poprawnością logiczną,
+
+\item {} 
+\sphinxAtStartPar
+Aktualizacje schematu \sphinxhyphen{} np. dodawanie nowych kolumn, zmiana typu danych,
+
+\item {} 
+\sphinxAtStartPar
+Kontrola zgodności \sphinxhyphen{} wersjonowanie schematu (np. za pomocą narzędzi typu Liquibase, Flyway),
+
+\item {} 
+\sphinxAtStartPar
+Zabezpieczenia schematów \sphinxhyphen{} nadawanie uprawnień tylko zaufanym użytkownikom.
+
+\end{itemize}
+
+\sphinxAtStartPar
+Przykład konserwacji:
+
+\sphinxAtStartPar
+W PostgreSQL można analizować i optymalizować strukturę przy pomocy pgAdmin oraz narzędzi takich jak pg\_dump \textendash{}schema\sphinxhyphen{}only.
+
+
+\subsubsection{Różnice w implementacji schematu w różnych systemach}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:roznice-w-implementacji-schematu-w-roznych-systemach}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+MySQL \sphinxhyphen{} obsługuje wiele schematów w jednej bazie; ograniczone typy kolumn w starszych wersjach,
+
+\item {} 
+\sphinxAtStartPar
+PostgreSQL \sphinxhyphen{} bardzo elastyczny system schematów \sphinxhyphen{} możliwość teorzenia przestrzeni nazw,
+
+\item {} 
+\sphinxAtStartPar
+SQLite \sphinxhyphen{} pojedynczy schemat, uproszczony system typów,
+
+\item {} 
+\sphinxAtStartPar
+SQL Server \sphinxhyphen{} schemat jako logiczna przestrzeń obiektów, np. dbo, hr, finance.
+
+\end{itemize}
+
+
+\subsection{Transakcje}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:transakcje}}
+\sphinxAtStartPar
+Autor: Bartłomiej Czyż
+
+
+\subsubsection{Czym jest transakcja?}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:czym-jest-transakcja}}
+\sphinxAtStartPar
+Transakcja to zbiór operacji na bazie danych, które są traktowane jako jedna, nierozdzielna całość. Albo wykonują się wszystkie operacje, albo żadna \sphinxhyphen{} zasada atomiczności. Transakcje są podstawą do zachowania spójności danych, szczególnie w środowiskach wieloużytkownikowych.
+
+
+\subsubsection{Zasady ACID}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:zasady-acid}}
+\sphinxAtStartPar
+Transakcje w bazach danych opierają się na czterech podstawowych zasadach, znanych jako ACID:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+A \sphinxhyphen{} Atomicity (Atomowość) \sphinxhyphen{} operacje wchodzące w skład transakcji są niepodzielne \sphinxhyphen{} wszystkie muszą się powieść, lub wszystkie są wycofywane,
+
+\item {} 
+\sphinxAtStartPar
+C \sphinxhyphen{} Consistency (Spójność) \sphinxhyphen{} transakcje przekształcają dane ze stanu spójnego w stan spójny,
+
+\item {} 
+\sphinxAtStartPar
+I \sphinxhyphen{} Isolation (Izolacja) \sphinxhyphen{} równoczesne transakcje nie wpływają na siebie nawzajem,
+
+\item {} 
+\sphinxAtStartPar
+D \sphinxhyphen{} Durability (Trwałość) \sphinxhyphen{} po zatwierdzeniu transakcji dane są trwale zapisane, nawet w przypadku awarii.
+
+\end{itemize}
+
+
+\subsubsection{Rola transakcji w kontroli i konserwacji}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:rola-transakcji-w-kontroli-i-konserwacji}}
+\sphinxAtStartPar
+Transakcje mają ogromne znaczenie dla bezpieczeństwa danych, dlatego są nieodłącznym elementem procesów konserwacyjnych. Ich zastosowanie obejmuje:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Zabezpieczenie operacji aktualizacji \sphinxhyphen{} np. przy masowych zmianach danych,
+
+\item {} 
+\sphinxAtStartPar
+Replikacja i synchronizacja danych \sphinxhyphen{} transakcje zapewniają spójność między główną bazą, a replikami,
+
+\item {} 
+\sphinxAtStartPar
+Zarządzanie błędami \sphinxhyphen{} w przypadku błędu można wykonać ROLLBACK i przywrócić stan bazy,
+
+\item {} 
+\sphinxAtStartPar
+Tworzenie backupów spójnych z punktu w czasie \sphinxhyphen{} snapshoty danych często wymagają wsparcia transakcyjnego,
+
+\item {} 
+\sphinxAtStartPar
+Ochrona przed uszkodzeniami logicznymi \sphinxhyphen{} np. przez niekompletne aktualizacje.
+
+\end{itemize}
+
+
+\subsubsection{Różnice w implementacji transakcji w różnych systemach}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:roznice-w-implementacji-transakcji-w-roznych-systemach}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+MySQL \sphinxhyphen{} w pełni wspierane w silniku InnoDB; START TRANSACTION, COMMIT, ROLLBACK,
+
+\item {} 
+\sphinxAtStartPar
+PostgreSQL \sphinxhyphen{} silne wsparcie ACID, zaawansowana izolacja (REPEATABLE READ, SERIALIZABLE),
+
+\item {} 
+\sphinxAtStartPar
+SQLite \sphinxhyphen{} transakcje działają w trybie plikowym; BEGIN, COMMIT i ROLLBACK są wspierane,
+
+\item {} 
+\sphinxAtStartPar
+SQL Server \sphinxhyphen{} zaawansowany mechanizm transakcji z kontrolą poziomów izolacji, także eksplicytny SAVEPOINT.
+
+\end{itemize}
+
+
+\subsection{Literatura}
+\label{\detokenize{rozdzial2/Kontrola_i_konserwacja/kontrola_i_konserwacja:literatura}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxhref{https://www.postgresql.org/docs/current/index.html}{Oficjalna dokumentacja PostgreSQL}
+
+\item {} 
+\sphinxAtStartPar
+Riggs S., Krosing H., PostgreSQL. Receptury dla administratora, Helion 2011
+
+\item {} 
+\sphinxAtStartPar
+Matthew N., Stones R., Beginning Databases with PostgreSQL. From Novice to Professional, Apress 2006
+
+\item {} 
+\sphinxAtStartPar
+Juba S., Vannahme A., Volkov A., Learning PostgreSQL, Packt Publishing 2015
+
+\end{itemize}
+
+\sphinxstepscope
+
+
+\section{Partycjonowanie danych w PostgreSQL \textendash{} analiza, typy, zastosowania i dobre praktyki}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:partycjonowanie-danych-w-postgresql-analiza-typy-zastosowania-i-dobre-praktyki}}\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie::doc}}\begin{quote}\begin{description}
+\sphinxlineitem{Autor}
+\sphinxAtStartPar
+Bartosz Potoczny
+
+\sphinxlineitem{Data}
+\sphinxAtStartPar
+2025\sphinxhyphen{}06\sphinxhyphen{}12
+
+\end{description}\end{quote}
+
+
+\subsection{Streszczenie}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:streszczenie}}
+\sphinxAtStartPar
+Celem niniejszego sprawozdania jest kompleksowa analiza zagadnienia partycjonowania danych w systemie zarządzania relacyjną bazą danych PostgreSQL. Praca omawia teoretyczne podstawy partycjonowania, szczegółowo wyjaśnia wszystkie dostępne mechanizmy oraz przedstawia metody realizacji partycjonowania w praktyce. Zaprezentowano również typowe scenariusze użycia, narzędzia monitorowania oraz najlepsze praktyki projektowe. Całość przeanalizowano pod kątem wydajności, utrzymania i bezpieczeństwa danych.
+
+
+\subsection{1. Wprowadzenie}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:wprowadzenie}}
+\sphinxAtStartPar
+Współczesne systemy informatyczne generują i przetwarzają coraz większe ilości danych, co wymusza stosowanie zaawansowanych mechanizmów optymalizacji przechowywania i dostępu do informacji. Partycjonowanie danych jest jedną z kluczowych technik pozwalających na poprawę wydajności, skalowalności i zarządzalności baz danych. PostgreSQL, jako zaawansowany system zarządzania relacyjną bazą danych (RDBMS), oferuje rozbudowane wsparcie dla partycjonowania, umożliwiając dostosowanie architektury bazy do indywidualnych potrzeb.
+
+
+\subsection{2. Definicja i cel partycjonowania}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:definicja-i-cel-partycjonowania}}
+\sphinxAtStartPar
+Partycjonowanie polega na logicznym podziale dużej tabeli na mniejsze, łatwiejsze w zarządzaniu fragmenty zwane partycjami. Mimo fizycznego rozdzielenia, partycje są prezentowane użytkownikowi jako jedna wspólna tabela nadrzędna (ang. partitioned table, master table). Celem partycjonowania jest:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Zwiększenie wydajności operacji SELECT, INSERT, UPDATE, DELETE poprzez ograniczenie zakresu danych do przeszukania (partition pruning).
+
+\item {} 
+\sphinxAtStartPar
+Ułatwienie zarządzania i archiwizacji danych (np. szybkie usuwanie lub przenoszenie całych partycji).
+
+\item {} 
+\sphinxAtStartPar
+Lepsze rozłożenie obciążenia (możliwość przechowywania partycji na różnych dyskach/tablespaces).
+
+\item {} 
+\sphinxAtStartPar
+Zmniejszenie ryzyka zablokowania całej tabeli podczas operacji konserwacyjnych (VACUUM, REINDEX itp.).
+
+\end{itemize}
+
+
+\subsection{3. Modele i typy partycjonowania w PostgreSQL}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:modele-i-typy-partycjonowania-w-postgresql}}
+\sphinxAtStartPar
+PostgreSQL obsługuje trzy podstawowe typy partycjonowania:
+
+\sphinxAtStartPar
+\#\#\# 3.1 Partycjonowanie zakresowe (RANGE)
+
+\sphinxAtStartPar
+Dane są przypisywane do partycji na podstawie wartości mieszczącej się w określonym zakresie (np. daty, numery, id). Każda partycja odpowiada innemu przedziałowi.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{events}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{    }\PYG{n}{event\PYGZus{}id}\PYG{+w}{ }\PYG{n+nb}{serial}\PYG{+w}{ }\PYG{k}{PRIMARY}\PYG{+w}{ }\PYG{k}{KEY}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{event\PYGZus{}date}\PYG{+w}{ }\PYG{n+nb}{date}\PYG{+w}{ }\PYG{k}{NOT}\PYG{+w}{ }\PYG{k}{NULL}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{description}\PYG{+w}{ }\PYG{n+nb}{text}
+\PYG{p}{)}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{RANGE}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{event\PYGZus{}date}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{events\PYGZus{}2023}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{events}
+\PYG{+w}{    }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2023\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{TO}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2024\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{events\PYGZus{}2024}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{events}
+\PYG{+w}{    }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2024\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{TO}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2025\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Zastosowania:} logi systemowe, zamówienia, dane czasowe.
+
+\sphinxAtStartPar
+\#\#\# 3.2 Partycjonowanie listowe (LIST)
+
+\sphinxAtStartPar
+Dane są przypisywane do partycji na podstawie konkretnej wartości z listy (np. kraj, status, kategoria).
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{sales}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{    }\PYG{n}{sale\PYGZus{}id}\PYG{+w}{ }\PYG{n+nb}{serial}\PYG{+w}{ }\PYG{k}{PRIMARY}\PYG{+w}{ }\PYG{k}{KEY}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{country}\PYG{+w}{ }\PYG{n+nb}{text}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{value}\PYG{+w}{ }\PYG{n+nb}{numeric}
+\PYG{p}{)}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{LIST}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{country}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{sales\PYGZus{}pl}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{sales}\PYG{+w}{ }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{IN}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Poland\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{sales\PYGZus{}de}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{sales}\PYG{+w}{ }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{IN}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Germany\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{sales\PYGZus{}other}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{sales}\PYG{+w}{ }\PYG{k}{DEFAULT}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Zastosowania:} dane geograficzne, statusowe, podział według typu klienta.
+
+\sphinxAtStartPar
+\#\#\# 3.3 Partycjonowanie haszowe (HASH)
+
+\sphinxAtStartPar
+Dane są rozdzielane pomiędzy partycje na podstawie funkcji haszującej zastosowanej do wybranej kolumny. Pozwala to równomiernie rozłożyć dane, gdy nie ma logicznego podziału zakresowego ani listowego.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{logs}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{    }\PYG{n}{log\PYGZus{}id}\PYG{+w}{ }\PYG{n+nb}{serial}\PYG{+w}{ }\PYG{k}{PRIMARY}\PYG{+w}{ }\PYG{k}{KEY}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{user\PYGZus{}id}\PYG{+w}{ }\PYG{n+nb}{int}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{log\PYGZus{}time}\PYG{+w}{ }\PYG{k}{timestamp}
+\PYG{p}{)}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{HASH}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{user\PYGZus{}id}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{logs\PYGZus{}p0}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{logs}\PYG{+w}{ }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{WITH}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{MODULUS}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{REMAINDER}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{p}{;}
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{logs\PYGZus{}p1}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{logs}\PYG{+w}{ }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{WITH}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{MODULUS}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{REMAINDER}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{p}{;}
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{logs\PYGZus{}p2}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{logs}\PYG{+w}{ }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{WITH}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{MODULUS}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{REMAINDER}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{p}{;}
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{logs\PYGZus{}p3}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{logs}\PYG{+w}{ }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{WITH}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{MODULUS}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{REMAINDER}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Zastosowania:} przypadki wymagające równomiernego rozłożenia danych, np. duże systemy telemetryczne.
+
+\sphinxAtStartPar
+\#\#\# 3.4 Partycjonowanie wielopoziomowe (Composite/Hierarchical Partitioning)
+
+\sphinxAtStartPar
+PostgreSQL umożliwia tworzenie partycji podrzędnych, czyli partycjonowanie już partycjonowanych tabel (tzw. subpartitioning).
+
+\sphinxAtStartPar
+\sphinxstylestrong{Przykład:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{measurements}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{    }\PYG{n}{id}\PYG{+w}{ }\PYG{n+nb}{serial}\PYG{+w}{ }\PYG{k}{PRIMARY}\PYG{+w}{ }\PYG{k}{KEY}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{region}\PYG{+w}{ }\PYG{n+nb}{text}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{measurement\PYGZus{}date}\PYG{+w}{ }\PYG{n+nb}{date}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{value}\PYG{+w}{ }\PYG{n+nb}{numeric}
+\PYG{p}{)}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{LIST}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{region}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{measurements\PYGZus{}europe}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{measurements}
+\PYG{+w}{    }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{IN}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}Europe\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{RANGE}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{measurement\PYGZus{}date}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{measurements\PYGZus{}europe\PYGZus{}2024}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{measurements\PYGZus{}europe}
+\PYG{+w}{    }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2024\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{TO}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2025\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Zastosowania:} bardzo duże tabele, złożona struktura danych (np. po regionie i dacie).
+
+
+\subsection{4. Implementacja partycjonowania w praktyce}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:implementacja-partycjonowania-w-praktyce}}
+\sphinxAtStartPar
+\#\#\# 4.1 Tworzenie i zarządzanie partycjami
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Tworzenie partycji:} Partycje tworzone są jako osobne tabele, ale zarządzane przez tabelę nadrzędną.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Dodawanie partycji:} Możliwe w dowolnym momencie przy użyciu CREATE TABLE … PARTITION OF.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Usuwanie partycji:} ALTER TABLE … DETACH PARTITION + DROP TABLE (po odłączeniu partycji).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Domyślna partycja:} Można zdefiniować partycję przechowującą dane niepasujące do żadnej innej (DEFAULT).
+
+\end{itemize}
+
+\sphinxAtStartPar
+\#\#\# 4.2 Wstawianie i odczyt danych
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Dane są automatycznie kierowane do właściwej partycji na podstawie klucza partycjonowania.
+
+\item {} 
+\sphinxAtStartPar
+W przypadku braku pasującej partycji (i braku DEFAULT) \textendash{} błąd constraint violation.
+
+\item {} 
+\sphinxAtStartPar
+Zapytania ograniczone do klucza partycjonowania korzystają z partition pruning \textendash{} przeszukują tylko wybrane partycje.
+
+\end{itemize}
+
+\sphinxAtStartPar
+\#\#\# 4.3 Indeksowanie partycji
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Możliwe jest tworzenie indeksów na każdej partycji osobno lub dziedziczenie indeksów z tabeli nadrzędnej (od PostgreSQL 11 wzwyż).
+
+\item {} 
+\sphinxAtStartPar
+Indeksy globalne (na całą tabelę partycjonowaną) nie są jeszcze dostępne (stan na 2025).
+
+\end{itemize}
+
+\sphinxAtStartPar
+\#\#\# 4.4 Ograniczenia partycjonowania
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Klucz partycjonowania musi być częścią klucza głównego (PRIMARY KEY).
+
+\item {} 
+\sphinxAtStartPar
+Niektóre operacje mogą wymagać wykonywania osobno na każdej partycji (np. VACUUM, REINDEX).
+
+\item {} 
+\sphinxAtStartPar
+Wersje PostgreSQL \textless{}10 obsługują partycjonowanie tylko przez dziedziczenie \textendash{} obecnie uznawane za przestarzałe.
+
+\end{itemize}
+
+
+\subsection{5. Monitorowanie i administracja}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:monitorowanie-i-administracja}}
+\sphinxAtStartPar
+\#\#\# 5.1 Sprawdzanie rozmieszczenia danych
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{tableoid}\PYG{p}{:}\PYG{p}{:}\PYG{n}{regclass}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{partition}\PYG{p}{,}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{measurements}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\#\#\# 5.2 Lista partycji
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{inhrelid}\PYG{p}{:}\PYG{p}{:}\PYG{n}{regclass}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{n}{partition}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{pg\PYGZus{}inherits}
+\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{inhparent}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}measurements\PYGZsq{}}\PYG{p}{:}\PYG{p}{:}\PYG{n}{regclass}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\#\#\# 5.3 Rozmiar partycji
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{relname}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{l+s+ss}{\PYGZdq{}Partition\PYGZdq{}}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{pg\PYGZus{}size\PYGZus{}pretty}\PYG{p}{(}\PYG{n}{pg\PYGZus{}total\PYGZus{}relation\PYGZus{}size}\PYG{p}{(}\PYG{n}{relid}\PYG{p}{)}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{AS}\PYG{+w}{ }\PYG{l+s+ss}{\PYGZdq{}Size\PYGZdq{}}
+\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{pg\PYGZus{}catalog}\PYG{p}{.}\PYG{n}{pg\PYGZus{}statio\PYGZus{}user\PYGZus{}tables}
+\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{relname}\PYG{+w}{ }\PYG{k}{LIKE}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}measurements\PYGZpc{}\PYGZsq{}}
+\PYG{k}{ORDER}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{pg\PYGZus{}total\PYGZus{}relation\PYGZus{}size}\PYG{p}{(}\PYG{n}{relid}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{DESC}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\#\#\# 5.4 Analiza planu zapytania (partition pruning)
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{EXPLAIN}\PYG{+w}{ }\PYG{k}{ANALYZE}
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{o}{*}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{measurements}\PYG{+w}{ }\PYG{k}{WHERE}\PYG{+w}{ }\PYG{n}{region}\PYG{+w}{ }\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}Europe\PYGZsq{}}\PYG{+w}{ }\PYG{k}{AND}\PYG{+w}{ }\PYG{n}{measurement\PYGZus{}date}\PYG{+w}{ }\PYG{o}{\PYGZgt{}}\PYG{o}{=}\PYG{+w}{ }\PYG{l+s+s1}{\PYGZsq{}2024\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{;}
+
+\PYG{c+c1}{\PYGZhy{}\PYGZhy{} W planie widać użycie tylko właściwych partycji.}
+\end{sphinxVerbatim}
+
+
+\subsection{6. Typowe scenariusze zastosowań}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:typowe-scenariusze-zastosowan}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Przetwarzanie danych czasowych:} partycjonowanie zakresowe po dacie (logi, zamówienia, pomiary).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Dane geograficzne lub kategoryczne:} partycjonowanie listowe (kraj, region, kategoria produktu).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Systemy telemetryczne i IoT:} partycjonowanie haszowe lub wielopoziomowe (np. urządzenie + czas).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Duże systemy ERP/CRM:} partycjonowanie po kliencie, regionie, a następnie po dacie.
+
+\end{itemize}
+
+
+\subsection{7. Dobre praktyki projektowania partycji}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:dobre-praktyki-projektowania-partycji}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Dobór klucza partycjonowania:} Powinien odpowiadać najczęściej używanym warunkom w zapytaniach WHERE.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Optymalna liczba partycji:} Zbyt mała liczba partycji nie daje efektu, zbyt duża zwiększa narzut administracyjny.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Automatyzacja tworzenia partycji:} Skrypty lub narzędzia generujące nowe partycje np. na kolejne miesiące/lata.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Monitorowanie wydajności:} Regularne sprawdzanie rozmiarów partycji, statystyk oraz planów wykonania zapytań.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Bezpieczeństwo danych:} Możliwość szybkiego backupu lub usunięcia starych partycji.
+
+\end{itemize}
+
+
+\subsection{8. Ograniczenia i potencjalne problemy}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:ograniczenia-i-potencjalne-problemy}}\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+Brak natywnych indeksów globalnych (stan na 2025) utrudnia niektóre zapytania przekrojowe.
+
+\item {} 
+\sphinxAtStartPar
+Operacje DDL na tabeli nadrzędnej mogą być kosztowne przy dużej liczbie partycji.
+
+\item {} 
+\sphinxAtStartPar
+Niektóre narzędzia zewnętrzne mogą nie obsługiwać partycji w pełni transparentnie.
+
+\item {} 
+\sphinxAtStartPar
+Przenoszenie danych między partycjami wymaga operacji INSERT + DELETE lub narzędzi specjalistycznych.
+
+\end{itemize}
+
+
+\subsection{9. Podsumowanie i wnioski}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:podsumowanie-i-wnioski}}
+\sphinxAtStartPar
+Partycjonowanie danych w PostgreSQL jest zaawansowanym i elastycznym narzędziem, pozwalającym na istotną poprawę wydajności oraz ułatwiającym zarządzanie dużymi zbiorami danych. Właściwy dobór typu partycjonowania, klucza oraz liczby i organizacji partycji wymaga analizy charakterystyki danych i typowych zapytań. Zaleca się regularne monitorowanie i dostosowywanie architektury partycjonowania, zwłaszcza w przypadku dynamicznie rosnących zbiorów danych.
+
+
+\subsection{10. Krótkie porównanie partycjonowania w PostgreSQL i innych systemach bazodanowych}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:krotkie-porownanie-partycjonowania-w-postgresql-i-innych-systemach-bazodanowych}}
+\sphinxAtStartPar
+Partycjonowanie danych jest wspierane przez większość nowoczesnych systemów baz danych, jednak szczegóły implementacji i dostępne możliwości mogą się różnić:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{PostgreSQL:}
+Umożliwia partycjonowanie zakresowe, listowe, haszowe oraz wielopoziomowe (od wersji 10). Partycje są w pełni zintegrowane z silnikiem (od wersji 10), a operacje na partycjonowanych tabelach są transparentne dla użytkownika. Nie obsługuje jeszcze natywnych indeksów globalnych (stan na 2025).
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Oracle Database:}
+Bardzo rozbudowane opcje partycjonowania (RANGE, LIST, HASH, COMPOSITE), obsługuje indeksy lokalne i globalne, automatyczne zarządzanie partycjami, także partycjonowanie na poziomie fizycznym (np. partycjonowanie indeksów, tabel LOB). Mechanizmy zaawansowane, ale często dostępne tylko w płatnych edycjach.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{MySQL (InnoDB):}
+Wspiera partycjonowanie RANGE, LIST, HASH, KEY. Możliwości są jednak bardziej ograniczone niż w PostgreSQL czy Oracle. Nie wszystkie operacje i typy indeksów są wspierane na partycjonowanych tabelach.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Microsoft SQL Server:}
+Umożliwia partycjonowanie tabel i indeksów przy użyciu tzw. partition schemes i partition functions. Pozwala na łatwe przenoszenie partycji oraz obsługuje indeksy globalne, co ułatwia optymalizację zapytań przekrojowych.
+
+\end{itemize}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Podsumowanie:}
+PostgreSQL oferuje bardzo elastyczne i wydajne partycjonowanie, jednak niektóre zaawansowane funkcje (np. partycjonowanie indeksów globalnych) są jeszcze w fazie rozwoju, podczas gdy w Oracle czy SQL Server są już dojrzałymi rozwiązaniami.
+
+
+\subsection{11. Przykład migracji niepartyconowanej tabeli na partycjonowaną}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:przyklad-migracji-niepartyconowanej-tabeli-na-partycjonowana}}
+\sphinxAtStartPar
+Migracja istniejącej tabeli na partycjonowaną w PostgreSQL wymaga kilku kroków. Oto przykładowy proces dla tabeli \sphinxcode{\sphinxupquote{orders}}:
+
+\sphinxAtStartPar
+\sphinxstylestrong{Załóżmy, że mamy tabelę:}
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{orders}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{    }\PYG{n}{id}\PYG{+w}{ }\PYG{n+nb}{serial}\PYG{+w}{ }\PYG{k}{PRIMARY}\PYG{+w}{ }\PYG{k}{KEY}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{order\PYGZus{}date}\PYG{+w}{ }\PYG{n+nb}{date}\PYG{+w}{ }\PYG{k}{NOT}\PYG{+w}{ }\PYG{k}{NULL}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{customer\PYGZus{}id}\PYG{+w}{ }\PYG{n+nb}{int}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{amount}\PYG{+w}{ }\PYG{n+nb}{numeric}
+\PYG{p}{)}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Chcemy ją partycjonować po kolumnie \textasciigrave{}\textasciigrave{}order\_date\textasciigrave{}\textasciigrave{} (zakresy roczne):}
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+Zmień nazwę oryginalnej tabeli:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{ALTER}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{orders}\PYG{+w}{ }\PYG{k}{RENAME}\PYG{+w}{ }\PYG{k}{TO}\PYG{+w}{ }\PYG{n}{orders\PYGZus{}old}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\item {} 
+\sphinxAtStartPar
+Utwórz nową tabelę partycjonowaną:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{orders}\PYG{+w}{ }\PYG{p}{(}
+\PYG{+w}{    }\PYG{n}{id}\PYG{+w}{ }\PYG{n+nb}{serial}\PYG{+w}{ }\PYG{k}{PRIMARY}\PYG{+w}{ }\PYG{k}{KEY}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{order\PYGZus{}date}\PYG{+w}{ }\PYG{n+nb}{date}\PYG{+w}{ }\PYG{k}{NOT}\PYG{+w}{ }\PYG{k}{NULL}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{customer\PYGZus{}id}\PYG{+w}{ }\PYG{n+nb}{int}\PYG{p}{,}
+\PYG{+w}{    }\PYG{n}{amount}\PYG{+w}{ }\PYG{n+nb}{numeric}
+\PYG{p}{)}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{RANGE}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{order\PYGZus{}date}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{orders\PYGZus{}2023}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{orders}
+\PYG{+w}{    }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2023\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{TO}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2024\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
+
+\PYG{k}{CREATE}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{orders\PYGZus{}2024}\PYG{+w}{ }\PYG{n}{PARTITION}\PYG{+w}{ }\PYG{k}{OF}\PYG{+w}{ }\PYG{n}{orders}
+\PYG{+w}{    }\PYG{k}{FOR}\PYG{+w}{ }\PYG{k}{VALUES}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2024\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{TO}\PYG{+w}{ }\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}2025\PYGZhy{}01\PYGZhy{}01\PYGZsq{}}\PYG{p}{)}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\item {} 
+\sphinxAtStartPar
+Skopiuj dane do partycji:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{INSERT}\PYG{+w}{ }\PYG{k}{INTO}\PYG{+w}{ }\PYG{n}{orders}\PYG{+w}{ }\PYG{p}{(}\PYG{n}{id}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{order\PYGZus{}date}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{customer\PYGZus{}id}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{amount}\PYG{p}{)}
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{id}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{order\PYGZus{}date}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{customer\PYGZus{}id}\PYG{p}{,}\PYG{+w}{ }\PYG{n}{amount}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{orders\PYGZus{}old}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\item {} 
+\sphinxAtStartPar
+Sprawdź, czy dane zostały poprawnie rozdzielone:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{SELECT}\PYG{+w}{ }\PYG{n}{tableoid}\PYG{p}{:}\PYG{p}{:}\PYG{n}{regclass}\PYG{p}{,}\PYG{+w}{ }\PYG{k}{COUNT}\PYG{p}{(}\PYG{o}{*}\PYG{p}{)}\PYG{+w}{ }\PYG{k}{FROM}\PYG{+w}{ }\PYG{n}{orders}\PYG{+w}{ }\PYG{k}{GROUP}\PYG{+w}{ }\PYG{k}{BY}\PYG{+w}{ }\PYG{n}{tableoid}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\item {} 
+\sphinxAtStartPar
+Usuń starą tabelę po upewnieniu się, że wszystko działa:
+
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k}{DROP}\PYG{+w}{ }\PYG{k}{TABLE}\PYG{+w}{ }\PYG{n}{orders\PYGZus{}old}\PYG{p}{;}
+\end{sphinxVerbatim}
+
+\end{enumerate}
+
+\sphinxAtStartPar
+Można też użyć narzędzi automatyzujących migracje (np. pg\_partman), jeśli tabel jest bardzo dużo lub są bardzo duże.
+
+
+\subsection{12. Bibliografia}
+\label{\detokenize{rozdzial2/Partycjonowanie-danych/source/Partycjonowanie:bibliografia}}\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+Dokumentacja PostgreSQL: \sphinxurl{https://www.postgresql.org/docs/current/ddl-partitioning.html}
+
+\item {} 
+\sphinxAtStartPar
+„PostgreSQL. Zaawansowane techniki programistyczne”, Grzegorz Wójtowicz, Helion 2021
+
+\item {} 
+\sphinxAtStartPar
+\sphinxurl{https://wiki.postgresql.org/wiki/Partitioning}
+
+\item {} 
+\sphinxAtStartPar
+Oficjalny blog PostgreSQL: \sphinxurl{https://www.postgresql.org/about/news/}
+
+\end{enumerate}
 
 \sphinxstepscope
 
@@ -408,23 +3418,458 @@ W tym rozdziale przeprowadzono analizę kluczowych niefunkcjonalnych aspektów z
 \label{\detokenize{rozdzial4/rozdzial4:analiza-normalizacji}}
 \sphinxAtStartPar
 Normalizacja jest procesem projektowania schematu bazy danych w celu zminimalizowania redundancji danych i wyeliminowania niepożądanych charakterystyk, takich jak anomalie wstawiania, aktualizacji i usuwania. Zaproponowany schemat jest zgodny z \sphinxstylestrong{trzecią postacią normalną (3NF)}.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Zaczynamy od: jednej dużej tabeli (czyli dane nie są jeszcze uporządkowane)}
+
+\sphinxAtStartPar
+Wyobraźmy sobie, że wszystko zapisujemy w jednej tabeli \sphinxtitleref{Rejestr\_Silowni}.
+
+
+\begin{savenotes}\sphinxattablestart
+\sphinxthistablewithglobalstyle
+\centering
+\sphinxcapstartof{table}
+\sphinxthecaptionisattop
+\sphinxcaption{Przykład nieuporządkowanej tabeli (\sphinxtitleref{Rejestr\_Silowni})}\label{\detokenize{rozdzial4/rozdzial4:id1}}
+\sphinxaftertopcaption
+\begin{tabular}[t]{\X{15}{105}\X{15}{105}\X{20}{105}\X{15}{105}\X{15}{105}\X{25}{105}}
+\sphinxtoprule
+\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Imie\_Klienta
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Nazwisko\_Klienta
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Email\_Klienta
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Typ\_Karnetu
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Cena\_Karnetu
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Daty\_Wejsc
+\\
+\sphinxmidrule
+\sphinxtableatstartofbodyhook
+\sphinxAtStartPar
+Jan
+&
+\sphinxAtStartPar
+Kowalski
+&
+\sphinxAtStartPar
+\sphinxhref{mailto:jan.kowalski@ex.com}{jan.kowalski@ex.com}
+&
+\sphinxAtStartPar
+miesieczny
+&
+\sphinxAtStartPar
+120.00
+&
+\sphinxAtStartPar
+«2025\sphinxhyphen{}07\sphinxhyphen{}02, 2025\sphinxhyphen{}07\sphinxhyphen{}05»
+\\
+\sphinxhline
+\sphinxAtStartPar
+Anna
+&
+\sphinxAtStartPar
+Nowak
+&
+\sphinxAtStartPar
+\sphinxhref{mailto:anna.nowak@ex.com}{anna.nowak@ex.com}
+&
+\sphinxAtStartPar
+polroczny
+&
+\sphinxAtStartPar
+500.00
+&
+\sphinxAtStartPar
+«2025\sphinxhyphen{}07\sphinxhyphen{}03»
+\\
+\sphinxhline
+\sphinxAtStartPar
+Jan
+&
+\sphinxAtStartPar
+Kowalski
+&
+\sphinxAtStartPar
+\sphinxhref{mailto:jan.kowalski@ex.com}{jan.kowalski@ex.com}
+&
+\sphinxAtStartPar
+trzymiesieczny
+&
+\sphinxAtStartPar
+300.00
+&
+\sphinxAtStartPar
+«2025\sphinxhyphen{}08\sphinxhyphen{}01, 2025\sphinxhyphen{}08\sphinxhyphen{}04»
+\\
+\sphinxbottomrule
+\end{tabular}
+\sphinxtableafterendhook\par
+\sphinxattableend\end{savenotes}
+
+\sphinxAtStartPar
+Problemy z taką tabelą:
 \begin{itemize}
 \item {} 
 \sphinxAtStartPar
-\sphinxstylestrong{Zgodność z 1NF:} Każda tabela posiada klucz główny, a wszystkie atrybuty zawierają wartości atomowe (niepodzielne).
+\sphinxstylestrong{Nie można dodać klienta}, jeśli jeszcze nic nie kupił.
 
 \item {} 
 \sphinxAtStartPar
-\sphinxstylestrong{Zgodność z 2NF:} Schemat spełnia drugą postać normalną, ponieważ wszystkie klucze główne są kluczami prostymi (jednokolumnowymi), co automatycznie eliminuje problem częściowych zależności funkcyjnych.
+\sphinxstylestrong{Usunięcie jednego wejścia} może przypadkiem usunąć dane o kliencie.
 
 \item {} 
 \sphinxAtStartPar
-\sphinxstylestrong{Zgodność z 3NF:} W schemacie nie występują zależności przechodnie. Żaden atrybut niekluczowy nie jest funkcyjnie zależny od innego atrybutu niekluczowego. Na przykład, w tabeli \sphinxtitleref{Karnety}, atrybut \sphinxtitleref{cena} jest bezpośrednio zależny od klucza \sphinxtitleref{karnet\_id}. Nie ma zależności \sphinxtitleref{karnet\_id \sphinxhyphen{}\textgreater{} typ\_karnetu \sphinxhyphen{}\textgreater{} cena}, ponieważ cena jest zapisywana w momencie transakcji, co jest celowym zabiegiem denormalizacyjnym w celu archiwizacji danych historycznych i uodpornienia na zmiany cennika. Gdyby cena była zależna od typu karnetu, należałoby stworzyć osobną tabelę \sphinxtitleref{Cennik}, a w tabeli \sphinxtitleref{Karnety} przechowywać jedynie klucz obcy do niej.
+\sphinxstylestrong{Zmiana adresu e\sphinxhyphen{}mail} klienta wymaga edytowania kilku wierszy.
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Dużo powtarzających się danych} — np. Jan Kowalski występuje kilka razy.
 
 \end{itemize}
 
 \sphinxAtStartPar
-\sphinxstylestrong{Wnioski:} Osiągnięty poziom normalizacji zapewnia wysoką integralność danych i elastyczność schematu, jednocześnie zachowując prostotę i zrozumiałość modelu.
+\sphinxstylestrong{Krok 1: Pierwsza postać normalna (1NF)}
+
+\sphinxAtStartPar
+Tabela jest w 1NF, jeśli nie ma list w kolumnach — każda komórka ma jedną wartość.
+
+\sphinxAtStartPar
+U nas kolumna \sphinxtitleref{Daty\_Wejsc} zawiera listy. Rozbijmy to:
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+Tworzymy tabelę \sphinxtitleref{Klienci\_Karnety} — każdy karnet to osobny wiersz.
+
+\item {} 
+\sphinxAtStartPar
+Tworzymy tabelę \sphinxtitleref{Wejscia}, gdzie każde wejście to jeden rekord.
+
+\end{enumerate}
+
+
+\begin{savenotes}\sphinxattablestart
+\sphinxthistablewithglobalstyle
+\centering
+\sphinxcapstartof{table}
+\sphinxthecaptionisattop
+\sphinxcaption{Tabela \sphinxtitleref{Klienci\_Karnety} (po 1NF)}\label{\detokenize{rozdzial4/rozdzial4:id2}}
+\sphinxaftertopcaption
+\begin{tabular}[t]{\X{15}{90}\X{20}{90}\X{20}{90}\X{20}{90}\X{15}{90}}
+\sphinxtoprule
+\sphinxstyletheadfamily 
+\sphinxAtStartPar
+KarnetID
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Imie\_Klienta
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Nazwisko\_Klienta
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Email\_Klienta
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Typ\_Karnetu
+\\
+\sphinxmidrule
+\sphinxtableatstartofbodyhook
+\sphinxAtStartPar
+1
+&
+\sphinxAtStartPar
+Jan
+&
+\sphinxAtStartPar
+Kowalski
+&
+\sphinxAtStartPar
+\sphinxhref{mailto:jan.kowalski@ex.com}{jan.kowalski@ex.com}
+&
+\sphinxAtStartPar
+miesieczny
+\\
+\sphinxhline
+\sphinxAtStartPar
+2
+&
+\sphinxAtStartPar
+Anna
+&
+\sphinxAtStartPar
+Nowak
+&
+\sphinxAtStartPar
+\sphinxhref{mailto:anna.nowak@ex.com}{anna.nowak@ex.com}
+&
+\sphinxAtStartPar
+polroczny
+\\
+\sphinxhline
+\sphinxAtStartPar
+3
+&
+\sphinxAtStartPar
+Jan
+&
+\sphinxAtStartPar
+Kowalski
+&
+\sphinxAtStartPar
+\sphinxhref{mailto:jan.kowalski@ex.com}{jan.kowalski@ex.com}
+&
+\sphinxAtStartPar
+trzymiesieczny
+\\
+\sphinxbottomrule
+\end{tabular}
+\sphinxtableafterendhook\par
+\sphinxattableend\end{savenotes}
+
+
+\begin{savenotes}\sphinxattablestart
+\sphinxthistablewithglobalstyle
+\centering
+\sphinxcapstartof{table}
+\sphinxthecaptionisattop
+\sphinxcaption{Tabela \sphinxtitleref{Wejscia} (po 1NF)}\label{\detokenize{rozdzial4/rozdzial4:id3}}
+\sphinxaftertopcaption
+\begin{tabular}[t]{\X{25}{50}\X{25}{50}}
+\sphinxtoprule
+\sphinxstyletheadfamily 
+\sphinxAtStartPar
+KarnetID\_FK
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Data\_Wejscia
+\\
+\sphinxmidrule
+\sphinxtableatstartofbodyhook
+\sphinxAtStartPar
+1
+&
+\sphinxAtStartPar
+2025\sphinxhyphen{}07\sphinxhyphen{}02
+\\
+\sphinxhline
+\sphinxAtStartPar
+1
+&
+\sphinxAtStartPar
+2025\sphinxhyphen{}07\sphinxhyphen{}05
+\\
+\sphinxhline
+\sphinxAtStartPar
+2
+&
+\sphinxAtStartPar
+2025\sphinxhyphen{}07\sphinxhyphen{}03
+\\
+\sphinxhline
+\sphinxAtStartPar
+3
+&
+\sphinxAtStartPar
+2025\sphinxhyphen{}08\sphinxhyphen{}01
+\\
+\sphinxhline
+\sphinxAtStartPar
+3
+&
+\sphinxAtStartPar
+2025\sphinxhyphen{}08\sphinxhyphen{}04
+\\
+\sphinxbottomrule
+\end{tabular}
+\sphinxtableafterendhook\par
+\sphinxattableend\end{savenotes}
+
+\sphinxAtStartPar
+\sphinxstylestrong{Problem:} Nadal mamy powtarzające się dane o klientach w \sphinxtitleref{Klienci\_Karnety}.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Krok 2: Druga postać normalna (2NF)}
+
+\sphinxAtStartPar
+W 2NF dane powinny zależeć od całego klucza głównego, a nie tylko części.
+
+\sphinxAtStartPar
+W naszej tabeli \sphinxtitleref{Klienci\_Karnety} dane o kliencie nie zależą od \sphinxtitleref{KarnetID}, tylko od klienta. Trzeba to rozdzielić:
+\begin{enumerate}
+\sphinxsetlistlabels{\arabic}{enumi}{enumii}{}{.}%
+\item {} 
+\sphinxAtStartPar
+Tworzymy tabelę \sphinxtitleref{Klienci} z unikalnym ID.
+
+\item {} 
+\sphinxAtStartPar
+W tabeli \sphinxtitleref{Karnety} trzymamy tylko typ karnetu i odwołanie do klienta.
+
+\end{enumerate}
+
+
+\begin{savenotes}\sphinxattablestart
+\sphinxthistablewithglobalstyle
+\centering
+\sphinxcapstartof{table}
+\sphinxthecaptionisattop
+\sphinxcaption{Tabela \sphinxtitleref{Klienci} (po 2NF)}\label{\detokenize{rozdzial4/rozdzial4:id4}}
+\sphinxaftertopcaption
+\begin{tabular}[t]{\X{20}{100}\X{25}{100}\X{25}{100}\X{30}{100}}
+\sphinxtoprule
+\sphinxstyletheadfamily 
+\sphinxAtStartPar
+KlientID
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Imie
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Nazwisko
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Email
+\\
+\sphinxmidrule
+\sphinxtableatstartofbodyhook
+\sphinxAtStartPar
+101
+&
+\sphinxAtStartPar
+Jan
+&
+\sphinxAtStartPar
+Kowalski
+&
+\sphinxAtStartPar
+\sphinxhref{mailto:jan.kowalski@ex.com}{jan.kowalski@ex.com}
+\\
+\sphinxhline
+\sphinxAtStartPar
+102
+&
+\sphinxAtStartPar
+Anna
+&
+\sphinxAtStartPar
+Nowak
+&
+\sphinxAtStartPar
+\sphinxhref{mailto:anna.nowak@ex.com}{anna.nowak@ex.com}
+\\
+\sphinxbottomrule
+\end{tabular}
+\sphinxtableafterendhook\par
+\sphinxattableend\end{savenotes}
+
+
+\begin{savenotes}\sphinxattablestart
+\sphinxthistablewithglobalstyle
+\centering
+\sphinxcapstartof{table}
+\sphinxthecaptionisattop
+\sphinxcaption{Tabela \sphinxtitleref{Karnety} (po 2NF)}\label{\detokenize{rozdzial4/rozdzial4:id5}}
+\sphinxaftertopcaption
+\begin{tabular}[t]{\X{25}{75}\X{25}{75}\X{25}{75}}
+\sphinxtoprule
+\sphinxstyletheadfamily 
+\sphinxAtStartPar
+KarnetID
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+KlientID\_FK
+&\sphinxstyletheadfamily 
+\sphinxAtStartPar
+Typ\_Karnetu
+\\
+\sphinxmidrule
+\sphinxtableatstartofbodyhook
+\sphinxAtStartPar
+1
+&
+\sphinxAtStartPar
+101
+&
+\sphinxAtStartPar
+miesieczny
+\\
+\sphinxhline
+\sphinxAtStartPar
+2
+&
+\sphinxAtStartPar
+102
+&
+\sphinxAtStartPar
+polroczny
+\\
+\sphinxhline
+\sphinxAtStartPar
+3
+&
+\sphinxAtStartPar
+101
+&
+\sphinxAtStartPar
+trzymiesieczny
+\\
+\sphinxbottomrule
+\end{tabular}
+\sphinxtableafterendhook\par
+\sphinxattableend\end{savenotes}
+
+\sphinxAtStartPar
+Tabela \sphinxtitleref{Wejscia} zostaje bez zmian, ale możemy też rozważyć, czy nie lepiej byłoby wiązać ją bezpośrednio z klientem.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Krok 3: Trzecia postać normalna (3NF)}
+
+\sphinxAtStartPar
+Tutaj chodzi o to, żeby dane nie zależały od innych danych niebędących kluczem.
+
+\sphinxAtStartPar
+Jeśli w \sphinxtitleref{Karnety} dodamy np. \sphinxtitleref{Cena}, która zależy od \sphinxtitleref{Typ\_Karnetu}, to mamy tzw. zależność przechodnią.
+
+\sphinxAtStartPar
+Zamiast tego możemy utworzyć tabelę \sphinxtitleref{Cennik} z kolumnami \sphinxtitleref{Typ\_Karnetu} i \sphinxtitleref{Cena}.
+
+\sphinxAtStartPar
+W naszym projekcie jednak \sphinxstylestrong{trzymamy cenę w tabeli \textasciigrave{}Karnety\textasciigrave{}}, ponieważ może się ona zmieniać w czasie — to celowe odstępstwo (denormalizacja), żeby zachować historię.
+
+\sphinxAtStartPar
+\sphinxstylestrong{Podsumowanie}
+
+\sphinxAtStartPar
+Zaczęliśmy od nieuporządkowanej tabeli, a skończyliśmy na trzech powiązanych:
+\begin{itemize}
+\item {} 
+\sphinxAtStartPar
+\sphinxtitleref{Klienci}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxtitleref{Karnety}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxtitleref{Wejscia}
+
+\end{itemize}
+
+\sphinxAtStartPar
+Dzięki temu dane nie powtarzają się, łatwo je edytować i są bezpieczne przed przypadkowymi błędami.
 
 
 \section{Analiza wydajności i indeksowanie}
@@ -517,11 +3962,8 @@ Brak uprawnień \sphinxtitleref{DELETE} i \sphinxtitleref{UPDATE} na większośc
 
 
 \section{Skrypty wspomagające}
-\label{\detokenize{rozdzial4/rozdzial4:skrypty-wspomagajace}}
-\sphinxAtStartPar
-Poniższy skrypt w Pythonie został rozszerzony o dodatkową funkcjonalność \sphinxhyphen{} wyszukiwanie klientów, którym wkrótce wygasa karnet, co może być użyteczne dla działu marketingu.
-\sphinxSetupCaptionForVerbatim{Zaawansowany skrypt do generowania raportów}
-\def\sphinxLiteralBlockLabel{\label{\detokenize{rozdzial4/rozdzial4:id1}}}
+\label{\detokenize{rozdzial4/rozdzial4:skrypty-wspomagajace}}\sphinxSetupCaptionForVerbatim{Skrypty w PostgreSQL}
+\def\sphinxLiteralBlockLabel{\label{\detokenize{rozdzial4/rozdzial4:id6}}}
 \begin{sphinxVerbatim}[commandchars=\\\{\}]
 \PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{psycopg2}
 \PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{datetime}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{date}\PYG{p}{,} \PYG{n}{timedelta}
@@ -545,6 +3987,104 @@ Poniższy skrypt w Pythonie został rozszerzony o dodatkową funkcjonalność \s
     \PYG{n}{data\PYGZus{}koncowa} \PYG{o}{=} \PYG{n}{dzis} \PYG{o}{+} \PYG{n}{timedelta}\PYG{p}{(}\PYG{n}{days}\PYG{o}{=}\PYG{n}{dni\PYGZus{}do\PYGZus{}konca}\PYG{p}{)}
     \PYG{n}{cur}\PYG{o}{.}\PYG{n}{execute}\PYG{p}{(}\PYG{n}{query}\PYG{p}{,} \PYG{p}{(}\PYG{n}{dzis}\PYG{p}{,} \PYG{n}{data\PYGZus{}koncowa}\PYG{p}{)}\PYG{p}{)}
     \PYG{c+c1}{\PYGZsh{} ... (logika wyświetlania raportu) ...}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{znajdz\PYGZus{}najaktywniejszych\PYGZus{}klientow}\PYG{p}{(}\PYG{n}{data\PYGZus{}od}\PYG{p}{,} \PYG{n}{data\PYGZus{}do}\PYG{p}{,} \PYG{n}{limit}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{ }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Wyświetla listę najczęściej wchodzących klientów w danym okresie.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+ \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} TOP }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{limit}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ najaktywniejszych klientów od }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{data\PYGZus{}od}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ do }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{data\PYGZus{}do}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+ \PYG{n}{conn} \PYG{o}{=} \PYG{n}{get\PYGZus{}connection}\PYG{p}{(}\PYG{p}{)}
+ \PYG{n}{query} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+s2}{ SELECT k.imie, k.nazwisko, COUNT(w.wejscie\PYGZus{}id) AS liczba\PYGZus{}wejsc}
+\PYG{l+s+s2}{ FROM Wejscia w}
+\PYG{l+s+s2}{ JOIN Klienci k ON w.klient\PYGZus{}id = k.klient\PYGZus{}id}
+\PYG{l+s+s2}{ WHERE w.data\PYGZus{}wejscia::date BETWEEN }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s2}{ AND }\PYG{l+s+si}{\PYGZpc{}s}
+\PYG{l+s+s2}{ GROUP BY k.klient\PYGZus{}id, k.imie, k.nazwisko}
+\PYG{l+s+s2}{ ORDER BY liczba\PYGZus{}wejsc DESC}
+\PYG{l+s+s2}{ LIMIT }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s2}{;}
+\PYG{l+s+s2}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+ \PYG{k}{with} \PYG{n}{conn}\PYG{o}{.}\PYG{n}{cursor}\PYG{p}{(}\PYG{p}{)} \PYG{k}{as} \PYG{n}{cur}\PYG{p}{:}
+     \PYG{n}{cur}\PYG{o}{.}\PYG{n}{execute}\PYG{p}{(}\PYG{n}{query}\PYG{p}{,} \PYG{p}{(}\PYG{n}{data\PYGZus{}od}\PYG{p}{,} \PYG{n}{data\PYGZus{}do}\PYG{p}{,} \PYG{n}{limit}\PYG{p}{)}\PYG{p}{)}
+     \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{cur}\PYG{o}{.}\PYG{n}{fetchall}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+         \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Klient: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, Liczba wejść: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+ \PYG{n}{conn}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+
+ \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generuj\PYGZus{}raport\PYGZus{}sprzedazy}\PYG{p}{(}\PYG{n}{data\PYGZus{}od}\PYG{p}{,} \PYG{n}{data\PYGZus{}do}\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{ }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Oblicza sumę sprzedaży i liczbę sprzedanych karnetów w danym okresie.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+ \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} Raport sprzedaży od }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{data\PYGZus{}od}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ do }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{data\PYGZus{}do}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+ \PYG{n}{conn} \PYG{o}{=} \PYG{n}{get\PYGZus{}connection}\PYG{p}{(}\PYG{p}{)}
+ \PYG{n}{query} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{SELECT COUNT(karnet\PYGZus{}id), SUM(cena) FROM Karnety WHERE data\PYGZus{}zakupu BETWEEN }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s2}{ AND }\PYG{l+s+si}{\PYGZpc{}s}\PYG{l+s+s2}{;}\PYG{l+s+s2}{\PYGZdq{}}
+ \PYG{k}{with} \PYG{n}{conn}\PYG{o}{.}\PYG{n}{cursor}\PYG{p}{(}\PYG{p}{)} \PYG{k}{as} \PYG{n}{cur}\PYG{p}{:}
+     \PYG{n}{cur}\PYG{o}{.}\PYG{n}{execute}\PYG{p}{(}\PYG{n}{query}\PYG{p}{,} \PYG{p}{(}\PYG{n}{data\PYGZus{}od}\PYG{p}{,} \PYG{n}{data\PYGZus{}do}\PYG{p}{)}\PYG{p}{)}
+     \PYG{n}{result} \PYG{o}{=} \PYG{n}{cur}\PYG{o}{.}\PYG{n}{fetchone}\PYG{p}{(}\PYG{p}{)}
+     \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Liczba sprzedanych karnetów: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{+w}{ }\PYG{o+ow}{or}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+     \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Łączna kwota sprzedaży: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{+w}{ }\PYG{o+ow}{or}\PYG{+w}{ }\PYG{l+m+mf}{0.00}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ PLN}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+ \PYG{n}{conn}\PYG{o}{.}\PYG{n}{close}\PYG{p}{(}\PYG{p}{)}
+\end{sphinxVerbatim}
+\sphinxSetupCaptionForVerbatim{Skrypty w SQLite}
+\def\sphinxLiteralBlockLabel{\label{\detokenize{rozdzial4/rozdzial4:id7}}}
+\begin{sphinxVerbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import}\PYG{+w}{ }\PYG{n+nn}{psycopg2}
+\PYG{k+kn}{from}\PYG{+w}{ }\PYG{n+nn}{datetime}\PYG{+w}{ }\PYG{k+kn}{import} \PYG{n}{date}\PYG{p}{,} \PYG{n}{timedelta}
+
+\PYG{c+c1}{\PYGZsh{} \PYGZhy{}\PYGZhy{}\PYGZhy{} KONFIGURACJA \PYGZhy{}\PYGZhy{}\PYGZhy{}}
+\PYG{n}{DB\PYGZus{}FILE} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{silownia.db}\PYG{l+s+s2}{\PYGZdq{}} \PYG{c+c1}{\PYGZsh{} Nazwa pliku bazy danych}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{get\PYGZus{}connection}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{ }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Nawiązuje połączenie z bazą danych SQLite.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+ \PYG{k}{return} \PYG{n}{sqlite3}\PYG{o}{.}\PYG{n}{connect}\PYG{p}{(}\PYG{n}{DB\PYGZus{}FILE}\PYG{p}{)}
+
+ \PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{znajdz\PYGZus{}klientow\PYGZus{}z\PYGZus{}wygaslym\PYGZus{}karnetem\PYGZus{}sqlite}\PYG{p}{(}\PYG{n}{dni\PYGZus{}od\PYGZus{}wyga\PYGZus{}do\PYGZus{}wyga}\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{ }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Znajduje klientów, których ostatni karnet wygasł w zadanym przedziale dni temu.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+ \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} [SQLite] Klienci, których karnet wygasł od }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{dni\PYGZus{}od\PYGZus{}wyga\PYGZus{}do\PYGZus{}wyga}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ do }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{dni\PYGZus{}od\PYGZus{}wyga\PYGZus{}do\PYGZus{}wyga}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ dni temu \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+ \PYG{n}{conn} \PYG{o}{=} \PYG{n}{get\PYGZus{}connection}\PYG{p}{(}\PYG{p}{)}
+ \PYG{c+c1}{\PYGZsh{} W SQLite do znalezienia ostatniego karnetu używamy podzapytania z GROUP BY i MAX()}
+ \PYG{n}{query} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+s2}{ SELECT k.imie, k.nazwisko, k.email, sub.max\PYGZus{}data}
+\PYG{l+s+s2}{ FROM Klienci k}
+\PYG{l+s+s2}{ JOIN (}
+\PYG{l+s+s2}{     SELECT klient\PYGZus{}id, MAX(data\PYGZus{}waznosci) as max\PYGZus{}data FROM Karnety GROUP BY klient\PYGZus{}id}
+\PYG{l+s+s2}{ ) AS sub ON k.klient\PYGZus{}id = sub.klient\PYGZus{}id}
+\PYG{l+s+s2}{ WHERE sub.max\PYGZus{}data BETWEEN ? AND ?;}
+\PYG{l+s+s2}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+ \PYG{n}{date\PYGZus{}to} \PYG{o}{=} \PYG{p}{(}\PYG{n}{date}\PYG{o}{.}\PYG{n}{today}\PYG{p}{(}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{timedelta}\PYG{p}{(}\PYG{n}{days}\PYG{o}{=}\PYG{n}{dni\PYGZus{}od\PYGZus{}wyga\PYGZus{}do\PYGZus{}wyga}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{isoformat}\PYG{p}{(}\PYG{p}{)}
+ \PYG{n}{date\PYGZus{}from} \PYG{o}{=} \PYG{p}{(}\PYG{n}{date}\PYG{o}{.}\PYG{n}{today}\PYG{p}{(}\PYG{p}{)} \PYG{o}{\PYGZhy{}} \PYG{n}{timedelta}\PYG{p}{(}\PYG{n}{days}\PYG{o}{=}\PYG{n}{dni\PYGZus{}od\PYGZus{}wyga\PYGZus{}do\PYGZus{}wyga}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{p}{)}\PYG{p}{)}\PYG{o}{.}\PYG{n}{isoformat}\PYG{p}{(}\PYG{p}{)}
+
+ \PYG{k}{with} \PYG{n}{conn}\PYG{p}{:} \PYG{c+c1}{\PYGZsh{} Użycie `with conn` automatycznie zarządza transakcjami}
+     \PYG{n}{cur} \PYG{o}{=} \PYG{n}{conn}\PYG{o}{.}\PYG{n}{cursor}\PYG{p}{(}\PYG{p}{)}
+     \PYG{n}{cur}\PYG{o}{.}\PYG{n}{execute}\PYG{p}{(}\PYG{n}{query}\PYG{p}{,} \PYG{p}{(}\PYG{n}{date\PYGZus{}from}\PYG{p}{,} \PYG{n}{date\PYGZus{}to}\PYG{p}{)}\PYG{p}{)}
+     \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{cur}\PYG{o}{.}\PYG{n}{fetchall}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+         \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Klient: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, Email: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, Karnet wygasł: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{generuj\PYGZus{}raport\PYGZus{}sprzedazy\PYGZus{}sqlite}\PYG{p}{(}\PYG{n}{data\PYGZus{}od}\PYG{p}{,} \PYG{n}{data\PYGZus{}do}\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{ }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Oblicza sumę sprzedaży i liczbę sprzedanych karnetów w danym okresie.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+ \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} [SQLite] Raport sprzedaży od }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{data\PYGZus{}od}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ do }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{data\PYGZus{}do}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+ \PYG{n}{conn} \PYG{o}{=} \PYG{n}{get\PYGZus{}connection}\PYG{p}{(}\PYG{p}{)}
+ \PYG{n}{query} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{SELECT COUNT(karnet\PYGZus{}id), SUM(cena) FROM Karnety WHERE data\PYGZus{}zakupu BETWEEN ? AND ?;}\PYG{l+s+s2}{\PYGZdq{}}
+ \PYG{k}{with} \PYG{n}{conn}\PYG{p}{:}
+     \PYG{n}{cur} \PYG{o}{=} \PYG{n}{conn}\PYG{o}{.}\PYG{n}{cursor}\PYG{p}{(}\PYG{p}{)}
+     \PYG{n}{cur}\PYG{o}{.}\PYG{n}{execute}\PYG{p}{(}\PYG{n}{query}\PYG{p}{,} \PYG{p}{(}\PYG{n}{data\PYGZus{}od}\PYG{p}{,} \PYG{n}{data\PYGZus{}do}\PYG{p}{)}\PYG{p}{)}
+     \PYG{n}{result} \PYG{o}{=} \PYG{n}{cur}\PYG{o}{.}\PYG{n}{fetchone}\PYG{p}{(}\PYG{p}{)}
+     \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Liczba sprzedanych karnetów: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{+w}{ }\PYG{o+ow}{or}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+     \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Łączna kwota sprzedaży: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{result}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{+w}{ }\PYG{o+ow}{or}\PYG{+w}{ }\PYG{l+m+mf}{0.00}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ PLN}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+
+\PYG{k}{def}\PYG{+w}{ }\PYG{n+nf}{znajdz\PYGZus{}najaktywniejszych\PYGZus{}klientow\PYGZus{}sqlite}\PYG{p}{(}\PYG{n}{data\PYGZus{}od}\PYG{p}{,} \PYG{n}{data\PYGZus{}do}\PYG{p}{,} \PYG{n}{limit}\PYG{o}{=}\PYG{l+m+mi}{5}\PYG{p}{)}\PYG{p}{:}
+\PYG{+w}{ }\PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}Wyświetla listę najczęściej wchodzących klientów w danym okresie.\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+ \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{\PYGZhy{}\PYGZhy{}\PYGZhy{} [SQLite] TOP }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{limit}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ najaktywniejszych klientów od }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{data\PYGZus{}od}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ do }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{data\PYGZus{}do}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ \PYGZhy{}\PYGZhy{}\PYGZhy{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
+ \PYG{n}{conn} \PYG{o}{=} \PYG{n}{get\PYGZus{}connection}\PYG{p}{(}\PYG{p}{)}
+ \PYG{c+c1}{\PYGZsh{} Używamy funkcji DATE() do wyciągnięcia daty z pełnego timestampa}
+ \PYG{n}{query} \PYG{o}{=} \PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+s2}{ SELECT k.imie, k.nazwisko, COUNT(w.wejscie\PYGZus{}id) AS liczba\PYGZus{}wejsc}
+\PYG{l+s+s2}{ FROM Wejscia w}
+\PYG{l+s+s2}{ JOIN Klienci k ON w.klient\PYGZus{}id = k.klient\PYGZus{}id}
+\PYG{l+s+s2}{ WHERE DATE(w.data\PYGZus{}wejscia) BETWEEN ? AND ?}
+\PYG{l+s+s2}{ GROUP BY k.klient\PYGZus{}id}
+\PYG{l+s+s2}{ ORDER BY liczba\PYGZus{}wejsc DESC}
+\PYG{l+s+s2}{ LIMIT ?;}
+\PYG{l+s+s2}{ }\PYG{l+s+s2}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+ \PYG{k}{with} \PYG{n}{conn}\PYG{p}{:}
+     \PYG{n}{cur} \PYG{o}{=} \PYG{n}{conn}\PYG{o}{.}\PYG{n}{cursor}\PYG{p}{(}\PYG{p}{)}
+     \PYG{n}{cur}\PYG{o}{.}\PYG{n}{execute}\PYG{p}{(}\PYG{n}{query}\PYG{p}{,} \PYG{p}{(}\PYG{n}{data\PYGZus{}od}\PYG{p}{,} \PYG{n}{data\PYGZus{}do}\PYG{p}{,} \PYG{n}{limit}\PYG{p}{)}\PYG{p}{)}
+     \PYG{k}{for} \PYG{n}{row} \PYG{o+ow}{in} \PYG{n}{cur}\PYG{o}{.}\PYG{n}{fetchall}\PYG{p}{(}\PYG{p}{)}\PYG{p}{:}
+         \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+sa}{f}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+s2}{Klient: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{ }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{, Liczba wejść: }\PYG{l+s+si}{\PYGZob{}}\PYG{n}{row}\PYG{p}{[}\PYG{l+m+mi}{2}\PYG{p}{]}\PYG{l+s+si}{\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{p}{)}
 \end{sphinxVerbatim}
 
 \sphinxstepscope
@@ -614,12 +4154,47 @@ Zaprojektowana baza danych stanowi solidny fundament, który można rozwijać w 
 \item {} 
 \sphinxAtStartPar
 \sphinxstylestrong{Repozytorium niniejszego sprawozdania:}
-* \sphinxtitleref{https://github.com/HoszeQ/karnety\_silownia\_sprawozdanie}
+\sphinxurl{https://github.com/HoszeQ/karnety\_silownia\_sprawozdanie}
 
 \item {} 
 \sphinxAtStartPar
 \sphinxstylestrong{Repozytorium projektu grupowego:}
-* \sphinxtitleref{https://github.com/m\sphinxhyphen{}smieja/Kopie\_zapasowe\_i\_odzyskiwanie\_danych}
+\sphinxurl{https://github.com/m-smieja/Kopie\_zapasowe\_i\_odzyskiwanie\_danych}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Repozytorium pracy pt. Konfiguracja\_baz\_danych:}
+\sphinxurl{https://github.com/Chaiolites/Konfiguracja\_baz\_danych.git}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Repozytorium pracy pt. Kontrola\_i\_konserwacja:}
+\sphinxurl{https://github.com/Pi0trM/Kontrola\_i\_konserwacja.git}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Repozytorium pracy pt. Partycjonowanie\sphinxhyphen{}danych:}
+\sphinxurl{https://github.com/BartekHen/Partycjonowanie-danych.git}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Repozytorium pracy pt. Sprzet\sphinxhyphen{}dla\sphinxhyphen{}bazy\sphinxhyphen{}danych:}
+\sphinxurl{https://github.com/oszczeda/Sprzet-dla-bazy-danych.git}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Repozytorium pracy pt. Wydajnosc\sphinxhyphen{}Skalowanie\sphinxhyphen{}i\sphinxhyphen{}Replikacja:}
+\sphinxurl{https://github.com/Broksonn/Wydajnosc\_Skalowanie\_i\_Replikacja.git}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Repozytorium pracy pt. Bezpieczenstwo:}
+\sphinxurl{https://github.com/BlazejUl/bezpieczenstwo.git}
+
+\item {} 
+\sphinxAtStartPar
+\sphinxstylestrong{Repozytorium pracy pt. Monitorowanie\sphinxhyphen{}i\sphinxhyphen{}diagnostyka:}
+\sphinxurl{https://github.com/GrzegorzSzczepanek/repo-wspolne.git}
 
 \end{enumerate}
 

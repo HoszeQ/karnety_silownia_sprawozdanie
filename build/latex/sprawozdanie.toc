@@ -1,24 +1,159 @@
 \babel@toc {polish}{}\relax 
 \contentsline {chapter}{\numberline {1}1. Wprowadzenie}{1}{chapter.1}%
 \contentsline {section}{\numberline {1.1}Cel dydaktyczny}{1}{section.1.1}%
-\contentsline {section}{\numberline {1.2}Cel praktyczny i zakres projektu}{1}{section.1.2}%
+\contentsline {section}{\numberline {1.2}Cel praktyczny i zakres projektu}{2}{section.1.2}%
 \contentsline {section}{\numberline {1.3}Wykorzystane technologie}{2}{section.1.3}%
 \contentsline {section}{\numberline {1.4}Struktura sprawozdania}{2}{section.1.4}%
 \contentsline {chapter}{\numberline {2}2. Projekt grupowy}{3}{chapter.2}%
-\contentsline {section}{\numberline {2.1}Podsumowanie projektu grupowego}{3}{section.2.1}%
-\contentsline {section}{\numberline {2.2}Repozytorium projektu}{3}{section.2.2}%
-\contentsline {chapter}{\numberline {3}3. Projekt bazy danych „Karnety na siłowni”}{5}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Opis procesów biznesowych}{5}{section.3.1}%
-\contentsline {section}{\numberline {3.2}Model Koncepcyjny (ERD)}{6}{section.3.2}%
-\contentsline {section}{\numberline {3.3}Model Logiczny}{6}{section.3.3}%
-\contentsline {section}{\numberline {3.4}Model Fizyczny (Kod SQL)}{7}{section.3.4}%
-\contentsline {chapter}{\numberline {4}4. Normalizacja, Wydajność i Bezpieczeństwo}{9}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Analiza normalizacji}{9}{section.4.1}%
-\contentsline {section}{\numberline {4.2}Analiza wydajności i indeksowanie}{9}{section.4.2}%
-\contentsline {section}{\numberline {4.3}Zarządzanie bezpieczeństwem}{10}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Skrypty wspomagające}{11}{section.4.4}%
-\contentsline {chapter}{\numberline {5}5. Podsumowanie, Wnioski i Repozytoria}{13}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Podsumowanie projektu}{13}{section.5.1}%
-\contentsline {section}{\numberline {5.2}Wnioski}{13}{section.5.2}%
-\contentsline {section}{\numberline {5.3}Możliwe kierunki dalszego rozwoju}{14}{section.5.3}%
-\contentsline {section}{\numberline {5.4}Spis repozytoriów}{14}{section.5.4}%
+\contentsline {section}{\numberline {2.1}Sprzęt dla baz danych}{3}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}Wstęp}{3}{subsection.2.1.1}%
+\contentsline {subsection}{\numberline {2.1.2}Sprzęt dla bazy danych PostgreSQL}{3}{subsection.2.1.2}%
+\contentsline {subsubsection}{Procesor}{3}{subsubsection*.3}%
+\contentsline {subsubsection}{Pamięć operacyjna}{3}{subsubsection*.4}%
+\contentsline {subsubsection}{Przestrzeń dyskowa}{4}{subsubsection*.5}%
+\contentsline {subsubsection}{Sieć internetowa}{4}{subsubsection*.6}%
+\contentsline {subsubsection}{Zasilanie}{4}{subsubsection*.7}%
+\contentsline {subsubsection}{Chłodzenie}{4}{subsubsection*.8}%
+\contentsline {subsection}{\numberline {2.1.3}Sprzęt dla bazy danych SQLite}{4}{subsection.2.1.3}%
+\contentsline {subsubsection}{Procesor}{4}{subsubsection*.9}%
+\contentsline {subsubsection}{Pamięć operacyjna}{4}{subsubsection*.10}%
+\contentsline {subsubsection}{Przestrzeń dyskowa}{4}{subsubsection*.11}%
+\contentsline {subsubsection}{Sieć internetowa}{4}{subsubsection*.12}%
+\contentsline {subsubsection}{Zasilanie}{5}{subsubsection*.13}%
+\contentsline {subsubsection}{Chłodzenie}{5}{subsubsection*.14}%
+\contentsline {subsection}{\numberline {2.1.4}Podsumowanie}{5}{subsection.2.1.4}%
+\contentsline {section}{\numberline {2.2}Sprawozdanie: Konfiguracja i Zarządzanie Bazą Danych}{5}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}1. Konfiguracja bazy danych}{5}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}2. Lokalizacja i struktura katalogów}{5}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}3. Katalog danych}{6}{subsection.2.2.3}%
+\contentsline {subsection}{\numberline {2.2.4}4. Podział konfiguracji na podpliki}{6}{subsection.2.2.4}%
+\contentsline {subsection}{\numberline {2.2.5}5. Katalog Konfiguracyjny}{6}{subsection.2.2.5}%
+\contentsline {subsection}{\numberline {2.2.6}6. Katalog logów i struktura katalogów w PostgreSQL}{6}{subsection.2.2.6}%
+\contentsline {subsection}{\numberline {2.2.7}7. Przechowywanie i lokalizacja plików konfiguracyjnych}{7}{subsection.2.2.7}%
+\contentsline {subsection}{\numberline {2.2.8}8. Podstawowe parametry konfiguracyjne}{7}{subsection.2.2.8}%
+\contentsline {subsection}{\numberline {2.2.9}9. Wstęp teoretyczny}{8}{subsection.2.2.9}%
+\contentsline {subsubsection}{9.1 Klasyfikacja systemów zarządzania bazą danych}{8}{subsubsection*.15}%
+\contentsline {subsubsection}{9.2 SQLite}{8}{subsubsection*.16}%
+\contentsline {subsubsection}{9.3 PostgreSQL}{8}{subsubsection*.17}%
+\contentsline {subsubsection}{9.4 Cel użycia obu systemów}{9}{subsubsection*.18}%
+\contentsline {subsection}{\numberline {2.2.10}10. Zarządzanie konfiguracją w PostgreSQL}{9}{subsection.2.2.10}%
+\contentsline {subsubsection}{10.1 Pliki konfiguracyjne}{9}{subsubsection*.19}%
+\contentsline {subsubsection}{10.2 Przykładowe kluczowe parametry \sphinxstyleliteralintitle {\sphinxupquote {postgresql.conf}}}{9}{subsubsection*.20}%
+\contentsline {subsubsection}{10.3 Sposoby zmiany konfiguracji}{9}{subsubsection*.21}%
+\contentsline {subsubsection}{10.4 Sprawdzanie konfiguracji}{10}{subsubsection*.22}%
+\contentsline {subsubsection}{10.5 Narzędzia pomocnicze}{10}{subsubsection*.23}%
+\contentsline {subsubsection}{10.6 Kontrola dostępu i mechanizmy uwierzytelniania}{10}{subsubsection*.24}%
+\contentsline {subsection}{\numberline {2.2.11}11. Planowanie}{10}{subsection.2.2.11}%
+\contentsline {subsubsection}{11.1 Co to jest planowanie zapytań?}{10}{subsubsection*.25}%
+\contentsline {subsubsection}{11.2 Mechanizm planowania w PostgreSQL}{11}{subsubsection*.26}%
+\contentsline {subsubsection}{11.3 Statystyki i ich aktualizacja}{11}{subsubsection*.27}%
+\contentsline {subsubsection}{11.4 Typy planów wykonania}{11}{subsubsection*.28}%
+\contentsline {subsubsection}{11.5 Jak sprawdzić plan zapytania?}{11}{subsubsection*.29}%
+\contentsline {subsubsection}{11.6 Parametry planowania i optymalizacji}{11}{subsubsection*.30}%
+\contentsline {subsection}{\numberline {2.2.12}12. Tabele \textendash {} rozmiar, planowanie i monitorowanie}{12}{subsection.2.2.12}%
+\contentsline {subsubsection}{12.1 Rozmiar tabeli}{12}{subsubsection*.31}%
+\contentsline {subsubsection}{12.2 Planowanie rozmiaru i jego kontrola}{12}{subsubsection*.32}%
+\contentsline {subsubsection}{12.3 Monitorowanie rozmiaru tabel}{12}{subsubsection*.33}%
+\contentsline {subsubsection}{12.4 Planowanie na poziomie tabel}{12}{subsubsection*.34}%
+\contentsline {subsubsection}{12.5 Monitorowanie stanu tabel}{12}{subsubsection*.35}%
+\contentsline {subsubsection}{12.6 Konserwacja i optymalizacja tabel}{13}{subsubsection*.36}%
+\contentsline {subsection}{\numberline {2.2.13}13. Rozmiar pojedynczych tabel, rozmiar wszystkich tabel, indeksów tabeli}{13}{subsection.2.2.13}%
+\contentsline {subsubsection}{13.1 Rozmiar pojedynczej tabeli}{13}{subsubsection*.37}%
+\contentsline {subsubsection}{13.2 Rozmiar wszystkich tabel w bazie}{13}{subsubsection*.38}%
+\contentsline {subsubsection}{13.3 Rozmiar indeksów tabeli}{13}{subsubsection*.39}%
+\contentsline {subsubsection}{13.4 Znaczenie rozmiarów}{13}{subsubsection*.40}%
+\contentsline {subsection}{\numberline {2.2.14}14. Rozmiar}{14}{subsection.2.2.14}%
+\contentsline {subsubsection}{14.1 Rodzaje rozmiarów w PostgreSQL}{14}{subsubsection*.41}%
+\contentsline {subsubsection}{14.2 Monitorowanie i kontrola rozmiaru}{14}{subsubsection*.42}%
+\contentsline {subsubsection}{14.3 Optymalizacja rozmiaru}{14}{subsubsection*.43}%
+\contentsline {subsubsection}{14.4 Znaczenie zarządzania rozmiarem}{14}{subsubsection*.44}%
+\contentsline {subsection}{\numberline {2.2.15}Podsumowanie}{14}{subsection.2.2.15}%
+\contentsline {section}{\numberline {2.3}Kopie zapasowe i odzyskiwanie danych w PostgreSQL}{15}{section.2.3}%
+\contentsline {subsection}{\numberline {2.3.1}Wprowadzenie}{15}{subsection.2.3.1}%
+\contentsline {subsection}{\numberline {2.3.2}Mechanizmy wbudowane do tworzenia kopii zapasowych całego systemu PostgreSQL}{15}{subsection.2.3.2}%
+\contentsline {subsubsection}{pg\_basebackup}{15}{subsubsection*.45}%
+\contentsline {subsubsection}{Continuous Archiving (Point\sphinxhyphen {}in\sphinxhyphen {}Time Recovery)}{15}{subsubsection*.46}%
+\contentsline {subsubsection}{Streaming Replication}{15}{subsubsection*.47}%
+\contentsline {subsubsection}{File System Level Backup}{16}{subsubsection*.48}%
+\contentsline {subsection}{\numberline {2.3.3}Mechanizmy wbudowane do tworzenia kopii zapasowych poszczególnych baz danych}{16}{subsection.2.3.3}%
+\contentsline {subsubsection}{pg\_dump}{16}{subsubsection*.49}%
+\contentsline {subsubsection}{pg\_dumpall}{16}{subsubsection*.50}%
+\contentsline {subsubsection}{COPY command}{16}{subsubsection*.51}%
+\contentsline {subsubsection}{pg\_dump z opcjami selektywnymi}{17}{subsubsection*.52}%
+\contentsline {subsection}{\numberline {2.3.4}Odzyskiwanie usuniętych lub uszkodzonych danych}{17}{subsection.2.3.4}%
+\contentsline {subsubsection}{Odzyskiwanie z kopii logicznych}{17}{subsubsection*.53}%
+\contentsline {subsubsection}{Point\sphinxhyphen {}in\sphinxhyphen {}Time Recovery (PITR)}{17}{subsubsection*.54}%
+\contentsline {subsubsection}{Odzyskiwanie tabel z tablespaces}{18}{subsubsection*.55}%
+\contentsline {subsubsection}{Transaction log replay}{18}{subsubsection*.56}%
+\contentsline {subsubsection}{Odzyskiwanie na poziomie klastra}{18}{subsubsection*.57}%
+\contentsline {subsection}{\numberline {2.3.5}Dedykowane oprogramowanie i skrypty zewnętrzne do automatyzacji}{18}{subsection.2.3.5}%
+\contentsline {subsubsection}{pgBackRest}{18}{subsubsection*.58}%
+\contentsline {subsubsection}{Barman (Backup and Recovery Manager)}{19}{subsubsection*.59}%
+\contentsline {subsubsection}{WAL\sphinxhyphen {}E i WAL\sphinxhyphen {}G}{19}{subsubsection*.60}%
+\contentsline {subsubsection}{Skrypty shell i cron jobs}{19}{subsubsection*.61}%
+\contentsline {subsubsection}{Narzędzia automatyzacji infrastruktury}{19}{subsubsection*.62}%
+\contentsline {subsubsection}{Monitoring i alertowanie}{20}{subsubsection*.63}%
+\contentsline {subsection}{\numberline {2.3.6}Podsumowanie}{20}{subsection.2.3.6}%
+\contentsline {subsubsection}{Kluczowe wnioski}{20}{subsubsection*.64}%
+\contentsline {subsubsection}{Najważniejsze zalecenia}{20}{subsubsection*.65}%
+\contentsline {section}{\numberline {2.4}Kontrola i konserwacja baz danych}{21}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Wprowadzenie}{21}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Podział konserwacji baz danych}{21}{subsection.2.4.2}%
+\contentsline {subsubsection}{Konserwacja fizyczna}{21}{subsubsection*.66}%
+\contentsline {subsubsection}{Konserwacja programowa}{21}{subsubsection*.67}%
+\contentsline {subsection}{\numberline {2.4.3}Różnice konserwacyjne w zależności od rodzaju bazy danych}{21}{subsection.2.4.3}%
+\contentsline {subsubsection}{PostgreSQL}{21}{subsubsection*.68}%
+\contentsline {subsubsection}{MySQL}{22}{subsubsection*.69}%
+\contentsline {subsubsection}{SQLite (np. LightSQL)}{22}{subsubsection*.70}%
+\contentsline {subsubsection}{Microsoft SQL Server}{22}{subsubsection*.71}%
+\contentsline {subsection}{\numberline {2.4.4}Planowanie konserwacji bazy danych}{23}{subsection.2.4.4}%
+\contentsline {subsection}{\numberline {2.4.5}Uruchamianie, zatrzymywanie i restartowanie serwera bazy danych}{23}{subsection.2.4.5}%
+\contentsline {subsubsection}{Uruchamianie}{23}{subsubsection*.72}%
+\contentsline {subsubsection}{Zatrzymywanie}{23}{subsubsection*.73}%
+\contentsline {subsubsection}{Restartowanie}{23}{subsubsection*.74}%
+\contentsline {subsection}{\numberline {2.4.6}Zarządzanie połączeniami użytkowników}{24}{subsection.2.4.6}%
+\contentsline {subsubsection}{Ograniczanie użytkowników}{24}{subsubsection*.75}%
+\contentsline {subsubsection}{Ręczne rozłączanie użytkowników}{24}{subsubsection*.76}%
+\contentsline {subsubsection}{Automatyczne rozłączanie użytkowników}{24}{subsubsection*.77}%
+\contentsline {subsubsection}{Zapobieganie nowym połączeniom}{25}{subsubsection*.78}%
+\contentsline {subsection}{\numberline {2.4.7}Proces VACUUM}{25}{subsection.2.4.7}%
+\contentsline {subsubsection}{Autovacuum}{25}{subsubsection*.79}%
+\contentsline {subsection}{\numberline {2.4.8}Schemat bazy danych}{26}{subsection.2.4.8}%
+\contentsline {subsubsection}{Czym jest schemat bazy danych?}{26}{subsubsection*.80}%
+\contentsline {subsubsection}{Rola schematu w konserwacji bazy danych}{26}{subsubsection*.81}%
+\contentsline {subsubsection}{Różnice w implementacji schematu w różnych systemach}{26}{subsubsection*.82}%
+\contentsline {subsection}{\numberline {2.4.9}Transakcje}{27}{subsection.2.4.9}%
+\contentsline {subsubsection}{Czym jest transakcja?}{27}{subsubsection*.83}%
+\contentsline {subsubsection}{Zasady ACID}{27}{subsubsection*.84}%
+\contentsline {subsubsection}{Rola transakcji w kontroli i konserwacji}{27}{subsubsection*.85}%
+\contentsline {subsubsection}{Różnice w implementacji transakcji w różnych systemach}{27}{subsubsection*.86}%
+\contentsline {subsection}{\numberline {2.4.10}Literatura}{27}{subsection.2.4.10}%
+\contentsline {section}{\numberline {2.5}Partycjonowanie danych w PostgreSQL \textendash {} analiza, typy, zastosowania i dobre praktyki}{28}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Streszczenie}{28}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.2}1. Wprowadzenie}{28}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}2. Definicja i cel partycjonowania}{28}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.4}3. Modele i typy partycjonowania w PostgreSQL}{28}{subsection.2.5.4}%
+\contentsline {subsection}{\numberline {2.5.5}4. Implementacja partycjonowania w praktyce}{30}{subsection.2.5.5}%
+\contentsline {subsection}{\numberline {2.5.6}5. Monitorowanie i administracja}{30}{subsection.2.5.6}%
+\contentsline {subsection}{\numberline {2.5.7}6. Typowe scenariusze zastosowań}{31}{subsection.2.5.7}%
+\contentsline {subsection}{\numberline {2.5.8}7. Dobre praktyki projektowania partycji}{31}{subsection.2.5.8}%
+\contentsline {subsection}{\numberline {2.5.9}8. Ograniczenia i potencjalne problemy}{31}{subsection.2.5.9}%
+\contentsline {subsection}{\numberline {2.5.10}9. Podsumowanie i wnioski}{31}{subsection.2.5.10}%
+\contentsline {subsection}{\numberline {2.5.11}10. Krótkie porównanie partycjonowania w PostgreSQL i innych systemach bazodanowych}{32}{subsection.2.5.11}%
+\contentsline {subsection}{\numberline {2.5.12}11. Przykład migracji niepartyconowanej tabeli na partycjonowaną}{32}{subsection.2.5.12}%
+\contentsline {subsection}{\numberline {2.5.13}12. Bibliografia}{33}{subsection.2.5.13}%
+\contentsline {chapter}{\numberline {3}3. Projekt bazy danych „Karnety na siłowni”}{35}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Opis procesów biznesowych}{35}{section.3.1}%
+\contentsline {section}{\numberline {3.2}Model Koncepcyjny (ERD)}{36}{section.3.2}%
+\contentsline {section}{\numberline {3.3}Model Logiczny}{36}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Model Fizyczny (Kod SQL)}{37}{section.3.4}%
+\contentsline {chapter}{\numberline {4}4. Normalizacja, Wydajność i Bezpieczeństwo}{39}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Analiza normalizacji}{39}{section.4.1}%
+\contentsline {section}{\numberline {4.2}Analiza wydajności i indeksowanie}{41}{section.4.2}%
+\contentsline {section}{\numberline {4.3}Zarządzanie bezpieczeństwem}{41}{section.4.3}%
+\contentsline {section}{\numberline {4.4}Skrypty wspomagające}{42}{section.4.4}%
+\contentsline {chapter}{\numberline {5}5. Podsumowanie, Wnioski i Repozytoria}{45}{chapter.5}%
+\contentsline {section}{\numberline {5.1}Podsumowanie projektu}{45}{section.5.1}%
+\contentsline {section}{\numberline {5.2}Wnioski}{45}{section.5.2}%
+\contentsline {section}{\numberline {5.3}Możliwe kierunki dalszego rozwoju}{46}{section.5.3}%
+\contentsline {section}{\numberline {5.4}Spis repozytoriów}{46}{section.5.4}%
