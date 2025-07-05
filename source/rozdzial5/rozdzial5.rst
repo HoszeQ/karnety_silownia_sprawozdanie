@@ -30,7 +30,7 @@ Spis repozytoriów
     * `https://github.com/HoszeQ/karnety_silownia_sprawozdanie`
 2.  **Repozytorium projektu grupowego:**
     * `https://github.com/m-smieja/Kopie_zapasowe_i_odzyskiwanie_danych`
-3.  **Repozytorium pracy pt. Konfiguracja_baz_danych:"**
+3.  **Repozytorium pracy pt. Konfiguracja_baz_danych:**
     * `https://github.com/Chaiolites/Konfiguracja_baz_danych.git`
 4. **Repozytorium pracy pt. Kontrola_i_konserwacja:**
     * `https://github.com/Pi0trM/Kontrola_i_konserwacja.git`
