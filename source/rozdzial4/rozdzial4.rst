@@ -8,9 +8,163 @@ Analiza normalizacji
 --------------------
 Normalizacja jest procesem projektowania schematu bazy danych w celu zminimalizowania redundancji danych i wyeliminowania niepożądanych charakterystyk, takich jak anomalie wstawiania, aktualizacji i usuwania. Zaproponowany schemat jest zgodny z **trzecią postacią normalną (3NF)**.
 
-* **Zgodność z 1NF:** Każda tabela posiada klucz główny, a wszystkie atrybuty zawierają wartości atomowe (niepodzielne).
-* **Zgodność z 2NF:** Schemat spełnia drugą postać normalną, ponieważ wszystkie klucze główne są kluczami prostymi (jednokolumnowymi), co automatycznie eliminuje problem częściowych zależności funkcyjnych.
-* **Zgodność z 3NF:** W schemacie nie występują zależności przechodnie. Żaden atrybut niekluczowy nie jest funkcyjnie zależny od innego atrybutu niekluczowego. Na przykład, w tabeli `Karnety`, atrybut `cena` jest bezpośrednio zależny od klucza `karnet_id`. Nie ma zależności `karnet_id -> typ_karnetu -> cena`, ponieważ cena jest zapisywana w momencie transakcji, co jest celowym zabiegiem denormalizacyjnym w celu archiwizacji danych historycznych i uodpornienia na zmiany cennika. Gdyby cena była zależna od typu karnetu, należałoby stworzyć osobną tabelę `Cennik`, a w tabeli `Karnety` przechowywać jedynie klucz obcy do niej.
+**Zaczynamy od: jednej dużej tabeli (czyli dane nie są jeszcze uporządkowane)**
+
+Wyobraźmy sobie, że wszystko zapisujemy w jednej tabeli `Rejestr_Silowni`.
+
+.. list-table:: Przykład nieuporządkowanej tabeli (`Rejestr_Silowni`)
+   :widths: 15 15 20 15 15 25
+   :header-rows: 1
+
+   * - Imie_Klienta
+     - Nazwisko_Klienta
+     - Email_Klienta
+     - Typ_Karnetu
+     - Cena_Karnetu
+     - Daty_Wejsc
+   * - Jan
+     - Kowalski
+     - jan.kowalski@ex.com
+     - miesieczny
+     - 120.00
+     - '2025-07-02, 2025-07-05'
+   * - Anna
+     - Nowak
+     - anna.nowak@ex.com
+     - polroczny
+     - 500.00
+     - '2025-07-03'
+   * - Jan
+     - Kowalski
+     - jan.kowalski@ex.com
+     - trzymiesieczny
+     - 300.00
+     - '2025-08-01, 2025-08-04'
+
+Problemy z taką tabelą:
+
+* **Nie można dodać klienta**, jeśli jeszcze nic nie kupił.
+* **Usunięcie jednego wejścia** może przypadkiem usunąć dane o kliencie.
+* **Zmiana adresu e-mail** klienta wymaga edytowania kilku wierszy.
+* **Dużo powtarzających się danych** — np. Jan Kowalski występuje kilka razy.
+
+**Krok 1: Pierwsza postać normalna (1NF)**
+
+Tabela jest w 1NF, jeśli nie ma list w kolumnach — każda komórka ma jedną wartość.
+
+U nas kolumna `Daty_Wejsc` zawiera listy. Rozbijmy to:
+
+1. Tworzymy tabelę `Klienci_Karnety` — każdy karnet to osobny wiersz.
+2. Tworzymy tabelę `Wejscia`, gdzie każde wejście to jeden rekord.
+
+.. list-table:: Tabela `Klienci_Karnety` (po 1NF)
+   :widths: 15 20 20 20 15
+   :header-rows: 1
+
+   * - KarnetID
+     - Imie_Klienta
+     - Nazwisko_Klienta
+     - Email_Klienta
+     - Typ_Karnetu
+   * - 1
+     - Jan
+     - Kowalski
+     - jan.kowalski@ex.com
+     - miesieczny
+   * - 2
+     - Anna
+     - Nowak
+     - anna.nowak@ex.com
+     - polroczny
+   * - 3
+     - Jan
+     - Kowalski
+     - jan.kowalski@ex.com
+     - trzymiesieczny
+
+.. list-table:: Tabela `Wejscia` (po 1NF)
+   :widths: 25 25
+   :header-rows: 1
+
+   * - KarnetID_FK
+     - Data_Wejscia
+   * - 1
+     - 2025-07-02
+   * - 1
+     - 2025-07-05
+   * - 2
+     - 2025-07-03
+   * - 3
+     - 2025-08-01
+   * - 3
+     - 2025-08-04
+
+**Problem:** Nadal mamy powtarzające się dane o klientach w `Klienci_Karnety`.
+
+**Krok 2: Druga postać normalna (2NF)**
+
+W 2NF dane powinny zależeć od całego klucza głównego, a nie tylko części.
+
+W naszej tabeli `Klienci_Karnety` dane o kliencie nie zależą od `KarnetID`, tylko od klienta. Trzeba to rozdzielić:
+
+1. Tworzymy tabelę `Klienci` z unikalnym ID.
+2. W tabeli `Karnety` trzymamy tylko typ karnetu i odwołanie do klienta.
+
+.. list-table:: Tabela `Klienci` (po 2NF)
+   :widths: 20 25 25 30
+   :header-rows: 1
+
+   * - KlientID
+     - Imie
+     - Nazwisko
+     - Email
+   * - 101
+     - Jan
+     - Kowalski
+     - jan.kowalski@ex.com
+   * - 102
+     - Anna
+     - Nowak
+     - anna.nowak@ex.com
+
+.. list-table:: Tabela `Karnety` (po 2NF)
+   :widths: 25 25 25
+   :header-rows: 1
+
+   * - KarnetID
+     - KlientID_FK
+     - Typ_Karnetu
+   * - 1
+     - 101
+     - miesieczny
+   * - 2
+     - 102
+     - polroczny
+   * - 3
+     - 101
+     - trzymiesieczny
+
+Tabela `Wejscia` zostaje bez zmian, ale możemy też rozważyć, czy nie lepiej byłoby wiązać ją bezpośrednio z klientem.
+
+**Krok 3: Trzecia postać normalna (3NF)**
+
+Tutaj chodzi o to, żeby dane nie zależały od innych danych niebędących kluczem.
+
+Jeśli w `Karnety` dodamy np. `Cena`, która zależy od `Typ_Karnetu`, to mamy tzw. zależność przechodnią.
+
+Zamiast tego możemy utworzyć tabelę `Cennik` z kolumnami `Typ_Karnetu` i `Cena`.
+
+W naszym projekcie jednak **trzymamy cenę w tabeli `Karnety`**, ponieważ może się ona zmieniać w czasie — to celowe odstępstwo (denormalizacja), żeby zachować historię.
+
+**Podsumowanie**
+
+Zaczęliśmy od nieuporządkowanej tabeli, a skończyliśmy na trzech powiązanych:
+
+* `Klienci`
+* `Karnety`
+* `Wejscia`
+
+Dzięki temu dane nie powtarzają się, łatwo je edytować i są bezpieczne przed przypadkowymi błędami.
 
 **Wnioski:** Osiągnięty poziom normalizacji zapewnia wysoką integralność danych i elastyczność schematu, jednocześnie zachowując prostotę i zrozumiałość modelu.
 
