@@ -10,3 +10,6 @@
 [submodule "source/rozdzial2/Partycjonowanie-danych"]
 	path = source/rozdzial2/Partycjonowanie-danych
 	url = https://github.com/BartekHen/Partycjonowanie-danych.git
+[submodule "source/rozdzial2/Sprzet-dla-bazy-danych"]
+	path = source/rozdzial2/Sprzet-dla-bazy-danych
+	url = https://github.com/oszczeda/Sprzet-dla-bazy-danych.git
