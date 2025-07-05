@@ -23,24 +23,11 @@ Cel praktyczny i zakres projektu
 ---------------------------------
 Drugim celem była realizacja kompletnego projektu bazy danych o nazwie "Karnety na siłowni". Projekt ten ilustruje pełen cykl życia produktu bazodanowego, od analizy wymagań, przez modelowanie, aż po wdrożenie i analizę.
 
-**Problem biznesowy:** Współczesne siłownie i kluby fitness obsługują setki, a nawet tysiące klientów. Ręczne zarządzanie karnetami, datami ich ważności oraz rejestracja wejść są nieefektywne, podatne na błędy i uniemożliwiają prowadzenie analiz biznesowych. Projektowana baza danych ma na celu rozwiązanie tych problemów poprzez automatyzację kluczowych procesów.
-
-**Zakres projektu obejmuje:**
-* Zarządzanie kartoteką klientów.
-* Obsługę sprzedaży i cyklu życia karnetów o różnym okresie ważności.
-* Rejestrację i monitorowanie wejść klientów.
-* Podstawową analitykę i raportowanie.
-
-**Poza zakresem projektu pozostają:**
-* Zarządzanie grafikami zajęć i rezerwacjami.
-* Systemy księgowe i fakturowanie.
-* Zarządzanie personelem.
-
 Wykorzystane technologie
 -------------------------
-* **System Bazy Danych:** PostgreSQL 16
+* **System Bazy Danych:** PostgreSQL, SQLite
 * **Język skryptowy:** Python 3.11 (z biblioteką `psycopg2`)
-* **System dokumentacji:** Sphinx
+* **System dokumentacji:** Sphinx/Latex
 * **System kontroli wersji:** Git / GitHub
 
 Struktura sprawozdania
